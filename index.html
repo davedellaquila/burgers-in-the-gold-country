@@ -1317,5 +1317,38 @@ footer{font-family:Inter,sans-serif;font-size:12.5px;color:var(--muted);margin-t
   apply();
 })();
 </script>
+
+<script>
+/* Cross-link (public-copy addition): guide detail pages link to the same place's
+   generic page in the Gold Country locations database, and back. */
+(function(){
+  var MAP = {"ikeda-s-california-country-market": "ikedas", "friar-tuck-s-now-the-sherwood": "friar-tucks", "wise-villa-winery-and-restaurant": "wise-villa-winery", "old-town-grill": "old-town-grill", "shoestring": "shoestring", "88-giant-burgers-to-go": "88-giant-burgers-to-go", "kennedy-s-pioneer-burger": "kennedys-pioneer-burger", "mel-and-faye-s-diner": "mel-and-fayes-diner", "sizemore-country-store": "sizemores-country-store", "cavana-s-pub-and-grub": "cavanas-pub-and-grub", "marlene-and-glen-s-diner-the-dead-fly-diner": "marlene-and-glens-diner", "the-kitchen-at-helwig-winery": "helwig-winery", "villa-toscano-winery-the-bistro": "villa-toscano-winery-bistro", "the-end-of-nowhere": "the-end-of-nowhere", "webster-s-country-burger-drive-in": "websters-country-burger-drive-in", "frosty-angels-camp": "frosty", "gold-leaf-bistro-ironstone-vineyards": "ironstone-vineyards", "diamondback-grill": "diamondback-grill", "jamestown-frosty": "jamestown-frosty", "lake-alpine-lodge": "lake-alpine-lodge", "walker-burger": "walker-burger"};
+  var LOC_BASE = 'https://events.fiddletowngazette.com/locations.html';
+  function routeId(){
+    var m = (window.location.hash||'').match(/^#\/place\/(.+)$/);
+    if(m){ try{ return decodeURIComponent(m[1]); }catch(e){ return m[1]; } }
+    try{ return new URLSearchParams(window.location.search).get('place'); }catch(e){ return null; }
+  }
+  function sync(){
+    var id = routeId();
+    var actions = document.querySelector('#detail-view .detail-actions');
+    var link = document.getElementById('xlink-loc');
+    if(!id || !MAP[id] || !actions){ if(link) link.remove(); return; }
+    var href = LOC_BASE + '?place=' + encodeURIComponent(MAP[id]) + '#/place/' + encodeURIComponent(MAP[id]);
+    if(!link){
+      link = document.createElement('a');
+      link.id = 'xlink-loc'; link.className = 'copy-btn';
+      link.target = '_blank'; link.rel = 'noopener';
+      link.textContent = '\uD83D\uDCCD This place in the locations database \u2192';
+      actions.appendChild(link);
+    }
+    link.href = href;
+  }
+  window.addEventListener('hashchange', function(){ setTimeout(sync, 0); });
+  var dv = document.getElementById('detail-view');
+  if(dv && window.MutationObserver){ new MutationObserver(function(){ setTimeout(sync, 0); }).observe(dv, {attributes:true, subtree:true, childList:true}); }
+  setTimeout(sync, 0);
+})();
+</script>
 </body>
 </html>
