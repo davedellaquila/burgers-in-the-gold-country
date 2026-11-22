@@ -1,0 +1,1321 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<title>Burgers in the Gold Country — First Pass Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fffdf7; --paper:#fffaf0; --card:#ffffff; --ink:#241a12; --muted:#6b5d4f; --line:#e8ddc9;
+  --gold:#b7791f; --gold-bg:#fff3cf; --rust:#9c3d1e; --rust-bg:#fdeee8; --teal:#2f5d50; --teal-bg:#e6f0eb;
+  --chip:#f3ead6; --shadow:0 10px 30px rgba(60,35,0,.08); --price-off:#d8cfbc;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#171310; --paper:#1e1915; --card:#241e19; --ink:#f5ead8; --muted:#c9b8a3; --line:#3d332a; --gold:#e9b44c; --gold-bg:#332a15; --rust:#ff9a7a; --rust-bg:#3a2018; --teal:#8fd0b8; --teal-bg:#1e332c; --chip:#2e2720; --shadow:0 10px 30px rgba(0,0,0,.35); --price-off:#554a3d; }
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Source Serif 4",Georgia,serif;line-height:1.55}
+a{color:var(--rust)} button,input,select{font-family:Inter,system-ui,sans-serif}
+.wrap{max-width:1120px;margin:0 auto;padding:0 18px 48px}
+.hero{padding:28px 0 8px}
+.kicker{font-family:Inter,sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:700}
+h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(38px,6vw,64px);line-height:.95;margin:10px 0 12px;letter-spacing:-.02em}
+.lede{font-size:19px;max-width:720px;color:var(--muted)}
+.lede strong{color:var(--ink)}
+.draftbar{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+.pill{font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:8px 12px;border-radius:999px;background:var(--chip);border:1px solid var(--line)}
+.pill.gold{background:var(--gold-bg)} .pill.rust{background:var(--rust-bg)}
+.heromain{display:flex;gap:24px;align-items:flex-start}
+.heromain .lede{flex:1 1 auto;max-width:660px;margin:0}
+.signrail{display:flex;flex-direction:column;gap:14px;flex:0 0 auto;margin-left:auto;padding:2px 0 2px 20px;border-left:1px solid var(--line)}
+.signrail .route{display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center}
+.signrail .route svg{height:58px;width:auto;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,.22))}
+.signrail .route span{font-family:Inter,sans-serif;font-size:11.5px;line-height:1.3;color:var(--muted);max-width:96px}
+@media(max-width:700px){
+.heromain{flex-direction:column}
+.signrail{flex-direction:row;flex-wrap:nowrap;align-items:flex-start;justify-content:space-between;gap:6px;margin:14px 0 2px;padding:10px 2px;border-left:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);width:100%}
+.signrail .route{flex-direction:column;align-items:center;text-align:center;flex:1 1 0;min-width:0;gap:5px}
+.signrail .route svg{height:52px}
+.signrail .route span{max-width:100%;font-size:11.5px;line-height:1.25}
+}
+.herotop{display:flex;gap:26px;align-items:flex-start;justify-content:space-between}
+.herotitle{flex:1 1 auto;min-width:0}
+.herophoto{flex:0 0 348px;margin:8px 0 0}
+.herophoto img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:14px;box-shadow:var(--shadow);background:var(--chip)}
+.herophoto .credit{padding:6px 2px 0}
+@media(max-width:700px){.herotop{flex-direction:column;gap:4px}.herophoto{flex:none;width:100%;margin:12px 0 0}.herophoto img{aspect-ratio:16/9}}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:22px 0}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+.stat b{font-family:"Playfair Display",serif;font-size:28px;display:block;line-height:1}
+.stat span{font-family:Inter,sans-serif;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.section h2{font-family:"Playfair Display",serif;font-size:26px;margin:0 0 8px}
+.controls{position:sticky;top:0;z-index:20;background:var(--bg);padding:14px 0 10px;border-bottom:1px solid var(--line)}
+@media (max-width:640px){ .controls{position:static} }
+.search{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:16px;min-height:44px}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.filters button{min-height:38px;padding:8px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-weight:600;cursor:pointer}
+.filters button.active{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.grid{margin-top:18px}
+.grid>.card{margin-bottom:16px}
+.grid-cols{display:flex;gap:16px;align-items:flex-start}
+.grid-col{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:16px}
+.grid-col .card{margin-bottom:0;width:100%}
+.grid-full{margin-top:16px;display:flex;flex-direction:column;gap:16px}
+.grid-full .card{margin-bottom:0}
+@media(max-width:760px){.stats{grid-template-columns:1fr 1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.card{border-top:6px solid var(--gold)}
+.card[data-region="north"]{border-top-color:var(--teal)}
+.card[data-region="central"]{border-top-color:var(--gold)}
+.card[data-region="amador"]{border-top-color:var(--rust)}
+.card[data-region="south"]{border-top-color:var(--gold)}
+.card[data-region="west"]{border-top-color:var(--teal)}
+.card[data-region="crest"]{border-top-color:var(--ink)}
+.card[data-region="hwy4"]{border-top-color:var(--rust)}
+.card[data-region="tahoe"]{border-top-color:#2e6f8e}
+.card h3{font-size:27px}
+.cardbody{padding:16px 16px 14px;display:flex;flex-direction:column;gap:8px;flex:1}
+.meta{font-family:Inter,sans-serif;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);font-weight:700;display:flex;justify-content:space-between;gap:8px}
+.card h3{font-family:"Playfair Display",serif;font-size:24px;line-height:1.05;margin:0}
+.sig{font-weight:700;background:var(--gold-bg);border-radius:8px;padding:8px 10px;font-size:15px}
+.sig span{font-family:Inter,sans-serif;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block}
+.desc{color:var(--muted);font-size:15.5px;margin:0}
+.details{font-family:Inter,sans-serif;font-size:13.5px;line-height:1.6;border-top:1px dashed var(--line);padding-top:10px;margin-top:auto}
+.details a{font-weight:600}
+a[href^="tel:"]{color:inherit;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;text-decoration-color:var(--muted);display:inline-block;padding:8px 4px;margin:-8px -2px;border-radius:6px;-webkit-tap-highlight-color:transparent}
+a[href^="tel:"]:hover{text-decoration-color:currentColor}
+a[href^="tel:"]:focus-visible{outline:3px solid var(--gold);outline-offset:1px}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-family:Inter,sans-serif;font-size:11.5px;font-weight:600;padding:5px 8px;border-radius:999px;background:var(--teal-bg);color:var(--teal)}
+.why{font-size:14.5px} .why strong{color:var(--rust)}
+.section{margin-top:28px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}
+.section ul{padding-left:20px} .section li{margin:6px 0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px} @media(max-width:760px){.two{grid-template-columns:1fr}}
+ .tablewrap{overflow:hidden} @media(max-width:640px){ table{font-size:12px} th,td{padding:7px 5px;word-break:break-word} } table{width:100%;border-collapse:collapse;font-family:Inter,sans-serif;font-size:13.5px} th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top} th{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+footer{font-family:Inter,sans-serif;font-size:12.5px;color:var(--muted);margin-top:24px;line-height:1.6}
+.hidden{display:none!important}
+.count{font-family:Inter,sans-serif;font-size:13px;color:var(--muted);margin-top:10px}
+.visitedbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin-top:10px;background:var(--teal-bg);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.visitedbar strong{font-family:Inter,sans-serif;font-size:14px;color:var(--teal)}
+.visitedbar span{font-family:Inter,sans-serif;font-size:12.5px;color:var(--muted)}
+.visited-progress-track{flex:1 1 120px;min-width:100px;height:8px;border-radius:999px;background:var(--card);border:1px solid var(--line);overflow:hidden}
+.visited-progress-fill{height:100%;width:0%;background:var(--teal);border-radius:999px;transition:width .25s ease}
+.card{position:relative}
+.card.visited{border-color:var(--teal);border-width:2px}
+.visited-stamp{position:absolute;top:10px;right:10px;z-index:3;font-family:Inter,sans-serif;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;background:var(--teal);color:#fff;padding:6px 9px;border-radius:999px;display:none;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.card.visited .visited-stamp{display:inline-block}
+.visited-btn{margin-top:10px;width:100%;min-height:44px;border-radius:10px;border:1.5px solid var(--teal);background:transparent;color:var(--teal);font-weight:700;font-size:14px;cursor:pointer;padding:10px 12px}
+.visited-btn[aria-pressed="true"]{background:var(--teal);color:#fff;border-color:var(--teal)}
+.visited-btn:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.card-actions{display:flex;gap:8px;margin-top:10px;align-items:stretch;flex-wrap:wrap}
+.card-actions .visited-btn{margin-top:0;flex:1 1 140px;width:auto}
+.share-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:10px 13px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font-weight:700;font-size:14px;cursor:pointer;white-space:nowrap;flex:0 0 auto}
+.share-btn:hover{border-color:var(--ink)}
+.share-btn:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.share-btn svg{width:16px;height:16px;flex:0 0 auto}
+.share-btn.copied{border-color:var(--teal);color:var(--teal);background:var(--teal-bg)}
+.guide-share-btn{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:10px 16px;border-radius:999px;border:1.5px solid var(--gold);background:var(--gold-bg);color:var(--ink);font-weight:700;font-size:14px;cursor:pointer;box-shadow:var(--shadow)}
+.guide-share-btn:hover{border-color:var(--ink)}
+.guide-share-btn:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.guide-share-btn svg{width:16px;height:16px}
+.guide-share-btn.copied{border-color:var(--teal);color:var(--teal);background:var(--teal-bg)}
+.guide-share-row{margin:14px 0 0}
+.card{scroll-margin-top:16px}
+.card.hash-highlight{outline:3px solid var(--gold);outline-offset:3px;box-shadow:0 0 0 7px var(--gold-bg),var(--shadow)}
+.closed-note{font-weight:700;color:var(--rust);background:var(--rust-bg);border-radius:8px;padding:8px 10px;font-size:14.5px}
+.hidevisited{display:block;margin-top:10px;min-height:38px;padding:8px 13px;border-radius:999px;border:1px solid var(--teal);background:transparent;color:var(--teal);font-weight:600;cursor:pointer}
+.hidevisited[aria-pressed="true"]{background:var(--teal);color:#fff;border-color:var(--teal)}
+.hidevisited:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.filter-note{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:8px;font-family:Inter,sans-serif;font-size:12.5px;color:var(--muted)}
+.reset-btn{min-height:32px;padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--muted);font-weight:600;font-size:12.5px;cursor:pointer}
+.reset-btn:hover{color:var(--ink);border-color:var(--muted)}
+.reset-btn:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.photofig{margin:0}
+.photo-btn{display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in}
+.cardphoto{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;background:var(--chip)}
+.card[data-region="crest"] .cardphoto{aspect-ratio:21/9}
+.photo-btn:focus-visible{outline:3px solid var(--gold);outline-offset:-3px}
+.credit{font-family:Inter,sans-serif;font-size:11px;color:var(--muted);padding:6px 16px 0;margin:0}
+.priceband{display:flex;align-items:baseline;gap:8px;font-family:Inter,sans-serif}
+.priceband .dollars{font-weight:800;font-size:17px;color:var(--ink);letter-spacing:.08em}
+.priceband .dollars .off{color:var(--price-off);font-weight:700}
+.priceband .pricelabel{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.price-legend{font-family:Inter,sans-serif;font-size:12.5px;color:var(--muted);margin:8px 0 0;line-height:1.6}
+.price-legend .scale{font-weight:800;color:var(--ink);letter-spacing:.08em;white-space:nowrap}
+.price-legend .scale .off{color:var(--price-off);font-weight:700}
+.viewer{position:fixed;inset:0;z-index:100;background:rgba(12,9,6,.95);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px}
+.viewer[hidden]{display:none}
+.viewer img{max-width:96vw;max-height:84vh;object-fit:contain;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.viewer-cap{color:#f5ead8;font-family:Inter,sans-serif;font-size:13.5px;margin:12px 0 0;text-align:center}
+.viewer-close{position:absolute;top:14px;right:14px;width:44px;height:44px;border-radius:999px;border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.08);color:#fff;font-size:20px;cursor:pointer;line-height:1}
+.viewer-close:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.viewer{touch-action:none}
+.viewer-stage{display:flex;flex-direction:column;align-items:center;justify-content:center;will-change:transform;max-width:100%}
+.viewer-hint{position:absolute;bottom:16px;left:0;right:0;text-align:center;color:rgba(245,234,216,.6);font-family:Inter,sans-serif;font-size:12.5px;margin:0;pointer-events:none}
+.viewer img{-webkit-user-drag:none;user-select:none;-webkit-user-select:none}
+.card-title-link{cursor:pointer}
+.card-title-link:hover{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+.card-title-link:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:4px}
+.details-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 13px;border-radius:10px;border:1.5px solid var(--gold);background:var(--gold-bg);color:var(--ink);font-weight:700;font-size:14px;cursor:pointer;white-space:nowrap}
+.details-btn:hover{border-color:var(--ink)}
+.details-btn:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+#detail-view .detail-wrap{max-width:860px;margin:0 auto;padding:20px 18px 56px}
+.back-btn{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:10px 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font-weight:700;font-size:14.5px;cursor:pointer;box-shadow:var(--shadow)}
+.back-btn:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.detail-photofig{margin:18px 0 0}
+.detail-photo-btn{display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in;border-radius:14px}
+.detail-photo-btn img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:14px;background:var(--chip)}
+.detail-photo-btn:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.detail-photofig .credit{padding:6px 2px 0}
+.detail-nophoto{font-family:Inter,sans-serif;font-size:13px;color:var(--muted);border:1px dashed var(--line);border-radius:12px;padding:12px 14px;margin:18px 0 0}
+.detail-meta{margin-top:18px}
+.detail-title{font-family:"Playfair Display",Georgia,serif;font-size:clamp(30px,5vw,42px);line-height:1.05;margin:6px 0 10px}
+.detail-price .dollars{font-size:20px}
+.detail-sig{margin:12px 0}
+.detail-desc{font-size:17px;color:var(--ink)}
+.detail-why{font-size:16px}
+.detail-info{margin-top:20px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:6px 18px;box-shadow:var(--shadow)}
+.info-row{display:flex;gap:16px;padding:12px 0;border-bottom:1px dashed var(--line);font-family:Inter,sans-serif;font-size:15px}
+.info-row:last-child{border-bottom:0}
+.info-label{flex:0 0 86px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;padding-top:3px}
+.info-value{flex:1 1 auto;line-height:1.55;min-width:0}
+.info-value a{font-weight:600}
+.info-sub{display:block;font-size:12.5px;color:var(--muted)}
+.detail-actions{margin-top:18px}
+.detail-actions .visited-btn{flex:1 1 auto;width:auto}
+.detail-bottom{margin-top:26px}
+.specialbox{background:var(--rust-bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:15px;line-height:1.5}
+.specialbox .special-label{font-family:Inter,sans-serif;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--rust);font-weight:700;display:block;margin-bottom:2px}
+.menunotes{font-family:Inter,sans-serif;font-size:13.5px;line-height:1.6;border-top:1px dashed var(--line);padding-top:10px}
+.menunotes h4{font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--gold);margin:0 0 6px}
+.menunotes .menu-sub{font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:10px 0 4px}
+.menunotes ul{margin:0;padding-left:18px}
+.menunotes li{margin:3px 0}
+.menunotes .menu-note{margin:10px 0 0;color:var(--muted)}
+#detail-view .menunotes{font-size:14.5px;margin-top:16px}
+</style>
+</head>
+<body>
+<div class="wrap" id="list-view">
+<header class="hero">
+  <div class="herotop">
+  <div class="herotitle">
+  <div class="kicker">Gold Country • Highway 49 &amp; Highway 88 • Shenandoah Valley, Amador City, Murphys &amp; Lincoln wineries • Highway 4 &amp; South Lake Tahoe • Plus two over the crest — Markleeville &amp; US-395 • First pass — for Dave's review</div>
+  <h1>Burgers in the<br>Gold Country</h1>
+  </div>
+  <figure class="herophoto"><img src="assets/hero-burger.jpg" alt="A Rojo's Tavern burger with Rojo's fries and a drink, on the tavern's wooden table in South Lake Tahoe" loading="lazy"><figcaption class="credit">The burger at Rojo's Tavern, South Lake Tahoe — Photo: Rojo's Tavern</figcaption></figure>
+  </div>
+  <div class="heromain">
+  <p class="lede">Thirty-one real stops: twenty-two along the Mother Lode and Highway 88, from <strong>Nevada City in the north to Jamestown in the south</strong> and west to <strong>Webster's in the Lockeford / Clements area</strong> — <strong>plus two on Highway 4 (Giant Burger in Arnold and Lake Alpine Lodge), five in South Lake Tahoe, and two over the Sierra crest: Cutthroat Tavern in Markleeville and Walker Burger on US-395</strong>. Diners that have served a signature burger since the 1950s, a tiny hut on Highway 88, pub burgers on Sutter Creek's Main Street, a country store in Volcano grilling burgers since the Gold Rush era, a 1950s diner at the Plymouth roundabout, the Sonora grill people drive back for — <strong>plus five winery kitchens with a burger actually on the menu: Helwig and Villa Toscano in the Shenandoah Valley, The End of Nowhere in Amador City, Ironstone in Murphys, and Wise Villa in Lincoln</strong>. Every place below was verified from current listings in November 2026. Two honest exceptions on timing: Walker Burger and Lake Alpine Lodge are both seasonal and closed for the season as of late November — they're spring-through-fall stops. Prices and hours change — call ahead on a road day.</p>
+  <div class="signrail" aria-label="The three highways this guide follows"><span class="route"><svg viewBox="0 0 240 250" role="img" aria-label="California State Route 49 marker"><path d="M 120.0 0.0 C 130.3 5.2, 141.6 10.4, 150.8 15.6 C 160.1 20.8, 168.5 26.0, 175.5 31.2 C 182.4 36.4, 187.5 41.6, 192.6 46.8 C 197.7 52.0, 202.0 57.2, 205.9 62.5 C 209.8 67.7, 213.1 72.9, 216.1 78.1 C 219.1 83.2, 221.8 88.4, 224.1 93.5 C 226.5 98.7, 228.4 103.9, 230.2 109.2 C 231.9 114.4, 233.4 119.6, 234.6 124.8 C 235.8 130.0, 236.7 135.2, 237.4 140.4 C 238.1 145.6, 238.5 150.8, 238.9 156.0 C 239.2 161.2, 239.3 166.3, 239.4 171.5 C 239.6 176.6, 239.7 181.9, 239.6 187.1 C 239.4 192.3, 239.5 197.5, 238.5 202.7 C 237.4 207.9, 236.0 213.6, 233.2 218.3 C 230.5 223.1, 227.4 227.5, 222.0 231.2 C 216.6 234.8, 209.0 238.0, 200.8 240.4 C 192.5 242.8, 181.9 244.2, 172.4 245.5 C 162.9 246.8, 152.5 247.7, 143.7 248.3 C 134.9 248.9, 127.8 249.3, 119.8 249.3 C 111.8 249.3, 104.7 248.9, 95.9 248.3 C 87.1 247.7, 76.7 246.8, 67.2 245.5 C 57.6 244.2, 47.1 242.8, 38.8 240.4 C 30.6 238.0, 23.0 234.8, 17.5 231.2 C 12.1 227.5, 9.1 223.1, 6.4 218.3 C 3.6 213.6, 2.2 207.9, 1.1 202.7 C 0.0 197.5, 0.2 192.3, 0.0 187.1 C -0.2 181.9, 0.0 176.6, 0.1 171.5 C 0.3 166.3, 0.3 161.2, 0.7 156.0 C 1.0 150.8, 1.5 145.6, 2.2 140.4 C 2.9 135.2, 3.8 130.0, 5.0 124.8 C 6.2 119.6, 7.6 114.4, 9.4 109.2 C 11.1 103.9, 13.1 98.7, 15.5 93.5 C 17.8 88.4, 20.4 83.2, 23.5 78.1 C 26.5 72.9, 29.8 67.7, 33.7 62.5 C 37.6 57.2, 41.9 52.0, 47.0 46.8 C 52.0 41.6, 57.9 36.4, 64.1 31.2 C 70.3 26.0, 77.5 20.9, 84.1 15.8 C 94.0 9.5, 107.0 3.8, 120.0 0.0 Z" fill="#f8f8f3" stroke="#20241f" stroke-width="1.4"/><path d="M 120.0 0.0 C 130.3 5.2, 141.6 10.4, 150.8 15.6 C 160.1 20.8, 168.5 26.0, 175.5 31.2 C 182.4 36.4, 187.5 41.6, 192.6 46.8 C 197.7 52.0, 202.0 57.2, 205.9 62.5 C 209.8 67.7, 213.1 72.9, 216.1 78.1 C 219.1 83.2, 221.8 88.4, 224.1 93.5 C 226.5 98.7, 228.4 103.9, 230.2 109.2 C 231.9 114.4, 233.4 119.6, 234.6 124.8 C 235.8 130.0, 236.7 135.2, 237.4 140.4 C 238.1 145.6, 238.5 150.8, 238.9 156.0 C 239.2 161.2, 239.3 166.3, 239.4 171.5 C 239.6 176.6, 239.7 181.9, 239.6 187.1 C 239.4 192.3, 239.5 197.5, 238.5 202.7 C 237.4 207.9, 236.0 213.6, 233.2 218.3 C 230.5 223.1, 227.4 227.5, 222.0 231.2 C 216.6 234.8, 209.0 238.0, 200.8 240.4 C 192.5 242.8, 181.9 244.2, 172.4 245.5 C 162.9 246.8, 152.5 247.7, 143.7 248.3 C 134.9 248.9, 127.8 249.3, 119.8 249.3 C 111.8 249.3, 104.7 248.9, 95.9 248.3 C 87.1 247.7, 76.7 246.8, 67.2 245.5 C 57.6 244.2, 47.1 242.8, 38.8 240.4 C 30.6 238.0, 23.0 234.8, 17.5 231.2 C 12.1 227.5, 9.1 223.1, 6.4 218.3 C 3.6 213.6, 2.2 207.9, 1.1 202.7 C 0.0 197.5, 0.2 192.3, 0.0 187.1 C -0.2 181.9, 0.0 176.6, 0.1 171.5 C 0.3 166.3, 0.3 161.2, 0.7 156.0 C 1.0 150.8, 1.5 145.6, 2.2 140.4 C 2.9 135.2, 3.8 130.0, 5.0 124.8 C 6.2 119.6, 7.6 114.4, 9.4 109.2 C 11.1 103.9, 13.1 98.7, 15.5 93.5 C 17.8 88.4, 20.4 83.2, 23.5 78.1 C 26.5 72.9, 29.8 67.7, 33.7 62.5 C 37.6 57.2, 41.9 52.0, 47.0 46.8 C 52.0 41.6, 57.9 36.4, 64.1 31.2 C 70.3 26.0, 77.5 20.9, 84.1 15.8 C 94.0 9.5, 107.0 3.8, 120.0 0.0 Z" fill="#006954" transform="translate(120 125) scale(0.933) translate(-120 -125)"/><path id="arc49" d="M31 101 C63 86 89 83 120 83 C151 83 177 86 209 101" fill="none"/><text font-family="Inter,Arial,sans-serif" font-size="27" font-weight="700" fill="#ffffff" letter-spacing="2.2"><textPath href="#arc49" startOffset="50%" text-anchor="middle">CALIFORNIA</textPath></text><text x="120" y="209" font-family="Inter,Arial,sans-serif" font-size="138" font-weight="800" fill="#ffffff" text-anchor="middle" textLength="157" lengthAdjust="spacingAndGlyphs">49</text></svg><span>The Mother Lode</span></span><span class="route"><svg viewBox="0 0 240 250" role="img" aria-label="California State Route 88 marker"><path d="M 120.0 0.0 C 130.3 5.2, 141.6 10.4, 150.8 15.6 C 160.1 20.8, 168.5 26.0, 175.5 31.2 C 182.4 36.4, 187.5 41.6, 192.6 46.8 C 197.7 52.0, 202.0 57.2, 205.9 62.5 C 209.8 67.7, 213.1 72.9, 216.1 78.1 C 219.1 83.2, 221.8 88.4, 224.1 93.5 C 226.5 98.7, 228.4 103.9, 230.2 109.2 C 231.9 114.4, 233.4 119.6, 234.6 124.8 C 235.8 130.0, 236.7 135.2, 237.4 140.4 C 238.1 145.6, 238.5 150.8, 238.9 156.0 C 239.2 161.2, 239.3 166.3, 239.4 171.5 C 239.6 176.6, 239.7 181.9, 239.6 187.1 C 239.4 192.3, 239.5 197.5, 238.5 202.7 C 237.4 207.9, 236.0 213.6, 233.2 218.3 C 230.5 223.1, 227.4 227.5, 222.0 231.2 C 216.6 234.8, 209.0 238.0, 200.8 240.4 C 192.5 242.8, 181.9 244.2, 172.4 245.5 C 162.9 246.8, 152.5 247.7, 143.7 248.3 C 134.9 248.9, 127.8 249.3, 119.8 249.3 C 111.8 249.3, 104.7 248.9, 95.9 248.3 C 87.1 247.7, 76.7 246.8, 67.2 245.5 C 57.6 244.2, 47.1 242.8, 38.8 240.4 C 30.6 238.0, 23.0 234.8, 17.5 231.2 C 12.1 227.5, 9.1 223.1, 6.4 218.3 C 3.6 213.6, 2.2 207.9, 1.1 202.7 C 0.0 197.5, 0.2 192.3, 0.0 187.1 C -0.2 181.9, 0.0 176.6, 0.1 171.5 C 0.3 166.3, 0.3 161.2, 0.7 156.0 C 1.0 150.8, 1.5 145.6, 2.2 140.4 C 2.9 135.2, 3.8 130.0, 5.0 124.8 C 6.2 119.6, 7.6 114.4, 9.4 109.2 C 11.1 103.9, 13.1 98.7, 15.5 93.5 C 17.8 88.4, 20.4 83.2, 23.5 78.1 C 26.5 72.9, 29.8 67.7, 33.7 62.5 C 37.6 57.2, 41.9 52.0, 47.0 46.8 C 52.0 41.6, 57.9 36.4, 64.1 31.2 C 70.3 26.0, 77.5 20.9, 84.1 15.8 C 94.0 9.5, 107.0 3.8, 120.0 0.0 Z" fill="#f8f8f3" stroke="#20241f" stroke-width="1.4"/><path d="M 120.0 0.0 C 130.3 5.2, 141.6 10.4, 150.8 15.6 C 160.1 20.8, 168.5 26.0, 175.5 31.2 C 182.4 36.4, 187.5 41.6, 192.6 46.8 C 197.7 52.0, 202.0 57.2, 205.9 62.5 C 209.8 67.7, 213.1 72.9, 216.1 78.1 C 219.1 83.2, 221.8 88.4, 224.1 93.5 C 226.5 98.7, 228.4 103.9, 230.2 109.2 C 231.9 114.4, 233.4 119.6, 234.6 124.8 C 235.8 130.0, 236.7 135.2, 237.4 140.4 C 238.1 145.6, 238.5 150.8, 238.9 156.0 C 239.2 161.2, 239.3 166.3, 239.4 171.5 C 239.6 176.6, 239.7 181.9, 239.6 187.1 C 239.4 192.3, 239.5 197.5, 238.5 202.7 C 237.4 207.9, 236.0 213.6, 233.2 218.3 C 230.5 223.1, 227.4 227.5, 222.0 231.2 C 216.6 234.8, 209.0 238.0, 200.8 240.4 C 192.5 242.8, 181.9 244.2, 172.4 245.5 C 162.9 246.8, 152.5 247.7, 143.7 248.3 C 134.9 248.9, 127.8 249.3, 119.8 249.3 C 111.8 249.3, 104.7 248.9, 95.9 248.3 C 87.1 247.7, 76.7 246.8, 67.2 245.5 C 57.6 244.2, 47.1 242.8, 38.8 240.4 C 30.6 238.0, 23.0 234.8, 17.5 231.2 C 12.1 227.5, 9.1 223.1, 6.4 218.3 C 3.6 213.6, 2.2 207.9, 1.1 202.7 C 0.0 197.5, 0.2 192.3, 0.0 187.1 C -0.2 181.9, 0.0 176.6, 0.1 171.5 C 0.3 166.3, 0.3 161.2, 0.7 156.0 C 1.0 150.8, 1.5 145.6, 2.2 140.4 C 2.9 135.2, 3.8 130.0, 5.0 124.8 C 6.2 119.6, 7.6 114.4, 9.4 109.2 C 11.1 103.9, 13.1 98.7, 15.5 93.5 C 17.8 88.4, 20.4 83.2, 23.5 78.1 C 26.5 72.9, 29.8 67.7, 33.7 62.5 C 37.6 57.2, 41.9 52.0, 47.0 46.8 C 52.0 41.6, 57.9 36.4, 64.1 31.2 C 70.3 26.0, 77.5 20.9, 84.1 15.8 C 94.0 9.5, 107.0 3.8, 120.0 0.0 Z" fill="#006954" transform="translate(120 125) scale(0.933) translate(-120 -125)"/><path id="arc88" d="M31 101 C63 86 89 83 120 83 C151 83 177 86 209 101" fill="none"/><text font-family="Inter,Arial,sans-serif" font-size="27" font-weight="700" fill="#ffffff" letter-spacing="2.2"><textPath href="#arc88" startOffset="50%" text-anchor="middle">CALIFORNIA</textPath></text><text x="120" y="209" font-family="Inter,Arial,sans-serif" font-size="138" font-weight="800" fill="#ffffff" text-anchor="middle" textLength="157" lengthAdjust="spacingAndGlyphs">88</text></svg><span>Carson Pass road</span></span><span class="route"><svg viewBox="0 0 216 226" role="img" aria-label="US Route 395 shield"><g transform="translate(5 5)"><path d="M 102.5 0.0 C 121.6 4.5, 144.9 9.0, 159.7 13.5 C 174.5 18.0, 185.6 22.5, 191.3 27.0 C 197.1 31.5, 194.2 36.0, 194.3 40.5 C 194.4 45.0, 193.0 49.5, 192.0 54.0 C 191.0 58.5, 189.0 63.0, 188.2 67.5 C 187.3 72.0, 186.9 76.5, 187.0 81.0 C 187.1 85.5, 187.6 89.9, 188.5 94.3 C 189.4 98.8, 191.1 103.2, 192.7 107.7 C 194.2 112.1, 196.4 116.5, 198.0 121.0 C 199.6 125.5, 201.5 130.0, 202.5 134.5 C 203.5 139.0, 204.2 143.5, 204.2 148.0 C 204.1 152.5, 203.7 157.0, 202.3 161.5 C 201.0 166.0, 200.1 170.5, 196.2 175.0 C 192.2 179.5, 183.3 184.9, 178.5 188.5 C 173.7 192.1, 172.2 194.5, 167.3 196.7 C 162.5 198.9, 155.1 199.9, 149.5 201.7 C 143.9 203.4, 141.4 206.1, 133.7 207.2 C 126.0 208.3, 112.0 213.0, 102.8 215.5 C 93.6 213.0, 79.6 208.3, 72.0 206.2 C 64.9 204.9, 65.3 202.4, 60.3 200.7 C 55.3 199.0, 47.0 198.0, 42.0 196.0 C 37.0 194.0, 36.1 192.0, 30.5 188.5 C 24.9 185.0, 13.0 179.5, 8.3 175.0 C 3.7 170.5, 3.8 166.0, 2.7 161.5 C 1.5 157.0, 1.2 152.5, 1.3 148.0 C 1.4 143.5, 2.2 139.0, 3.2 134.5 C 4.1 130.0, 5.7 125.5, 7.2 121.0 C 8.6 116.5, 10.4 112.1, 11.8 107.7 C 13.2 103.2, 14.6 98.8, 15.5 94.3 C 16.4 89.9, 17.1 85.5, 17.2 81.0 C 17.2 76.5, 16.9 72.0, 16.0 67.5 C 15.1 63.0, 13.0 58.5, 11.8 54.0 C 10.6 49.5, 8.9 45.0, 8.8 40.5 C 8.8 36.0, 9.4 31.5, 11.3 27.0 C 13.3 22.5, 17.4 18.0, 20.5 13.5 C 42.0 5.0, 74.0 1.0, 102.5 0.0 Z" fill="#ffffff" stroke="#131313" stroke-width="1.1" transform="translate(103 108) scale(1.05) translate(-103 -108)"/><path d="M 102.5 0.0 C 121.6 4.5, 144.9 9.0, 159.7 13.5 C 174.5 18.0, 185.6 22.5, 191.3 27.0 C 197.1 31.5, 194.2 36.0, 194.3 40.5 C 194.4 45.0, 193.0 49.5, 192.0 54.0 C 191.0 58.5, 189.0 63.0, 188.2 67.5 C 187.3 72.0, 186.9 76.5, 187.0 81.0 C 187.1 85.5, 187.6 89.9, 188.5 94.3 C 189.4 98.8, 191.1 103.2, 192.7 107.7 C 194.2 112.1, 196.4 116.5, 198.0 121.0 C 199.6 125.5, 201.5 130.0, 202.5 134.5 C 203.5 139.0, 204.2 143.5, 204.2 148.0 C 204.1 152.5, 203.7 157.0, 202.3 161.5 C 201.0 166.0, 200.1 170.5, 196.2 175.0 C 192.2 179.5, 183.3 184.9, 178.5 188.5 C 173.7 192.1, 172.2 194.5, 167.3 196.7 C 162.5 198.9, 155.1 199.9, 149.5 201.7 C 143.9 203.4, 141.4 206.1, 133.7 207.2 C 126.0 208.3, 112.0 213.0, 102.8 215.5 C 93.6 213.0, 79.6 208.3, 72.0 206.2 C 64.9 204.9, 65.3 202.4, 60.3 200.7 C 55.3 199.0, 47.0 198.0, 42.0 196.0 C 37.0 194.0, 36.1 192.0, 30.5 188.5 C 24.9 185.0, 13.0 179.5, 8.3 175.0 C 3.7 170.5, 3.8 166.0, 2.7 161.5 C 1.5 157.0, 1.2 152.5, 1.3 148.0 C 1.4 143.5, 2.2 139.0, 3.2 134.5 C 4.1 130.0, 5.7 125.5, 7.2 121.0 C 8.6 116.5, 10.4 112.1, 11.8 107.7 C 13.2 103.2, 14.6 98.8, 15.5 94.3 C 16.4 89.9, 17.1 85.5, 17.2 81.0 C 17.2 76.5, 16.9 72.0, 16.0 67.5 C 15.1 63.0, 13.0 58.5, 11.8 54.0 C 10.6 49.5, 8.9 45.0, 8.8 40.5 C 8.8 36.0, 9.4 31.5, 11.3 27.0 C 13.3 22.5, 17.4 18.0, 20.5 13.5 C 42.0 5.0, 74.0 1.0, 102.5 0.0 Z" fill="#ffffff" stroke="#131313" stroke-width="3.4"/><text x="103" y="55.5" font-family="Inter,Arial,sans-serif" font-size="40" font-weight="800" fill="#131313" text-anchor="middle" textLength="158" lengthAdjust="spacingAndGlyphs">CALIFORNIA</text><line x1="18" y1="69" x2="188" y2="69" stroke="#131313" stroke-width="3"/><text x="103" y="106" font-family="Inter,Arial,sans-serif" font-size="33" font-weight="800" fill="#131313" text-anchor="middle" textLength="51" lengthAdjust="spacingAndGlyphs">US</text><text x="103" y="182" font-family="Inter,Arial,sans-serif" font-size="86" font-weight="800" fill="#131313" text-anchor="middle" textLength="144" lengthAdjust="spacingAndGlyphs">395</text></g></svg><span>Over the crest</span></span></div>
+  </div>
+  <div class="draftbar">
+    <span class="pill gold">✎ Draft v1 — Nov 22, 2026 · corrected &amp; updated — Webster's AND Walker both in, five winery burgers in, Cutthroat + South Lake Tahoe + Highway 4 added</span>
+    <span class="pill">31 stops • 9 counties</span>
+    <span class="pill rust">Not yet published to the Gazette</span>
+  </div>
+  <div class="guide-share-row"><button type="button" class="guide-share-btn" id="guide-share" aria-label="Share this guide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13"/><path d="M7 8l5-5 5 5"/><path d="M5 13v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7"/></svg><span class="share-label">Share this guide</span></button></div>
+  <div class="visitedbar" aria-live="polite">
+    <strong id="visited-count">Visited 0 of 31</strong>
+    <div class="visited-progress-track" aria-hidden="true"><div class="visited-progress-fill" id="visited-fill"></div></div>
+    <span>Tap “✓ Visited” on any card to mark it — marks save on this device only.</span>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>31</b><span>Verified stops</span></div>
+    <div class="stat"><b>1852</b><span>Oldest store — Sizemore, Volcano</span></div>
+    <div class="stat"><b>49·88·4·89·395</b><span>Highways covered</span></div>
+    <div class="stat"><b>9</b><span>Roadside stands</span></div>
+  </div>
+</header>
+
+<div class="controls" id="top">
+  <input class="search" id="search" type="search" placeholder="Search by town, place, or burger — e.g. bison, Moo Burger, elk…" aria-label="Search burger stops">
+  <div class="filters" role="group" aria-label="Filter by region">
+    <button class="active" data-filter="all">All 31 stops</button>
+    <button data-filter="north">North · Nevada City → Auburn</button>
+    <button data-filter="central">Central · Placerville</button>
+    <button data-filter="amador">Amador · Hwy 88 &amp; Volcano</button>
+    <button data-filter="south">South · Angels Camp → Jamestown</button>
+    <button data-filter="hwy4">Highway 4 · Arnold → Lake Alpine</button>
+    <button data-filter="west">West · Hwy 88 to Lockeford</button>
+    <button data-filter="tahoe">South Lake Tahoe</button>
+    <button data-filter="crest">Over the crest · Markleeville &amp; US-395</button>
+    <button data-filter="winery">Winery burgers</button>
+    <button data-filter="stand">Roadside stands</button>
+    <button data-filter="pub">Pubs &amp; grills</button>
+  </div>
+  <button type="button" class="hidevisited" id="hide-visited" aria-pressed="false">Hide visited — show only places I haven't tried</button>
+  <div class="count" id="count">Showing all 31 stops</div>
+  <div class="filter-note"><span>Your search &amp; filter choices are remembered on this device — reload the page and you'll land right back here.</span><button type="button" class="reset-btn" id="reset-filters">Reset filters</button></div>
+  <p class="price-legend"><strong>Price $&ndash;$$$$</strong> &middot; $ under $12 &middot; $$ $12&ndash;17 &middot; $$$ $18&ndash;24 &middot; $$$$ $25+. Checked November 2026.</p>
+</div>
+
+<main class="grid" id="grid">
+
+  <!-- NORTH -->
+  <article class="card" data-region="north" data-type="market" data-search="ikedas auburn tasty burger famous big burger wagyu smash pie">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/ikedas.jpg" data-name="Ikeda's California Country Market" data-credit="Photo: Travels with Elle" data-alt="Exterior of Ikeda's California Country Market in Auburn, with its Ikeda's and Pies signs" aria-label="View the photo of Ikeda's California Country Market full screen"><img class="cardphoto" src="assets/ikedas.jpg" alt="Exterior of Ikeda's California Country Market in Auburn, with its Ikeda's and Pies signs" loading="lazy"></button><figcaption class="credit">Photo: Travels with Elle</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>Auburn · Placer County</span><span>Market &amp; grill</span></div>
+      <h3>Ikeda's California Country Market</h3>
+      <div class="priceband" aria-label="Price band: Pricey — 3 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$$$</span><span class="off">$</span></span><span class="pricelabel">Pricey · 3 of 4</span></div>
+      <div class="sig"><span>Order this</span>Famous Big Burger — or the Tasty Burger</div>
+      <p class="desc">The I-80 pit stop generations make on the way to Tahoe: a family-run fruit stand, pie shop and burger counter in one. Patties are never-frozen American beef with a house herb-and-spice blend; the Famous Big Burger stacks two patties on a French roll.</p>
+      <p class="why"><strong>Why stop:</strong> Burger + a slice of homemade pie + produce for the cabin, all in one parking lot.</p>
+      <div class="tags"><span class="tag">Road-trip staple</span><span class="tag">Pies</span><span class="tag">Wagyu Smash also on menu</span></div>
+      <div class="details">📍 13500 Lincoln Way, Auburn, CA 95603<br>☎️ <a href="tel:+15308854243" aria-label="Call (530) 885-4243">(530) 885-4243</a> · <a href="https://www.google.com/maps/search/?api=1&query=Ikeda's+California+Country+Market+Auburn+CA" target="_blank" rel="noopener">Open in Maps →</a></div>
+    </div>
+  </article>
+
+  <article class="card" data-region="north" data-type="pub" data-search="bootleggers auburn old town tavern bootlegger burger half pound">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/bootleggers.jpg" data-name="Bootleggers Old Town Tavern" data-credit="Photo: Family Destinations Guide" data-alt="Exterior of Bootleggers Old Town Tavern in Old Town Auburn" aria-label="View the photo of Bootleggers Old Town Tavern full screen"><img class="cardphoto" src="assets/bootleggers.jpg" alt="Exterior of Bootleggers Old Town Tavern in Old Town Auburn" loading="lazy"></button><figcaption class="credit">Photo: Family Destinations Guide</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>Auburn · Old Town</span><span>Tavern</span></div>
+      <h3>Bootleggers Old Town Tavern</h3>
+      <div class="priceband" aria-label="Price band: Budget — 1 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$</span><span class="off">$$$</span></span><span class="pricelabel">Budget · 1 of 4</span></div>
+      <div class="sig"><span>Order this</span>Bootlegger Burger — ½ lb ground chuck</div>
+      <p class="desc">Old Town Auburn's tavern burger: a half-pound of certified ground chuck with lettuce, tomato and onion on a sweet Italian roll with Russian dressing. Sit-down, full tavern menu, and an easy walk around Old Town after.</p>
+      <p class="why"><strong>Why stop:</strong> The proper sit-down burger in historic Old Town, not a drive-through.</p>
+      <div class="tags"><span class="tag">Old Town</span><span class="tag">½ lb patty</span><span class="tag">Full bar</span></div>
+      <div class="details">📍 210 Washington St, Auburn, CA 95603<br>☎️ <a href="tel:+15308892229" aria-label="Call (530) 889-2229">(530) 889-2229</a> · <a href="https://www.google.com/maps/search/?api=1&query=Bootleggers+Old+Town+Tavern+Auburn+CA" target="_blank" rel="noopener">Open in Maps →</a></div>
+    </div>
+  </article>
+
+  <article class="card" data-region="north" data-type="cafe" data-search="south pine cafe grass valley heisenburger nutburger smoldering pine burger vegetarian">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/south-pine.jpg" data-name="South Pine Cafe" data-credit="Photo via Localoria listing" data-alt="Exterior of South Pine Cafe in Grass Valley" aria-label="View the photo of South Pine Cafe full screen"><img class="cardphoto" src="assets/south-pine.jpg" alt="Exterior of South Pine Cafe in Grass Valley" loading="lazy"></button><figcaption class="credit">Photo via Localoria listing</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>Grass Valley · Nevada County</span><span>Café</span></div>
+      <h3>South Pine Cafe</h3>
+      <div class="priceband" aria-label="Price band: Moderate — 2 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$$</span><span class="off">$$</span></span><span class="pricelabel">Moderate · 2 of 4</span></div>
+      <div class="sig"><span>Order this</span>Heisenburger — or the Nutburger</div>
+      <p class="desc">Grass Valley's beloved brunch café does burgers its own way: all-natural patties with spring mix, tomato and Pine Street sauce, alongside genuinely good vegetarian options — the Smoldering Pine (tofu &amp; veggie bacon) and the house Nutburger.</p>
+      <p class="why"><strong>Why stop:</strong> Best pick in this guide for a mixed group — meat and meatless both done properly. Lunch hours only.</p>
+      <div class="tags"><span class="tag">Vegetarian options</span><span class="tag">Brunch favourite</span><span class="tag">Closes mid-afternoon</span></div>
+      <div class="details">📍 102 Richardson St, Grass Valley, CA 95945<br>☎️ <a href="tel:+15302740261" aria-label="Call (530) 274-0261">(530) 274-0261</a> · <a href="https://www.google.com/maps/search/?api=1&query=South+Pine+Cafe+Grass+Valley+CA" target="_blank" rel="noopener">Open in Maps →</a></div>
+    </div>
+  </article>
+
+  <article class="card" data-region="north" data-type="pub" data-search="friar tucks sherwood nevada city tuck burger fondue">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/friar-tucks.jpg" data-name="Friar Tuck's — now The Sherwood" data-credit="Photo: Nevada City Chamber of Commerce" data-alt="Storefront of Friar Tuck's restaurant in Nevada City" aria-label="View the photo of Friar Tuck's — now The Sherwood full screen"><img class="cardphoto" src="assets/friar-tucks.jpg" alt="Storefront of Friar Tuck's restaurant in Nevada City" loading="lazy"></button><figcaption class="credit">Photo: Nevada City Chamber of Commerce</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>Nevada City · Nevada County</span><span>Restaurant &amp; bar</span></div>
+      <h3>Friar Tuck's — now The Sherwood</h3>
+      <div class="priceband" aria-label="Price band: Moderate — 2 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$$</span><span class="off">$$</span></span><span class="pricelabel">Moderate · 2 of 4</span></div>
+      <div class="sig"><span>Order this</span>Tuck Burger Dinner</div>
+      <p class="desc">A Nevada City institution on Pine Street since the fondue era — triple-arched bar, live music, and char-broiled burgers done properly. Now transitioning to Sherwood Restaurant &amp; Tavern, keeping traditional favourites on the menu.</p>
+      <p class="why"><strong>Why stop:</strong> Dinner burger with music in one of the Gold Country's prettiest downtowns. Note the new name when you look it up.</p>
+      <div class="tags"><span class="tag">Live music</span><span class="tag">Historic building</span><span class="tag">Now called Sherwood</span></div>
+      <div class="details">📍 111 N Pine St, Nevada City, CA 95959<br>☎️ <a href="tel:+15302659093" aria-label="Call (530) 265-9093">(530) 265-9093</a> · <a href="https://www.google.com/maps/search/?api=1&query=Friar+Tuck's+Nevada+City+CA" target="_blank" rel="noopener">Open in Maps →</a></div>
+    </div>
+  </article>
+
+  <article class="card" data-region="north" data-type="winery" data-search="wise villa winery lincoln signature burger angus short rib green goddess aioli white cheddar winery restaurant">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/wise-villa.jpg" data-name="Wise Villa Winery &amp; Restaurant" data-credit="Photo: Wise Villa Winery" data-alt="Exterior of the Wise Villa Winery tasting room and restaurant in Lincoln" aria-label="View the photo of Wise Villa Winery &amp; Restaurant full screen"><img class="cardphoto" src="assets/wise-villa.jpg" alt="Exterior of the Wise Villa Winery tasting room and restaurant in Lincoln" loading="lazy"></button><figcaption class="credit">Photo: Wise Villa Winery</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>Lincoln · Placer County</span><span>Winery &amp; restaurant ★</span></div>
+      <h3>Wise Villa Winery &amp; Restaurant</h3>
+      <div class="priceband" aria-label="Price band: Pricey — 3 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$$$</span><span class="off">$</span></span><span class="pricelabel">Pricey · 3 of 4</span></div>
+      <div class="sig"><span>Order this</span>Wise Villa Signature Burger — 6 oz Angus &amp; short-rib blend</div>
+      <p class="desc">The Placer County winery burger, from Wise Villa's own full-service restaurant in the Lincoln foothills. The Signature Burger is a 6 oz blend of California Angus beef and short rib with green goddess aïoli, white cheddar, butter lettuce, tomato and sliced onions on a toasted bun, served with fries — the menu pairs it with their Cabernet Sauvignon and Reserve Tannat. One catch: burgers and sandwiches aren't served after 5 PM, so make it a lunch or an early dinner.</p>
+      <p class="why"><strong>Why stop:</strong> A proper winery-restaurant burger on the west side of the foothills — an easy add to an Auburn or Lincoln run, and the northernmost winery burger in the guide.</p>
+      <div class="tags"><span class="tag">Winery burger</span><span class="tag">Mon–Tue 11–3 · Wed &amp; Sun 11–5 · Thu–Sat 11–8</span><span class="tag">No burgers after 5 PM</span><span class="tag">Wine pairing on menu</span></div>
+      <div class="details">📍 4200 Wise Rd, Lincoln, CA 95648<br>☎️ <a href="tel:+19165430323" aria-label="Call (916) 543-0323">(916) 543-0323</a> · <a href="https://wisevillawinery.com/" target="_blank" rel="noopener">wisevillawinery.com</a> · <a href="https://www.google.com/maps/search/?api=1&query=Wise+Villa+Winery+Lincoln+CA" target="_blank" rel="noopener">Maps →</a></div>
+    </div>
+  </article>
+
+  <!-- CENTRAL -->
+  <article class="card" data-region="central" data-type="diner" data-search="old town grill placerville elk burger pastrami burger milkshake">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/old-town-grill.jpg" data-name="Old Town Grill" data-credit="Photo via Google listing" data-alt="Exterior of Old Town Grill on Main Street, Placerville" aria-label="View the photo of Old Town Grill full screen"><img class="cardphoto" src="assets/old-town-grill.jpg" alt="Exterior of Old Town Grill on Main Street, Placerville" loading="lazy"></button><figcaption class="credit">Photo via Google listing</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>Placerville · El Dorado County</span><span>Mom &amp; pop grill</span></div>
+      <h3>Old Town Grill</h3>
+      <div class="priceband" aria-label="Price band: Moderate — 2 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$$</span><span class="off">$$</span></span><span class="pricelabel">Moderate · 2 of 4</span></div>
+      <div class="sig"><span>Order this</span>Elk Burger</div>
+      <p class="desc">A small Main Street lunch spot with grass-fed burgers, garlic curly fries, sweet-potato “dollops” and thick old-fashioned milkshakes. The elk burger is the one reviewers single out — lean, flavourful, and not a gimmick.</p>
+      <p class="why"><strong>Why stop:</strong> The most distinctive patty in the guide. Mostly lunch hours — plan for midday.</p>
+      <div class="tags"><span class="tag">Elk burger</span><span class="tag">Milkshakes</span><span class="tag">Lunch mainly</span></div>
+      <div class="details">📍 444 Main St, Placerville, CA 95667<br>☎️ <a href="tel:+15306222631" aria-label="Call (530) 622-2631">(530) 622-2631</a> · <a href="https://otgplacerville.com/" target="_blank" rel="noopener">otgplacerville.com</a> · <a href="https://www.google.com/maps/search/?api=1&query=Old+Town+Grill+Placerville+CA" target="_blank" rel="noopener">Maps →</a></div>
+    </div>
+  </article>
+
+  <article class="card" data-region="central" data-type="stand" data-search="shoestring placerville roadside burger stand pastrami burger milkshake broadway">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/shoestring.jpg" data-name="Shoestring" data-credit="Photo via Google listing" data-alt="Exterior of the Shoestring roadside stand in Placerville" aria-label="View the photo of Shoestring full screen"><img class="cardphoto" src="assets/shoestring.jpg" alt="Exterior of the Shoestring roadside stand in Placerville" loading="lazy"></button><figcaption class="credit">Photo via Google listing</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>Placerville · El Dorado County</span><span>Roadside stand</span></div>
+      <h3>Shoestring</h3>
+      <div class="priceband" aria-label="Price band: Budget — 1 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$</span><span class="off">$$$</span></span><span class="pricelabel">Budget · 1 of 4</span></div>
+      <div class="sig"><span>Order this</span>Pastrami Burger + a milkshake</div>
+      <p class="desc">Retro roadside stand on Broadway — burgers, dogs, chili, fries and shakes at old-school prices, with a covered patio. Patrons call the shakes the best around; the menu runs from a simple burger to a triple.</p>
+      <p class="why"><strong>Why stop:</strong> Pure roadside Americana, five minutes off Highway 50, no fuss.</p>
+      <div class="tags"><span class="tag">Roadside stand</span><span class="tag">Budget-friendly</span><span class="tag">Outdoor patio</span></div>
+      <div class="details">📍 1320 Broadway, Placerville, CA 95667<br>☎️ <a href="tel:+15306227125" aria-label="Call (530) 622-7125">(530) 622-7125</a> · Closed Mondays · <a href="https://www.google.com/maps/search/?api=1&query=Shoestring+Placerville+CA" target="_blank" rel="noopener">Open in Maps →</a></div>
+    </div>
+  </article>
+
+  <!-- AMADOR -->
+  <article class="card" data-region="amador" data-type="stand" data-search="88 giant burgers pine grove highway 88 slam burger double cheeseburger oreo shake">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/giant-88.jpg" data-name="88 Giant Burgers To Go" data-credit="Photo: DogTrekker (Google Places)" data-alt="Exterior of 88 Giant Burgers To Go, the roadside hut on Highway 88 in Pine Grove" aria-label="View the photo of 88 Giant Burgers To Go full screen"><img class="cardphoto" src="assets/giant-88.jpg" alt="Exterior of 88 Giant Burgers To Go, the roadside hut on Highway 88 in Pine Grove" loading="lazy"></button><figcaption class="credit">Photo: DogTrekker (Google Places)</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>Pine Grove · Amador County · Hwy 88</span><span>Roadside hut ★ Local legend</span></div>
+      <h3>88 Giant Burgers To Go</h3>
+      <div class="priceband" aria-label="Price band: Budget — 1 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$</span><span class="off">$$$</span></span><span class="pricelabel">Budget · 1 of 4</span></div>
+      <div class="sig"><span>Order this</span>88 Burger / Double Cheeseburger — and the 88 Slam</div>
+      <p class="desc">A hut so small you could miss it — and a name that tells the truth. Fresh ⅓-lb patties made daily, cooked to order at the window on Highway 88. The 88 Slam puts grilled chicken, onions and jalapeños inside a grilled-cheese sandwich; the Western Slam adds BBQ sauce. One order of fries feeds three.</p>
+      <p class="why"><strong>Why stop:</strong> The single most talked-about burger on the way to Kirkwood. Three outdoor tables, no indoor seating, no restrooms — plan accordingly.</p>
+      <div class="tags"><span class="tag">Open daily 11–8</span><span class="tag">Oreo shake</span><span class="tag">Huge fries</span></div>
+      <div class="details">📍 19845 CA-88, Pine Grove, CA 95665<br>☎️ <a href="tel:+12092967277" aria-label="Call (209) 296-7277">(209) 296-7277</a> · <a href="https://www.google.com/maps/search/?api=1&query=88+Giant+Burgers+To+Go+Pine+Grove+CA" target="_blank" rel="noopener">Open in Maps →</a></div>
+    </div>
+  </article>
+
+  <article class="card" data-region="amador" data-type="stand" data-search="kennedys pioneer burger highway 88 pioneer boujee blue mushroom swiss jalapeno burger caramel shake hand cut fries">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/kennedys.jpg" data-name="Kennedy's Pioneer Burger" data-credit="Photo via Yelp listing" data-alt="Kennedy's Pioneer Burger stand in Pioneer at night, its Pioneer Burger sign lit and the order window open" aria-label="View the photo of Kennedy's Pioneer Burger full screen"><img class="cardphoto" src="assets/kennedys.jpg" alt="Kennedy's Pioneer Burger stand in Pioneer at night, its Pioneer Burger sign lit and the order window open" loading="lazy"></button><figcaption class="credit">Photo via Yelp listing</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>Pioneer · Amador County · Hwy 88</span><span>Roadside burger stand</span></div>
+      <h3>Kennedy's Pioneer Burger</h3>
+      <div class="priceband" aria-label="Price band: Moderate — 2 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$$</span><span class="off">$$</span></span><span class="pricelabel">Moderate · 2 of 4</span></div>
+      <div class="sig"><span>Order this</span>Pioneer Burger — or the Boujee Blue / Mushroom Swiss</div>
+      <p class="desc">The Highway 88 stop locals just call “Pioneer Burger.” A small, locally owned roadside place in Pioneer serving generous, juicy burgers made with meat from a local butcher, on homemade bread, with hand-cut fries and shakes. The lineup runs from bacon cheeseburger and Western bacon to jalapeño, chili cheese, mushroom Swiss and the Boujee Blue — big, messy, and best eaten there, not in the car.</p>
+      <p class="why"><strong>Why stop:</strong> The other essential Highway 88 burger — pair it with 88 Giant Burgers in Pine Grove for a proper 88 taste-off on the way up the hill. Call ahead if you're in a hurry; it gets busy.</p>
+      <div class="tags"><span class="tag">Also known as Pioneer Burger</span><span class="tag">Hand-cut fries</span><span class="tag">Open daily ~10:30–8</span><span class="tag">Caramel shake</span></div>
+      <div class="details">📍 22536 CA-88, Pioneer, CA 95666<br>☎️ <a href="tel:+12092958826" aria-label="Call (209) 295-8826">(209) 295-8826</a> · <a href="https://www.google.com/maps/search/?api=1&query=Kennedy's+Pioneer+Burger+Pioneer+CA" target="_blank" rel="noopener">Open in Maps →</a></div>
+    </div>
+  </article>
+
+  <article class="card" data-region="amador" data-type="diner" data-search="mel fayes diner jackson moo burger 1956 sourdough burger pie salad bar">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/mel-fayes.jpg" data-name="Mel &amp; Faye's Diner" data-credit="Photo: Yosemite Gold Country" data-alt="Exterior of Mel &amp; Faye's Diner in Jackson" aria-label="View the photo of Mel &amp; Faye's Diner full screen"><img class="cardphoto" src="assets/mel-fayes.jpg" alt="Exterior of Mel &amp; Faye's Diner in Jackson" loading="lazy"></button><figcaption class="credit">Photo: Yosemite Gold Country</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>Jackson · Amador County</span><span>Diner since 1956</span></div>
+      <h3>Mel &amp; Faye's Diner</h3>
+      <div class="priceband" aria-label="Price band: Moderate — 2 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$$</span><span class="off">$$</span></span><span class="pricelabel">Moderate · 2 of 4</span></div>
+      <div class="sig"><span>Order this</span>The Moo Burger — served since 1956</div>
+      <p class="desc">Jackson's icon at the junction of Highways 49 and 88 — independent, not the Mel's franchise. The Moo Burger stacks two quarter-pound patties; regulars add onion rings, chili cheese fries and a strawberry or peanut-butter shake, then finish with homemade pie. Huge salad bar, opens at 5 AM daily.</p>
+      <p class="why"><strong>Why stop:</strong> History you can eat — the oldest signature burger in this guide, and the natural meet-up point in Amador.</p>
+      <div class="tags"><span class="tag">Since 1956</span><span class="tag">Homemade pies</span><span class="tag">Dog-friendly patio</span></div>
+      <div class="details">📍 31 Hwy 49/88, Jackson, CA 95642<br>☎️ <a href="tel:+12092230853" aria-label="Call (209) 223-0853">(209) 223-0853</a> · <a href="https://www.google.com/maps/search/?api=1&query=Mel+and+Faye's+Diner+Jackson+CA" target="_blank" rel="noopener">Open in Maps →</a></div>
+    </div>
+  </article>
+
+  <article class="card" data-region="amador" data-type="market" data-search="sizemore country store volcano double cheeseburger brick grill oldest store 1852 general store bacon bbq sauce">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/sizemore.jpg" data-name="Sizemore Country Store" data-credit="Photo: World Atlas" data-alt="Exterior of Sizemore Country Store in Volcano" aria-label="View the photo of Sizemore Country Store full screen"><img class="cardphoto" src="assets/sizemore.jpg" alt="Exterior of Sizemore Country Store in Volcano" loading="lazy"></button><figcaption class="credit">Photo: World Atlas</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>Volcano · Amador County</span><span>Country store &amp; restaurant ★ Since 1852</span></div>
+      <h3>Sizemore Country Store</h3>
+      <div class="priceband" aria-label="Price band: Budget — 1 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$</span><span class="off">$$$</span></span><span class="pricelabel">Budget · 1 of 4</span></div>
+      <div class="sig"><span>Order this</span>Double Cheeseburger — add bacon &amp; BBQ sauce</div>
+      <p class="desc">California's oldest continuously operated store, serving Volcano since 1852 — part general store, part restaurant, all Gold Country. The famous burgers are made to order and cooked over a brick-lined grill; the double cheeseburger is the one reviewers call the best in Amador County, huge enough to share. Browse the vintage-lined shelves, then take your burger to the garden patio with a local wine or an Amador Brewing beer on tap.</p>
+      <p class="why"><strong>Why stop:</strong> A burger inside a living piece of 1852 history — worth the detour to Volcano on its own, and reliably open seven days when much of the town is closed.</p>
+      <div class="tags"><span class="tag">Since 1852</span><span class="tag">Open daily 10–7</span><span class="tag">Garden patio</span><span class="tag">Beer on tap</span></div>
+      <div class="details">📍 16146 Main St, Volcano, CA 95689<br>☎️ <a href="tel:+12092964459" aria-label="Call (209) 296-4459">(209) 296-4459</a> · <a href="http://www.sizemorecountrystore.com/" target="_blank" rel="noopener">sizemorecountrystore.com</a> · <a href="https://www.google.com/maps/search/?api=1&query=Sizemore+Country+Store+Volcano+CA" target="_blank" rel="noopener">Maps →</a></div>
+    </div>
+  </article>
+
+  <article class="card" data-region="amador" data-type="pub" data-search="cavanas pub grub sutter creek pub burger pork belly bacon gouda garlic fries">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/cavanas.jpg" data-name="Cavana's Pub &amp; Grub" data-credit="Photo: Family Destinations Guide" data-alt="Exterior of Cavana's Pub &amp; Grub on Main Street, Sutter Creek" aria-label="View the photo of Cavana's Pub &amp; Grub full screen"><img class="cardphoto" src="assets/cavanas.jpg" alt="Exterior of Cavana's Pub &amp; Grub on Main Street, Sutter Creek" loading="lazy"></button><figcaption class="credit">Photo: Family Destinations Guide</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>Sutter Creek · Amador County</span><span>Pub &amp; grub</span></div>
+      <h3>Cavana's Pub &amp; Grub</h3>
+      <div class="priceband" aria-label="Price band: Moderate — 2 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$$</span><span class="off">$$</span></span><span class="pricelabel">Moderate · 2 of 4</span></div>
+      <div class="sig"><span>Order this</span>Pub Burger — go big if you're hungry</div>
+      <p class="desc">Main Street Sutter Creek's place to “pig out”: full bar, big pours, and over-the-top pub burgers. The maximal version stacks two 8-oz patties with pork-belly bacon, sautéed mushrooms, garlic aioli and smoked Gouda, with garlic-parm fries. Single patty is plenty for most people.</p>
+      <p class="why"><strong>Why stop:</strong> The biggest, most indulgent burger in Amador County — and the beef itself gets the raves, even plain.</p>
+      <div class="tags"><span class="tag">Full bar</span><span class="tag">Garlic fries</span><span class="tag">Main Street</span></div>
+      <div class="details">📍 36 Main St, Sutter Creek, CA 95685<br>☎️ <a href="tel:+12092675507" aria-label="Call (209) 267-5507">(209) 267-5507</a> · <a href="http://cavanaspub.com/" target="_blank" rel="noopener">cavanaspub.com</a> · <a href="https://www.google.com/maps/search/?api=1&query=Cavana's+Pub+and+Grub+Sutter+Creek+CA" target="_blank" rel="noopener">Maps →</a></div>
+    </div>
+  </article>
+
+  <article class="card" data-region="amador" data-type="cafe" data-search="buffalo chips sutter creek friday burger bash breakfast burger pie locally raised">
+    <div class="cardbody">
+      <div class="meta"><span>Sutter Creek · Amador County</span><span>All-American café</span></div>
+      <h3>Buffalo Chips</h3>
+      <div class="sig"><span>Order this</span>Friday Burger Bash burger — or the Breakfast Burger</div>
+      <p class="desc">Breakfast-and-lunch café in the old Palace Hotel building on Main Street. Burgers are fresh, never frozen, from locally raised beef; the Breakfast Burger comes buried under grated cheese melted into a crisp skirt. Save room for homemade pie and ice cream.</p>
+      <p class="why"><strong>Why stop:</strong> The local's pick in Sutter Creek — and the Friday Burger Bash is a standing date.</p>
+      <div class="tags"><span class="tag">Locally raised beef</span><span class="tag">Homemade pie</span><span class="tag">Wed–Sun daytime</span></div>
+      <div class="details">📍 76 Main St, Sutter Creek, CA 95685<br>☎️ <a href="tel:+12092670570" aria-label="Call (209) 267-0570">(209) 267-0570</a> · <a href="https://www.google.com/maps/search/?api=1&query=Buffalo+Chips+Sutter+Creek+CA" target="_blank" rel="noopener">Open in Maps →</a></div>
+    </div>
+  </article>
+
+  <article class="card" data-region="amador" data-type="diner" data-search="marlene glens dead fly diner plymouth roundabout johnnys western burger highway 49 shenandoah 50s diner soft serve">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/dead-fly.jpg" data-name="Marlene &amp; Glen's Diner — the Dead Fly Diner" data-credit="Photo via ClubExpress (Plymouth photo)" data-alt="Entrance of Marlene &amp; Glen's Dead Fly Diner in Plymouth, with its welcome sign and fly mascot" aria-label="View the photo of Marlene &amp; Glen's Diner — the Dead Fly Diner full screen"><img class="cardphoto" src="assets/dead-fly.jpg" alt="Entrance of Marlene &amp; Glen's Dead Fly Diner in Plymouth, with its welcome sign and fly mascot" loading="lazy"></button><figcaption class="credit">Photo via ClubExpress (Plymouth photo)</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>Plymouth · Amador County · Hwy 49</span><span>1950s diner ★ At the roundabout</span></div>
+      <h3>Marlene &amp; Glen's Diner — the Dead Fly Diner</h3>
+      <div class="priceband" aria-label="Price band: Moderate — 2 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$$</span><span class="off">$$</span></span><span class="pricelabel">Moderate · 2 of 4</span></div>
+      <div class="sig"><span>Order this</span>Johnny's Western Burger — ⅓ lb charbroiled</div>
+      <p class="desc">You were right on both names: this is Marlene &amp; Glen's, universally known as the Dead Fly Diner, right at the Plymouth roundabout where Highway 49 meets Shenandoah Road — the gateway to Amador wine country. A proper 1950s diner inside — black-and-red checkered floor, red booths, counter stools — with a huge homemade comfort-food menu, breakfast all day, and a full bar. It was even named California's best diner in a national roundup. The burger to get is Johnny's Western Burger, on the Amador Burger Route: a ⅓-lb choice beef patty charbroiled to order with lettuce, tomato, pickle, onion, bacon, cheese, onion rings and BBQ sauce, with fries — and soft serve to finish, which locals call the best around.</p>
+      <p class="why"><strong>Why stop:</strong> You can't miss it — or pass it. It's the diner on the roundabout you drive around on every Plymouth run, and the natural start to a Shenandoah Valley wine day.</p>
+      <div class="tags"><span class="tag">At the roundabout</span><span class="tag">Wed–Sun 7:30–2:30</span><span class="tag">Fri dinner 4:30–8</span><span class="tag">Soft serve</span><span class="tag">Full bar</span></div>
+      <div class="details">📍 18726 Highway 49, Plymouth, CA 95669 — at the roundabout, Hwy 49 &amp; Shenandoah Rd<br>☎️ <a href="tel:+12092455778" aria-label="Call (209) 245-5778">(209) 245-5778</a> · <a href="https://deadflydiner.com/" target="_blank" rel="noopener">deadflydiner.com</a> · <a href="https://www.google.com/maps/search/?api=1&query=Marlene+and+Glen's+Dead+Fly+Diner+Plymouth+CA" target="_blank" rel="noopener">Maps →</a></div>
+    </div>
+  </article>
+
+  <article class="card" data-region="amador" data-type="winery" data-search="helwig winery kitchen plymouth shenandoah valley the dave wagyu burger the nancy veggie winery">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/helwig.jpg" data-name="The Kitchen at Helwig Winery" data-credit="Photo: Helwig Winery" data-alt="Aerial view of Helwig Winery in the Shenandoah Valley, Plymouth" aria-label="View the photo of The Kitchen at Helwig Winery full screen"><img class="cardphoto" src="assets/helwig.jpg" alt="Aerial view of Helwig Winery in the Shenandoah Valley, Plymouth" loading="lazy"></button><figcaption class="credit">Photo: Helwig Winery</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>Plymouth · Amador County · Shenandoah Valley</span><span>Winery kitchen ★</span></div>
+      <h3>The Kitchen at Helwig Winery</h3>
+      <div class="priceband" aria-label="Price band: Moderate — 2 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$$</span><span class="off">$$</span></span><span class="pricelabel">Moderate · 2 of 4</span></div>
+      <div class="sig"><span>Order this</span>THE DAVE — 6 oz American Wagyu — or THE NANCY (veggie)</div>
+      <p class="desc">You called it — Helwig does have a decent burger, and it's the winery's signature. The Kitchen at Helwig, across from the Pavilion, lists THE DAVE and THE NANCY as its “always available” signature burgers. On the Amador Burger Route, THE DAVE is detailed as a 6 oz American Wagyu beef patty with bacon onion jam, lettuce, tomato, smoked Gouda and roasted garlic mayo on a grilled bun, served with seasoned fries. Lunch is first come, first served, with sweeping Shenandoah Valley views and Helwig wine by the glass to pair with it.</p>
+      <p class="why"><strong>Why stop:</strong> The winery burger in this guide that's a real, regular menu item — not a food-truck day. Plan it as a wine-country lunch, not a quick roadside stop.</p>
+      <div class="tags"><span class="tag">Winery burger</span><span class="tag">Fri–Mon 11–4</span><span class="tag">21+ only — whole facility</span><span class="tag">Amador Burger Route</span><span class="tag">Veggie option</span></div>
+      <div class="details">📍 11555 Shenandoah Rd, Plymouth, CA 95669<br>☎️ <a href="tel:+12092455200" aria-label="Call (209) 245-5200">(209) 245-5200</a> · <a href="https://www.helwigwinery.com/the-kitchen/" target="_blank" rel="noopener">helwigwinery.com/the-kitchen</a> · <a href="https://www.google.com/maps/search/?api=1&query=Helwig+Winery+Plymouth+CA" target="_blank" rel="noopener">Maps →</a></div>
+    </div>
+  </article>
+
+  <article class="card" data-region="amador" data-type="winery" data-search="villa toscano winery bistro plymouth shenandoah valley shenandoah gourmet burger ground chuck white cheddar garlic herb aioli bbq sauce winery">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/villa-toscano.jpg" data-name="Villa Toscano Winery — The Bistro" data-credit="Photo via Yelp listing" data-alt="Exterior of Villa Toscano Winery in Plymouth" aria-label="View the photo of Villa Toscano Winery — The Bistro full screen"><img class="cardphoto" src="assets/villa-toscano.jpg" alt="Exterior of Villa Toscano Winery in Plymouth" loading="lazy"></button><figcaption class="credit">Photo via Yelp listing</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>Plymouth · Amador County · Shenandoah Valley</span><span>Winery bistro ★</span></div>
+      <h3>Villa Toscano Winery — The Bistro</h3>
+      <div class="priceband" aria-label="Price band: Moderate — 2 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$$</span><span class="off">$$</span></span><span class="pricelabel">Moderate · 2 of 4</span></div>
+      <div class="sig"><span>Order this</span>Shenandoah Gourmet Burger — ½ lb ground chuck</div>
+      <p class="desc">The second Shenandoah Valley winery burger, a few minutes from Helwig on Shenandoah Road. Villa Toscano's Bistro serves the Shenandoah Gourmet Burger: a half pound of ground chuck with white cheddar, petite greens, tomato, garlic herb aioli and BBQ sauce — add applewood-smoked bacon if you're doing it properly. Sandwiches come with your choice of French fries, sweet apple slaw, a bag of chips or a mixed green salad, and the bistro serves lunch daily in the winery's Italian-style piazza setting.</p>
+      <p class="why"><strong>Why stop:</strong> It makes a Shenandoah Valley winery-burger double-header possible — Helwig's Dave and Villa Toscano's Gourmet Burger on the same wine-country lunch run.</p>
+      <div class="tags"><span class="tag">Winery burger</span><span class="tag">Lunch daily · ~11–4:30</span><span class="tag">Shenandoah Valley</span><span class="tag">Add bacon</span></div>
+      <div class="details">📍 10600 Shenandoah Rd, Plymouth, CA 95669<br>☎️ <a href="tel:+12092453800" aria-label="Call (209) 245-3800">(209) 245-3800</a> · <a href="https://villatoscano.com/Bistro" target="_blank" rel="noopener">villatoscano.com/Bistro</a> · <a href="https://www.google.com/maps/search/?api=1&query=Villa+Toscano+Winery+Plymouth+CA" target="_blank" rel="noopener">Maps →</a></div>
+    </div>
+  </article>
+
+  <article class="card" data-region="amador" data-type="winery" data-search="end of nowhere amador city eon special grind house burger the burger that started it all rendic ranch regenerative beef red white bleu special spicy seven chiles mushroom swiss beyond veggie mesquite charcoal medium-rare angus beef lamb bison wagyu caramelized onions dijon aioli tinned fish wine flight winery">
+    <div class="cardbody">
+      <div class="meta"><span>Amador City · Amador County</span><span>Winery kitchen ★</span></div>
+      <h3>The End of Nowhere</h3>
+      <div class="priceband" aria-label="Price band: Moderate — 2 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$$</span><span class="off">$$</span></span><span class="pricelabel">Moderate · 2 of 4</span></div>
+      <div class="sig"><span>Order this</span>EON Special Grind, House style — $16 · 6.5 oz</div>
+      <div class="specialbox"><span class="special-label">Current special · On the board today</span><strong>Red, White &amp; Bleu Burger — $16:</strong> EON patty, bacon, house bleu cheese sauce, red onions, toasted bun. There's a veggie version too — Red, White &amp; Bleu Veggie with a Beyond patty, also $16.</div>
+      <p class="desc">Amador City's little winery kitchen — in the smallest town in Amador County — builds every burger around the EON Special Grind: a 6.5 oz secret blend of Angus beef, lamb, bison and American Wagyu ($16), cooked over mesquite charcoal to medium-rare unless you say otherwise. Order it House style — “The burger that started it all!” — with caramelized onions, Dijon aioli and white American cheese on a toasted bun. Winemaker Chris Walsh grills them himself most days, and it's the other winery stop on Visit Amador's official Burger Route, alongside Helwig.</p>
+      <p class="why"><strong>Why stop:</strong> A four-meat mesquite burger grilled by the winemaker on Amador City's Main Street — weekends only, so plan the Sutter Creek / Amador City run for Friday through Sunday. Come for a tasting flight and stay for the burger: “Wine + Burgers” is literally what's on the sidewalk sign.</p>
+      <div class="menunotes">
+        <h4>On the menu — from Dave's photos at the table, Nov 22, 2026</h4>
+        <p class="menu-sub">Choose your patty</p>
+        <ul>
+          <li><strong>EON Special Grind — $16.</strong> 6.5 oz secret blend of Angus beef, lamb, bison and American Wagyu.</li>
+          <li><strong>Rendic Ranch Regenerative Beef — $20.</strong> 6.5 oz of local, 100% grass-fed and finished beef, raised just 2 miles away in Amador City.</li>
+          <li><strong>Beyond Veggie Burger — $16.</strong> The all-plant burger — “tastes a lot better grilled on mesquite. Just trust us.”</li>
+        </ul>
+        <p class="menu-sub">Choose your style</p>
+        <ul>
+          <li><strong>House</strong> — “The burger that started it all!” Caramelized onions, Dijon aioli, white American cheese, toasted bun.</li>
+          <li><strong>Spicy</strong> — house spicy aioli made with seven varieties of chiles roasted on site, plus sweet peppers and white American cheese.</li>
+          <li><strong>Mushroom Swiss</strong> — sautéed mushrooms, Swiss cheese, Dijon aioli.</li>
+        </ul>
+        <p class="menu-sub">Snacks &amp; sides</p>
+        <ul>
+          <li><strong>Specialty Tinned Fish — $14</strong>, served with chips + pickles. Your choice of: Maruxaina Razor Clams in Olive Oil, Minnow Mussels in Escabeche, Ekone Habanero Smoked Oysters, Ekone Wild Octopus.</li>
+          <li><strong>Simple Salad — $5</strong> · <strong>Himalayan Salt Chips — $4</strong> · Soda $3 · Sparkling water $3.</li>
+        </ul>
+        <p class="menu-note"><strong>Wine flight — $10:</strong> one pour each of five current-release wines — 2018 #1 Crush, Zinfandel Rosé ($8/30) · 2025 A Space Oddity, Verdejo ($8/30) · 2025 Dear Mr. Fantasy, Counoise ($10/36) · 2023 Perfect Disguise, Zinfandel ($9/34) · 2024 Stroke of Luck, Primitivo ($11/40).</p>
+        <p class="menu-note">All burgers are cooked over mesquite charcoal to medium-rare unless otherwise specified. Reservations: <a href="tel:+12092678345" aria-label="Call (209) 267-8345">(209) 267-8345</a>. Menu details verified from Dave's own photos of the printed menu, the special card and the sidewalk sign, taken at End of Nowhere on Nov 22, 2026 — the printed menu supersedes the June menu photo as the freshest source.</p>
+      </div>
+      <div class="tags"><span class="tag">Winery burger</span><span class="tag">Fri–Sat 12–8 · Sun 12–6</span><span class="tag">Mesquite charcoal · Medium-rare</span><span class="tag">Amador Burger Route</span><span class="tag">Special: Red, White &amp; Bleu</span></div>
+      <div class="details">📍 14204 Main St, Amador City, CA 95601<br>☎️ <a href="tel:+12092678345" aria-label="Call (209) 267-8345">(209) 267-8345</a> · <a href="https://EndOfNowhere.wine" target="_blank" rel="noopener">EndOfNowhere.wine</a> · <a href="https://www.google.com/maps/search/?api=1&query=The+End+of+Nowhere+Amador+City+CA" target="_blank" rel="noopener">Maps →</a></div>
+    </div>
+  </article>
+
+  <article class="card" data-region="west" data-type="stand" data-search="websters country burger drive-in lockeford clements highway 88 western wrangler shakes root beer drive in">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/websters.jpg" data-name="Webster's Country Burger Drive-In" data-credit="Photo via Wheree listing" data-alt="Exterior of Webster's Country Burger Drive-In in Clements, with its striped drive-in canopy" aria-label="View the photo of Webster's Country Burger Drive-In full screen"><img class="cardphoto" src="assets/websters.jpg" alt="Exterior of Webster's Country Burger Drive-In in Clements, with its striped drive-in canopy" loading="lazy"></button><figcaption class="credit">Photo via Wheree listing</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>Lockeford / Clements · San Joaquin County · Hwy 88</span><span>Drive-in ★ Since 1967</span></div>
+      <h3>Webster's Country Burger Drive-In</h3>
+      <div class="priceband" aria-label="Price band: Budget — 1 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$</span><span class="off">$$$</span></span><span class="pricelabel">Budget · 1 of 4</span></div>
+      <div class="sig"><span>Order this</span>Western Wrangler — or a classic Webster's burger + chili cheese fries &amp; a shake</div>
+      <p class="desc">A different place from Walker Burger over the crest — this is Webster's, the old-school country drive-in on Highway 88 at the Lockeford / Clements end of the guide (postal address Clements), going since 1967. Order at the window or drive-thru and eat at the outdoor tables: big, straightforward burgers — reviewers single out the huge Western Wrangler — plus chili cheese fries and dogs, tater tots, shakes and home-brewed root beer. It's the western anchor of the Highway 88 stops in this guide, the mirror image of 88 Giant Burgers and Pioneer Burger up the hill.</p>
+      <p class="why"><strong>Why stop:</strong> The Highway 88 classic you've driven past for years — a proper independent drive-in, not a chain, and an easy stop on the way to or from Lodi and the valley.</p>
+      <div class="tags"><span class="tag">Since 1967</span><span class="tag">Tue–Sun 10–8 · Closed Mon</span><span class="tag">Drive-thru</span><span class="tag">Shakes &amp; root beer</span><span class="tag">Outdoor tables</span></div>
+      <div class="details">📍 18737 E Hwy 88, Clements, CA 95227 — Lockeford area<br>☎️ <a href="tel:+12097593368" aria-label="Call (209) 759-3368">(209) 759-3368</a> · <a href="https://websterscountryburgerdrivein.shop" target="_blank" rel="noopener">websterscountryburgerdrivein.shop</a> · <a href="https://www.google.com/maps/search/?api=1&query=Webster's+Country+Burger+Drive-In+Clements+CA" target="_blank" rel="noopener">Maps →</a></div>
+    </div>
+  </article>
+
+  <!-- SOUTH -->
+  <article class="card" data-region="south" data-type="stand" data-search="frosty angels camp 5 patty hamburger pastrami burger pineapple shake">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/frosty-angels.jpg" data-name="Frosty — Angels Camp" data-credit="Photo via Google listing" data-alt="Exterior of Frosty in Angels Camp" aria-label="View the photo of Frosty — Angels Camp full screen"><img class="cardphoto" src="assets/frosty-angels.jpg" alt="Exterior of Frosty in Angels Camp" loading="lazy"></button><figcaption class="credit">Photo via Google listing</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>Angels Camp · Calaveras County</span><span>Burger joint &amp; drive-thru</span></div>
+      <h3>Frosty — Angels Camp</h3>
+      <div class="priceband" aria-label="Price band: Budget — 1 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$</span><span class="off">$$$</span></span><span class="pricelabel">Budget · 1 of 4</span></div>
+      <div class="sig"><span>Order this</span>Pastrami Burger Combo — or test the 5-Patty Hamburger</div>
+      <p class="desc">Big-menu, budget-friendly burger joint on South Main with drive-thru and outdoor seating: avocado burgers, jalapeño burgers, pastrami burgers, and a five-patty hamburger for the committed. Pineapple shake is the local quirk to try.</p>
+      <p class="why"><strong>Why stop:</strong> Fast, fresh and inexpensive in Mark Twain country — a proper road burger, not a gastropub production.</p>
+      <div class="tags"><span class="tag">Drive-thru</span><span class="tag">Open daily 10–10</span><span class="tag">Shakes</span></div>
+      <div class="details">📍 290 S Main St, Angels Camp, CA 95222<br>☎️ <a href="tel:+12098137007" aria-label="Call (209) 813-7007">(209) 813-7007</a> · <a href="https://www.google.com/maps/search/?api=1&query=Frosty+Angels+Camp+CA" target="_blank" rel="noopener">Open in Maps →</a></div>
+    </div>
+  </article>
+
+  <article class="card" data-region="south" data-type="winery" data-search="ironstone vineyards gold leaf bistro murphys winery burger cheeseburger hand crafted">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/ironstone.jpg" data-name="Gold Leaf Bistro — Ironstone Vineyards" data-credit="Photo: California.com" data-alt="Entrance to Ironstone Vineyards in Murphys" aria-label="View the photo of Gold Leaf Bistro — Ironstone Vineyards full screen"><img class="cardphoto" src="assets/ironstone.jpg" alt="Entrance to Ironstone Vineyards in Murphys" loading="lazy"></button><figcaption class="credit">Photo: California.com</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>Murphys · Calaveras County</span><span>Winery bistro ★</span></div>
+      <h3>Gold Leaf Bistro — Ironstone Vineyards</h3>
+      <div class="priceband" aria-label="Price band: Budget — 1 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$</span><span class="off">$$$</span></span><span class="pricelabel">Budget · 1 of 4</span></div>
+      <div class="sig"><span>Order this</span>Hand-crafted Burger / Cheeseburger at the Gold Leaf Bistro</div>
+      <p class="desc">The second winery burger verified from a current menu: Ironstone's own Gold Leaf Bistro page promises “hand-crafted burgers” alongside brick-oven pizzas, fish &amp; chips and salads made to order — and its current listings name the cheeseburger. Order at the counter, then eat inside or out among the gardens at the big Murphys destination winery, home to the Heritage Museum and its 44-pound crystalline gold leaf specimen. No reservation needed for the bistro.</p>
+      <p class="why"><strong>Why stop:</strong> A winery lunch that works as a full Murphys outing — burger, a glass of Ironstone wine, gardens and the gold museum in one stop.</p>
+      <div class="tags"><span class="tag">Winery burger</span><span class="tag">Thu 11–3 · Fri–Sat 11–4 · Sun 11–3</span><span class="tag">Brick-oven pizza too</span><span class="tag">Gardens &amp; museum</span></div>
+      <div class="details">📍 1894 Six Mile Rd, Murphys, CA 95247<br>☎️ <a href="tel:+12097281251" aria-label="Call (209) 728-1251">(209) 728-1251</a> · <a href="https://ironstonevineyards.com/gold-leaf-bistro/" target="_blank" rel="noopener">ironstonevineyards.com/gold-leaf-bistro</a> · <a href="https://www.google.com/maps/search/?api=1&query=Ironstone+Vineyards+Murphys+CA" target="_blank" rel="noopener">Maps →</a></div>
+    </div>
+  </article>
+
+  <article class="card" data-region="south" data-type="pub" data-search="diamondback grill sonora bison burger diamondback burger garlic fries kobe">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/diamondback.jpg" data-name="Diamondback Grill" data-credit="Photo: Family Destinations Guide" data-alt="Storefront of Diamondback Grill in downtown Sonora" aria-label="View the photo of Diamondback Grill full screen"><img class="cardphoto" src="assets/diamondback.jpg" alt="Storefront of Diamondback Grill in downtown Sonora" loading="lazy"></button><figcaption class="credit">Photo: Family Destinations Guide</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>Sonora · Tuolumne County</span><span>Grill &amp; wine bar ★ Since 1991</span></div>
+      <h3>Diamondback Grill</h3>
+      <div class="priceband" aria-label="Price band: Moderate — 2 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$$</span><span class="off">$$</span></span><span class="pricelabel">Moderate · 2 of 4</span></div>
+      <div class="sig"><span>Order this</span>Diamondback Burger — or the Bison Burger — with Killer Garlic Fries</div>
+      <p class="desc">Downtown Sonora's fixture since 1991, in a Gold Rush-era building on Washington Street. Half-pound burgers on a sesame bun — bacon-cheddar, pesto-mozzarella, Ortega-jack, black-bean chili — plus a bison burger regulars call a must, and garlic fries with their own fan club. Everything, down to dressings and compound butters, made from scratch.</p>
+      <p class="why"><strong>Why stop:</strong> The best all-round burger dinner in the southern Gold Country — and you can pair it with a local wine.</p>
+      <div class="tags"><span class="tag">Bison burger</span><span class="tag">Killer Garlic Fries</span><span class="tag">Open daily from 11:30</span></div>
+      <div class="details">📍 93 S Washington St, Sonora, CA 95370<br>☎️ <a href="tel:+12095326661" aria-label="Call (209) 532-6661">(209) 532-6661</a> · <a href="https://diamondbackgrillsonora.com/" target="_blank" rel="noopener">diamondbackgrillsonora.com</a> · <a href="https://www.google.com/maps/search/?api=1&query=Diamondback+Grill+Sonora+CA" target="_blank" rel="noopener">Maps →</a></div>
+    </div>
+  </article>
+
+  <article class="card" data-region="south" data-type="stand" data-search="jamestown frosty 1969 classic burger bacon cheeseburger soft serve shake highway 108">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/jamestown-frosty.jpg" data-name="Jamestown Frosty" data-credit="Photo via Menu-Pick listing" data-alt="Exterior of Jamestown Frosty, serving burgers and shakes since 1969" aria-label="View the photo of Jamestown Frosty full screen"><img class="cardphoto" src="assets/jamestown-frosty.jpg" alt="Exterior of Jamestown Frosty, serving burgers and shakes since 1969" loading="lazy"></button><figcaption class="credit">Photo via Menu-Pick listing</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>Jamestown · Tuolumne County</span><span>Stand since 1969</span></div>
+      <h3>Jamestown Frosty</h3>
+      <div class="priceband" aria-label="Price band: Budget — 1 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$</span><span class="off">$$$</span></span><span class="pricelabel">Budget · 1 of 4</span></div>
+      <div class="sig"><span>Order this</span>Classic Burger or Bacon Cheeseburger + a shake</div>
+      <p class="desc">“Serving burgers and shakes with a smile since 1969” at the junction of Highways 49 and 108. Burgers come with lettuce, tomato, red onion and Frosty sauce on a toasted brioche bun; shakes run to a dozen-plus flavours, and the large soft-serve cone — five stacked swirls — is the stuff of family legend on the drive to and from the cabin.</p>
+      <p class="why"><strong>Why stop:</strong> The ritual stop. If you're passing Jamestown and don't stop, you've missed the point of the drive.</p>
+      <div class="tags"><span class="tag">Since 1969</span><span class="tag">12+ shake flavours</span><span class="tag">Giant soft-serve</span></div>
+      <div class="details">📍 18358 Main St, Jamestown, CA 95327<br>☎️ <a href="tel:+12099843444" aria-label="Call (209) 984-3444">(209) 984-3444</a> · <a href="https://www.google.com/maps/search/?api=1&query=Jamestown+Frosty+CA" target="_blank" rel="noopener">Open in Maps →</a></div>
+    </div>
+  </article>
+
+  <!-- HIGHWAY 4 -->
+  <article class="card" data-region="hwy4" data-type="stand" data-search="giant burger arnold highway 4 a-frame wooden bear big trees cheeseburger shakes since 1968 calaveras">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/giant-burger-arnold.jpg" data-name="Giant Burger — Arnold" data-credit="Photo: Giant Burger" data-alt="Giant Burger in Arnold in the snow, with its yellow Giant Burger sign and the carved wooden bear out front" aria-label="View the photo of Giant Burger — Arnold full screen"><img class="cardphoto" src="assets/giant-burger-arnold.jpg" alt="Giant Burger in Arnold in the snow, with its yellow Giant Burger sign and the carved wooden bear out front" loading="lazy"></button><figcaption class="credit">Photo: Giant Burger</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>Arnold · Calaveras County · Hwy 4</span><span>A-frame diner ★ Since 1968</span></div>
+      <h3>Giant Burger — Arnold</h3>
+      <div class="priceband" aria-label="Price band: Moderate — 2 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$$</span><span class="off">$$</span></span><span class="pricelabel">Moderate · 2 of 4</span></div>
+      <div class="sig"><span>Order this</span>Giant Burger / Giant Cheeseburger — ⅓ lb fresh-ground</div>
+      <p class="desc">Not the Pine Grove place — this Giant Burger is the roadside A-frame on Highway 4 in Arnold, a landmark since 1968 with the carved wooden bear out front, on the way to Big Trees, Bear Valley and Lake Alpine. Patties are ⅓-lb fresh-ground; the board runs to Giant Bacon, Western, Mushroom Swiss, Pretzel and Jalapeño burgers, doubles, patty melts and hand-spun shakes. One honesty note: no full priced menu is published online, so the $$ band rests on listing price levels, not a read menu.</p>
+      <p class="why"><strong>Why stop:</strong> The Highway 4 burger landmark — and it's year-round, the stop reviewers praise after a ski day.</p>
+      <div class="tags"><span class="tag">Since 1968</span><span class="tag">Wed–Sun 11–7</span><span class="tag">Wooden bear</span><span class="tag">Hand-spun shakes</span></div>
+      <div class="details">📍 846 Highway 4, Arnold, CA 95223<br>☎️ <a href="tel:+12097951594" aria-label="Call (209) 795-1594">(209) 795-1594</a> · <a href="http://www.giantburgerarnold.com" target="_blank" rel="noopener">giantburgerarnold.com</a> · <a href="https://www.google.com/maps/search/?api=1&query=Giant+Burger+Arnold+CA" target="_blank" rel="noopener">Open in Maps →</a></div>
+    </div>
+  </article>
+
+  <article class="card" data-region="hwy4" data-type="pub" data-search="lake alpine lodge bear valley highway 4 alpine burger fancy burger bleu sky seasonal resort lake">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/lake-alpine.jpg" data-name="Lake Alpine Lodge" data-credit="Photo: Lake Alpine Lodge" data-alt="Aerial view of Lake Alpine and the lodge shoreline on Highway 4" aria-label="View the photo of Lake Alpine Lodge full screen"><img class="cardphoto" src="assets/lake-alpine.jpg" alt="Aerial view of Lake Alpine and the lodge shoreline on Highway 4" loading="lazy"></button><figcaption class="credit">Photo: Lake Alpine Lodge</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>Lake Alpine · Alpine County · Hwy 4</span><span>Lodge restaurant ★ Seasonal</span></div>
+      <h3>Lake Alpine Lodge</h3>
+      <div class="priceband" aria-label="Price band: Pricey — 3 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$$$</span><span class="off">$</span></span><span class="pricelabel">Pricey · 3 of 4</span></div>
+      <div class="sig"><span>Order this</span>Alpine Burger — two smash patties, $19</div>
+      <p class="desc">The lodge restaurant on the north shore of Lake Alpine at about 7,400 feet, just east of Bear Valley — rustic cabins, a general store, boat rentals and a proper burger menu in season. The Alpine Burger is flagged a “lodge favorite” on the lodge's own 2026 menu: two smash patties with cheddar, lettuce, tomato, onion, pickle and house sauce on an oil-top bun, served with fries. The Fancy Burger ($22, with habanero bacon jam) and the Bleu Sky Burger ($19) round out the board.</p>
+      <p class="closed-note">Closed for the season — the kitchen's last day was September 27, 2026. Lake Alpine Lodge typically reopens around Memorial Day weekend (late May). Plan this one for a summer run up Highway 4.</p>
+      <p class="why"><strong>Why stop:</strong> A smash burger at 7,400 feet on the lake shore — the high-country end of the Highway 4 run, worth timing a summer drive for.</p>
+      <div class="tags"><span class="tag">Seasonal · late May–early Oct</span><span class="tag">Alpine Burger $19</span><span class="tag">In season daily 11–8</span><span class="tag">Lodge favorite</span></div>
+      <div class="details">📍 4000 Highway 4, Bear Valley, CA<br>☎️ <a href="tel:+12097536350" aria-label="Call (209) 753-6350">(209) 753-6350</a> · <a href="https://lakealpinelodge.com" target="_blank" rel="noopener">lakealpinelodge.com</a> · <a href="https://www.google.com/maps/search/?api=1&query=Lake+Alpine+Lodge+Bear+Valley+CA" target="_blank" rel="noopener">Open in Maps →</a></div>
+    </div>
+  </article>
+
+  <!-- SOUTH LAKE TAHOE -->
+  <article class="card" data-region="tahoe" data-type="pub" data-search="rojos tavern south lake tahoe american burger alpine burger dive bar since 1975 harrison avenue">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/rojos.jpg" data-name="Rojo's Tavern" data-credit="Photo via Yelp listing" data-alt="Exterior of Rojo's Tavern in South Lake Tahoe, its rustic timber-and-stone building at 3091 Harrison Ave" aria-label="View the photo of Rojo's Tavern full screen"><img class="cardphoto" src="assets/rojos.jpg" alt="Exterior of Rojo's Tavern in South Lake Tahoe, its rustic timber-and-stone building at 3091 Harrison Ave" loading="lazy"></button><figcaption class="credit">Photo via Yelp listing</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>South Lake Tahoe · El Dorado County</span><span>Tavern ★ Since 1975</span></div>
+      <h3>Rojo's Tavern</h3>
+      <div class="priceband" aria-label="Price band: Moderate — 2 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$$</span><span class="off">$$</span></span><span class="pricelabel">Moderate · 2 of 4</span></div>
+      <div class="sig"><span>Order this</span>American Burger — $16 · or the Alpine Burger, $17</div>
+      <p class="desc">A South Lake fixture since 1975 — ROJO is founders Rodger Wright and Joe Hansen — in a 1920s/30s building where heavyweight champ Max Baer once trained. Burgers are ⅓-lb ground sirloin: the American Burger ($16) with melted cheese, lettuce, onion, tomato and pickles, or the Alpine Burger ($17) with sour cream and sautéed mushrooms, both served with Rojo's fries and cole slaw. Rustic pinon-pine-and-granite room, voted Best Dive Bar in Tahoe, with karaoke and live music late.</p>
+      <p class="why"><strong>Why stop:</strong> The locals' tavern burger on the South Shore — dinner first, then the bar takes over.</p>
+      <div class="tags"><span class="tag">Since 1975</span><span class="tag">Open daily 11–10</span><span class="tag">Best Dive Bar 2018</span><span class="tag">Live music &amp; karaoke</span></div>
+      <div class="details">📍 3091 Harrison Ave, South Lake Tahoe, CA 96150<br>☎️ <a href="tel:+15305414960" aria-label="Call (530) 541-4960">(530) 541-4960</a> · <a href="https://www.rojos-tavern.com/" target="_blank" rel="noopener">rojos-tavern.com</a> · <a href="https://www.google.com/maps/search/?api=1&query=Rojo's+Tavern+South+Lake+Tahoe+CA" target="_blank" rel="noopener">Open in Maps →</a></div>
+    </div>
+  </article>
+
+  <article class="card" data-region="tahoe" data-type="stand" data-search="sno-flake drive-in south lake tahoe tahoe burger milkshakes soft serve since 1961">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/sno-flake.jpg" data-name="Sno-Flake Drive-In" data-credit="Photo: Family Destinations Guide" data-alt="Exterior of Sno-Flake Drive-In in South Lake Tahoe, with its vintage ice-cream-cone sign" aria-label="View the photo of Sno-Flake Drive-In full screen"><img class="cardphoto" src="assets/sno-flake.jpg" alt="Exterior of Sno-Flake Drive-In in South Lake Tahoe, with its vintage ice-cream-cone sign" loading="lazy"></button><figcaption class="credit">Photo: Family Destinations Guide</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>South Lake Tahoe · El Dorado County</span><span>Drive-in ★ Since 1961</span></div>
+      <h3>Sno-Flake Drive-In</h3>
+      <div class="priceband" aria-label="Price band: Moderate — 2 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$$</span><span class="off">$$</span></span><span class="pricelabel">Moderate · 2 of 4</span></div>
+      <div class="sig"><span>Order this</span>Tahoe Burger — “The Local's Favorite”</div>
+      <p class="desc">The classic Tahoe drive-in, on Lake Tahoe Blvd since July 19, 1961 — turquoise stand, vintage ice-cream-cone sign, booths inside and a dog-friendly patio. The Tahoe Burger stacks sautéed mushrooms, sautéed onions and Monterey Jack on a quarter-pound patty with pickles, tomato, lettuce and special sauce on a sesame bun; there are 14-plus burger styles in all, plus the handmade milkshakes and soft serve it's famous for. Honesty note: no current priced menu is published online, so the $$ band rests on listing price levels and reviewer-reported prices.</p>
+      <p class="why"><strong>Why stop:</strong> “Famous Burgers” since 1961 — the old-school drive-in burger of the South Shore, shake included.</p>
+      <div class="tags"><span class="tag">Since 1961</span><span class="tag">Open daily 11–8</span><span class="tag">Handmade shakes</span><span class="tag">Dog-friendly patio</span></div>
+      <div class="details">📍 3059 Lake Tahoe Blvd, South Lake Tahoe, CA 96150<br>☎️ <a href="tel:+15306000824" aria-label="Call (530) 600-0824">(530) 600-0824</a> · <a href="https://www.google.com/maps/search/?api=1&query=Sno-Flake+Drive-In+South+Lake+Tahoe+CA" target="_blank" rel="noopener">Open in Maps →</a></div>
+    </div>
+  </article>
+
+  <article class="card" data-region="tahoe" data-type="stand" data-search="tahoe bros charbroiled burgers south lake tahoe bacon cheddar house burger izzys burger spa cooks">
+    <div class="cardbody">
+      <div class="meta"><span>South Lake Tahoe · El Dorado County</span><span>Charbroiled burgers ★ Opened 2024</span></div>
+      <h3>Tahoe Bros Charbroiled Burgers</h3>
+      <div class="priceband" aria-label="Price band: Moderate — 2 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$$</span><span class="off">$$</span></span><span class="pricelabel">Moderate · 2 of 4</span></div>
+      <div class="sig"><span>Order this</span>Bacon Cheddar T Bros Burger — or the House Burger</div>
+      <p class="desc">The best story in Tahoe burgers right now. When Izzy's Burger Spa — a 50-year charbroiled institution — closed in fall 2023, three of its longtime cooks opened Tahoe Bros right across Highway 50 in May 2024, with a menu nearly identical to Izzy's: charbroiled, fresh never-frozen beef and locally sourced produce. The House Burger is $14.29 and most of the list sits at $14–$17.50; the most popular Bacon Cheddar T Bros Burger is $18.19 on DoorDash (delivery prices run above in-store), which puts this at the top of the $$ band. Voted among Tahoe's best in the Tahoe Daily Tribune's Best of Tahoe.</p>
+      <p class="why"><strong>Why stop:</strong> Izzy's, continued by the cooks who made it — the charbroiled burger the South Shore refused to lose.</p>
+      <div class="tags"><span class="tag">Opened 2024</span><span class="tag">Open daily 11–8</span><span class="tag">Charbroiled</span><span class="tag">Izzy's cooks</span></div>
+      <div class="details">📍 2660 Lake Tahoe Blvd, Unit 11, South Lake Tahoe, CA 96150<br>☎️ <a href="tel:+15306000896" aria-label="Call (530) 600-0896">(530) 600-0896</a> · <a href="https://www.google.com/maps/search/?api=1&query=Tahoe+Bros+Charbroiled+Burgers+South+Lake+Tahoe+CA" target="_blank" rel="noopener">Open in Maps →</a></div>
+    </div>
+  </article>
+
+  <article class="card" data-region="tahoe" data-type="pub" data-search="cold water brewery grill south lake tahoe cw burger bbq bacon truffle brewpub craft beer">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/cold-water.jpg" data-name="Cold Water Brewery &amp; Grill" data-credit="Photo: Cold Water Brewery &amp; Grill" data-alt="Exterior of Cold Water Brewery &amp; Grill in South Lake Tahoe at dusk, its heated patio lit" aria-label="View the photo of Cold Water Brewery &amp; Grill full screen"><img class="cardphoto" src="assets/cold-water.jpg" alt="Exterior of Cold Water Brewery &amp; Grill in South Lake Tahoe at dusk, its heated patio lit" loading="lazy"></button><figcaption class="credit">Photo: Cold Water Brewery &amp; Grill</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>South Lake Tahoe · El Dorado County</span><span>Brewpub ★ House-brewed</span></div>
+      <h3>Cold Water Brewery &amp; Grill</h3>
+      <div class="priceband" aria-label="Price band: Pricey — 3 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$$$</span><span class="off">$</span></span><span class="pricelabel">Pricey · 3 of 4</span></div>
+      <div class="sig"><span>Order this</span>CW Burger — $21</div>
+      <p class="desc">Tahoe's all-grain brewpub: 14 of its own craft beers on tap and a scratch kitchen turning out California comfort food. The burger board is the CW Burger at $21, a BBQ Bacon Burger at $23 and a Truffle Burger at $25. Heated, dog-friendly patio and a weekday happy hour.</p>
+      <p class="why"><strong>Why stop:</strong> The burger-and-a-house-beer stop of the South Shore list.</p>
+      <div class="tags"><span class="tag">House-brewed beer</span><span class="tag">Heated patio</span><span class="tag">Dog-friendly</span><span class="tag">Weekday happy hour</span></div>
+      <div class="details">📍 2544 Lake Tahoe Blvd, South Lake Tahoe, CA 96150<br>☎️ <a href="tel:+15305444677" aria-label="Call (530) 544-4677">(530) 544-4677</a> · Mon–Thu 11:30–9 · Fri 11:30–10 · Sat 11–10 · Sun 11–9 · <a href="https://tahoecoldwaterbrewery.com/" target="_blank" rel="noopener">tahoecoldwaterbrewery.com</a> · <a href="https://www.google.com/maps/search/?api=1&query=Cold+Water+Brewery+and+Grill+South+Lake+Tahoe+CA" target="_blank" rel="noopener">Open in Maps →</a></div>
+    </div>
+  </article>
+
+  <article class="card" data-region="tahoe" data-type="pub" data-search="california burger company heavenly village south lake tahoe the californian whiskey live music">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/california-burger.jpg" data-name="California Burger Company" data-credit="Photo via lodging listing" data-alt="The California Burger Co. storefront sign at Heavenly Village, South Lake Tahoe" aria-label="View the photo of California Burger Company full screen"><img class="cardphoto" src="assets/california-burger.jpg" alt="The California Burger Co. storefront sign at Heavenly Village, South Lake Tahoe" loading="lazy"></button><figcaption class="credit">Photo via lodging listing</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>South Lake Tahoe · El Dorado County · Heavenly Village</span><span>Burgers &amp; whiskey ★</span></div>
+      <h3>California Burger Company</h3>
+      <div class="priceband" aria-label="Price band: Top end — 4 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$$$$</span><span class="off"></span></span><span class="pricelabel">Top end · 4 of 4</span></div>
+      <div class="sig"><span>Order this</span>The Californian — $27</div>
+      <p class="desc">The Heavenly Village anchor — “Burgers. Whiskey. Music. Art.” — with 120-plus whiskeys on the back bar, daily live music and a firepit patio. Beef is 100% all-natural, fresh and never frozen, from Park Ranch in Minden, Nevada, and every burger includes a side. The flagship Californian ($27) comes with fresh avocado, tomato, spinach, red onion, California jack cheese, pesto and house-made roasted garlic aioli; the whole burger list sits at $25 and up, which makes this the guide's first $$$$ stop.</p>
+      <p class="why"><strong>Why stop:</strong> The splurge end of the Tahoe burger range — and a genuinely distinctive signature burger.</p>
+      <div class="tags"><span class="tag">Open daily 11–10</span><span class="tag">120+ whiskeys</span><span class="tag">Live music</span><span class="tag">Firepit patio</span></div>
+      <div class="details">📍 1001 Heavenly Village Way, Suite 2B, South Lake Tahoe, CA 96150<br>☎️ <a href="tel:+15303148404" aria-label="Call (530) 314-8404">(530) 314-8404</a> · <a href="https://caburgerco.com/" target="_blank" rel="noopener">caburgerco.com</a> · <a href="https://www.google.com/maps/search/?api=1&query=California+Burger+Company+South+Lake+Tahoe+CA" target="_blank" rel="noopener">Open in Maps →</a></div>
+    </div>
+  </article>
+
+  <!-- OVER THE CREST -->
+  <article class="card" data-region="crest" data-type="pub" data-search="cutthroat tavern markleeville highway 89 monitor pass cutthroat burger beast bison elk boar cowboy bacon formerly cutthroat brewing company alpine county 1862">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/cutthroat.jpg" data-name="Cutthroat Tavern" data-credit="Photo: Cutthroat Tavern" data-alt="Cutthroat Tavern in Markleeville at sunset, its 1862 building and hanging sign on Highway 89" aria-label="View the photo of Cutthroat Tavern full screen"><img class="cardphoto" src="assets/cutthroat.jpg" alt="Cutthroat Tavern in Markleeville at sunset, its 1862 building and hanging sign on Highway 89" loading="lazy"></button><figcaption class="credit">Photo: Cutthroat Tavern</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>★ Over the crest — east-side stop · Hwy 89 · Monitor Pass country · Not on the Hwy 49/88 run</span></div>
+      <div class="meta"><span>Markleeville · Alpine County · Hwy 89</span><span>Tavern ★ Since 1862</span></div>
+      <h3>Cutthroat Tavern</h3>
+      <div class="priceband" aria-label="Price band: Pricey — 3 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$$$</span><span class="off">$</span></span><span class="pricelabel">Pricey · 3 of 4</span></div>
+      <div class="sig"><span>Order this</span>Cutthroat Tavern Burger — $18</div>
+      <p class="desc">The place you remember as Cutthroat Brewing Company is open again — reopened under new owners as Cutthroat Tavern, in the same Highway 89 building whose roots run to 1862: Alpine County's oldest establishment, “the oldest watering hole since 1862.” The Cutthroat Tavern Burger ($18) is its most popular item, made with locally sourced Park Ranch meat; the 1862 Cowboy Bacon Burger runs $23, and reviewers rave about the “Beast” — bison, elk and boar — one calling it the best burger they'd ever had. House beer is now a Cutthroat IPA brewed with South Lake Brewing Co.; there's a dog-friendly patio and regular live music.</p>
+      <p class="why"><strong>Why stop:</strong> A burger in an 1862 saloon building at the foot of Monitor Pass — the natural food stop on an east-side crest run.</p>
+      <div class="tags"><span class="tag">Since 1862</span><span class="tag">Open daily 11:30–8</span><span class="tag">Formerly Cutthroat Brewing Co.</span><span class="tag">Dog-friendly patio</span><span class="tag">Live music</span></div>
+      <div class="details">📍 14830 CA-89, Markleeville, CA 96120<br>☎️ <a href="tel:+15306941862" aria-label="Call (530) 694-1862">(530) 694-1862</a> · <a href="https://www.cutthroattavern.com/" target="_blank" rel="noopener">cutthroattavern.com</a> · <a href="https://www.google.com/maps/search/?api=1&query=Cutthroat+Tavern+Markleeville+CA" target="_blank" rel="noopener">Open in Maps →</a></div>
+    </div>
+  </article>
+
+  <article class="card" data-region="crest" data-type="stand" data-search="walker burger coleville us-395 over the crest secret sauce shakes seasonal mono county eastern sierra" style="grid-column:1/-1">
+    <figure class="photofig"><button type="button" class="photo-btn" data-full="assets/walker.jpg" data-name="Walker Burger" data-credit="Photo: Mono County Tourism" data-alt="The Walker Burger roadside sign on US-395 in Coleville, with the Sierra behind it" aria-label="View the photo of Walker Burger full screen"><img class="cardphoto" src="assets/walker.jpg" alt="The Walker Burger roadside sign on US-395 in Coleville, with the Sierra behind it" loading="lazy"></button><figcaption class="credit">Photo: Mono County Tourism</figcaption></figure>
+    <div class="cardbody">
+      <div class="meta"><span>★ Over the crest — bonus stop · US-395 · East side of the Sierra · Not on the Hwy 49/88 run</span></div>
+      <div class="meta"><span>Walker / Coleville · Mono County · US-395</span><span>Roadside stand ★ Seasonal</span></div>
+      <h3>Walker Burger</h3>
+      <div class="priceband" aria-label="Price band: Budget — 1 of 4 dollar signs"><span class="dollars" aria-hidden="true"><span class="on">$</span><span class="off">$$$</span></span><span class="pricelabel">Budget · 1 of 4</span></div>
+      <div class="sig"><span>Order this</span>The Walker Burger — with secret sauce — plus a shake</div>
+      <p class="desc">The roadside stand on US-395 in the Walker / Coleville valley, on the other side of the crest — the burger you plan a Sonora Pass or eastern Sierra drive around. Order at the window, eat outside with the Sierra behind you: the Walker Burger with its secret sauce is the signature, and the shakes are famous up and down 395. This one lives outside the Highway 49/88 corridor on purpose — it's the reward after you cross the crest, not another stop on the Mother Lode run.</p>
+      <p class="closed-note">Closed for the season as of late November — Walker Burger is seasonal, roughly April/May through October. Plan this one for a spring, summer or early-fall crossing.</p>
+      <p class="why"><strong>Why stop:</strong> The essential east-side burger — worth timing a crest crossing for when it's open.</p>
+      <div class="tags"><span class="tag">Over the crest</span><span class="tag">Seasonal · Apr/May–Oct</span><span class="tag">11 AM–7 PM · Closed Tue</span><span class="tag">Famous shakes</span><span class="tag">Secret sauce</span></div>
+      <div class="details">📍 107008 US Highway 395, Coleville, CA 96107<br>☎️ <a href="tel:+15304952219" aria-label="Call (530) 495-2219">(530) 495-2219</a> · <a href="https://walker-burger.com/" target="_blank" rel="noopener">walker-burger.com</a> · <a href="https://www.google.com/maps/search/?api=1&query=Walker+Burger+Coleville+CA" target="_blank" rel="noopener">Maps →</a></div>
+    </div>
+  </article>
+
+</main>
+<p class="count" id="empty" style="display:none">No stops match that search — try a town name or “burger”.</p>
+
+<div class="two">
+  <section class="section">
+    <h2>How this first pass was built</h2>
+    <ul>
+      <li><strong>Real places only.</strong> Every stop was cross-checked against current listings, menus or reviews dated 2025–2026 — address, phone and signature item had to agree in at least two places.</li>
+      <li><strong>Chains left out on purpose.</strong> In-N-Out and the national drive-thrus on the corridor are fine, but they aren't Gold Country. This guide is for the independents.</li>
+      <li><strong>One burger per place.</strong> The “Order this” line is the burger that place is actually known for — not the whole menu.</li>
+      <li><strong>Photos are of the places, not the burgers.</strong> Each card photo is a real photo of that stop itself — storefront or exterior — gathered from public listings and venue sites in November 2026, with the source credited under the photo. The one burger photo on the page is the masthead: Rojo's Tavern's own burger photo from its website, credited there. Tap a photo, a place name, or &ldquo;Details &rarr;&rdquo; to open that stop&rsquo;s own page &mdash; the photo there opens full screen, and dragging it down closes it. Three stops (Buffalo Chips, The End of Nowhere and Tahoe Bros Charbroiled Burgers) had no usable real photo, so their cards run without one rather than borrow a generic shot.</li>
+      <li><strong>Price bands are researched, not guessed.</strong> Each $ band rests on a read menu or a published price level (see the legend under the filters); Buffalo Chips had neither for its burgers, so it carries no band, and the two bands that rest on listing evidence alone — Sno-Flake Drive-In and Giant Burger in Arnold — say so on their cards.</li>
+    </ul>
+  </section>
+  <section class="section">
+    <h2>For Dave's review</h2>
+    <ul>
+      <li><strong>Both in — Webster's AND Walker Burger:</strong> you confirmed they're two different places, so both are in the guide. Webster's Country Burger Drive-In (18737 E Hwy 88, Clements, CA 95227, Lockeford area; since 1967; Tue–Sun 10–8, closed Mon; <a href="tel:+12097593368" aria-label="Call (209) 759-3368">(209) 759-3368</a>) stays as a full Highway 88 card, and Walker Burger (107008 US-395, Coleville; <a href="tel:+15304952219" aria-label="Call (530) 495-2219">(530) 495-2219</a>) is restored as the full-width “Over the crest” bonus card at the end of the guide — seasonal Apr/May–Oct, 11–7, closed Tue, and closed for the season as of late November. If you'd marked Walker as visited on this device before, that mark comes back on its own — the checkmarks are keyed by place name.</li>
+      <li><strong>Route section removed:</strong> the suggested burger-run route that used to sit under the hero is off the page at your direction — the guide is just the stops now. Suggested routes can be considered separately later.</li>
+      <li><strong>Winery burgers — Helwig verified and added:</strong> The Kitchen at Helwig Winery, Plymouth (11555 Shenandoah Rd; <a href="tel:+12092455200" aria-label="Call (209) 245-5200">(209) 245-5200</a>) — THE DAVE, a 6 oz American Wagyu patty with bacon onion jam, smoked Gouda and roasted garlic mayo, plus THE NANCY veggie — verified from Helwig's own Kitchen page (“Our Signature Burgers — Always available”) and Visit Amador's Amador Burger Route listing. Kitchen hours Fri–Mon 11–4, first come first served, and the whole facility is 21+ only.</li>
+      <li><strong>Four more winery burgers verified and added:</strong> Gold Leaf Bistro at Ironstone Vineyards, Murphys (1894 Six Mile Rd; <a href="tel:+12097281251" aria-label="Call (209) 728-1251">(209) 728-1251</a>) — “hand-crafted burgers” on Ironstone's own bistro page, Thu–Sun lunch hours. Villa Toscano Winery Bistro, Plymouth (10600 Shenandoah Rd; <a href="tel:+12092453800" aria-label="Call (209) 245-3800">(209) 245-3800</a>) — the Shenandoah Gourmet Burger, a half-pound of ground chuck with white cheddar, garlic herb aioli and BBQ sauce, lunch daily. The End of Nowhere, Amador City (14204 Main St; <a href="tel:+12092678345" aria-label="Call (209) 267-8345">(209) 267-8345</a>) — The House, a mesquite-grilled grind of local beef, lamb, bison and Wagyu with caramelized onions and dijon aioli, Fri–Sun. Wise Villa Winery, Lincoln (4200 Wise Rd; <a href="tel:+19165430323" aria-label="Call (916) 543-0323">(916) 543-0323</a>) — the Signature Burger, a 6 oz Angus/short-rib blend with green goddess aïoli and white cheddar; no burgers after 5 PM. That makes five winery burgers in the guide in total.</li>
+      <li><strong>Eight more stops verified and added — Cutthroat, South Lake Tahoe &amp; Highway 4:</strong> Cutthroat Tavern, Markleeville (14830 CA-89; <a href="tel:+15306941862" aria-label="Call (530) 694-1862">(530) 694-1862</a>) — the former Cutthroat Brewing Company, reopened under new owners in the 1862 building; Cutthroat Tavern Burger $18, 1862 Cowboy Bacon Burger $23, and the bison-elk-boar “Beast.” South Lake Tahoe is now its own area with five stops: Rojo's Tavern (3091 Harrison Ave; since 1975; American Burger $16), Sno-Flake Drive-In (3059 Lake Tahoe Blvd; since 1961; Tahoe Burger; $$ band from listing evidence — no priced menu published), Tahoe Bros Charbroiled Burgers (2660 Lake Tahoe Blvd Unit 11; opened 2024 by three cooks from the closed Izzy's Burger Spa), Cold Water Brewery &amp; Grill (2544 Lake Tahoe Blvd; CW Burger $21) and California Burger Company (1001 Heavenly Village Way Suite 2B; The Californian $27 — the guide's first $$$$). Highway 4 is its own area too: Giant Burger, Arnold (846 Highway 4; A-frame since 1968; $$ from listing evidence, signature price not published) and Lake Alpine Lodge (4000 Highway 4, Bear Valley; Alpine Burger $19 off the lodge's own 2026 menu) — the lodge is seasonal and closed for the winter (kitchen's last day was Sep 27, 2026; typically reopens late May), so it carries the same honest seasonal note as Walker Burger. Hinterhaus Distilling in Arnold was checked and is NOT a burger stop — tasting room, no food service — so it belongs in the locations database only.</li>
+      <li><strong>Checked and NOT added — honestly:</strong> Andis Wines (current menu is flatbreads, charcuterie and tinned seafood — burgers there are only via occasional food-truck events, e.g. a Wagyu burger truck visit, not a regular Andis menu item), Vino Noceto (no burger on its current menu; food is event / food-truck tacos and pizza), and Sobon Estate / Shenandoah Vineyards (tasting and picnic grounds, no kitchen burger found). No winery burger was invented for any of them — if one puts a burger on a regular menu, it can be added then.</li>
+      <li><strong>Added at your suggestion (earlier):</strong> Sizemore Country Store in Volcano, Kennedy's Pioneer Burger on Highway 88 in Pioneer, and Marlene &amp; Glen's Dead Fly Diner at the Plymouth roundabout — all verified from current listings and in the cards and table below.</li>
+      <li><strong>Mark your visits:</strong> tap “✓ Visited” on any card to mark a stop you've eaten at; the count at the top tracks your progress — now out of 31. Tap again to un-mark. Marks save on this device only.</li>
+      <li>Which stops have you actually eaten at? Mark the keepers — first-hand notes will replace the review-based lines.</li>
+      <li>Any local favourites missing? Amador City, Murphys, Columbia and Downieville were thin on verified burger-first spots in this pass.</li>
+      <li>Should the Frosty in Angels Camp and Jamestown Frosty both stay, or is one Frosty enough?</li>
+      <li>Rating system for v2 — stars, or keep it to “Order this / Why stop”?</li>
+      <li>Once you approve the list, every joint here should be entered in the locations database so the guide and the database match.</li>
+    </ul>
+  </section>
+</div>
+
+<section class="section">
+  <h2>At a glance — for the locations database</h2>
+  <p style="color:var(--muted);margin-top:0">The same 31 stops, in database-ready form. These are the entries to add or verify in the locations database alongside this guide — including Webster's on Highway 88, the two Highway 4 stops, the five South Lake Tahoe stops, Cutthroat Tavern and Walker Burger over the crest, and the five winery kitchens: Helwig, Villa Toscano, The End of Nowhere, Ironstone and Wise Villa.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Place</th><th>Town</th><th>County</th><th>Signature burger</th><th>Type</th></tr></thead>
+    <tbody>
+      <tr><td>Ikeda's Country Market</td><td>Auburn</td><td>Placer</td><td>Famous Big Burger</td><td>Market &amp; grill</td></tr>
+      <tr><td>Bootleggers Old Town Tavern</td><td>Auburn</td><td>Placer</td><td>Bootlegger Burger</td><td>Tavern</td></tr>
+      <tr><td>South Pine Cafe</td><td>Grass Valley</td><td>Nevada</td><td>Heisenburger</td><td>Café</td></tr>
+      <tr><td>Friar Tuck's / The Sherwood</td><td>Nevada City</td><td>Nevada</td><td>Tuck Burger</td><td>Restaurant &amp; bar</td></tr>
+      <tr><td>Old Town Grill</td><td>Placerville</td><td>El Dorado</td><td>Elk Burger</td><td>Grill</td></tr>
+      <tr><td>Shoestring</td><td>Placerville</td><td>El Dorado</td><td>Pastrami Burger</td><td>Roadside stand</td></tr>
+      <tr><td>88 Giant Burgers To Go</td><td>Pine Grove</td><td>Amador</td><td>88 Burger / 88 Slam</td><td>Roadside hut</td></tr>
+      <tr><td>Kennedy's Pioneer Burger</td><td>Pioneer</td><td>Amador</td><td>Pioneer Burger / Boujee Blue</td><td>Roadside stand</td></tr>
+      <tr><td>Mel &amp; Faye's Diner</td><td>Jackson</td><td>Amador</td><td>Moo Burger</td><td>Diner</td></tr>
+      <tr><td>Sizemore Country Store</td><td>Volcano</td><td>Amador</td><td>Double Cheeseburger</td><td>Country store &amp; restaurant</td></tr>
+      <tr><td>Cavana's Pub &amp; Grub</td><td>Sutter Creek</td><td>Amador</td><td>Pub Burger</td><td>Pub</td></tr>
+      <tr><td>Buffalo Chips</td><td>Sutter Creek</td><td>Amador</td><td>Friday Burger Bash</td><td>Café</td></tr>
+      <tr><td>Marlene &amp; Glen's Diner (Dead Fly Diner)</td><td>Plymouth</td><td>Amador</td><td>Johnny's Western Burger</td><td>Diner</td></tr>
+      <tr><td>Frosty</td><td>Angels Camp</td><td>Calaveras</td><td>Pastrami Burger Combo</td><td>Burger joint</td></tr>
+      <tr><td>Diamondback Grill</td><td>Sonora</td><td>Tuolumne</td><td>Diamondback / Bison Burger</td><td>Grill &amp; wine bar</td></tr>
+      <tr><td>Jamestown Frosty</td><td>Jamestown</td><td>Tuolumne</td><td>Classic / Bacon Cheeseburger</td><td>Stand</td></tr>
+      <tr><td>Webster's Country Burger Drive-In</td><td>Lockeford / Clements</td><td>San Joaquin</td><td>Western Wrangler</td><td>Drive-in · Since 1967</td></tr>
+      <tr><td>The Kitchen at Helwig Winery</td><td>Plymouth</td><td>Amador</td><td>THE DAVE (Wagyu) / THE NANCY (veggie)</td><td>Winery kitchen</td></tr>
+      <tr><td>Gold Leaf Bistro — Ironstone Vineyards</td><td>Murphys</td><td>Calaveras</td><td>Hand-crafted Burger / Cheeseburger</td><td>Winery bistro</td></tr>
+      <tr><td>Villa Toscano Winery — The Bistro</td><td>Plymouth</td><td>Amador</td><td>Shenandoah Gourmet Burger</td><td>Winery bistro</td></tr>
+      <tr><td>The End of Nowhere</td><td>Amador City</td><td>Amador</td><td>EON Special Grind — House style</td><td>Winery kitchen</td></tr>
+      <tr><td>Wise Villa Winery</td><td>Lincoln</td><td>Placer</td><td>Signature Burger</td><td>Winery &amp; restaurant</td></tr>
+      <tr><td>Giant Burger</td><td>Arnold</td><td>Calaveras</td><td>Giant Burger / Giant Cheeseburger</td><td>A-frame diner · Since 1968</td></tr>
+      <tr><td>Lake Alpine Lodge</td><td>Lake Alpine / Bear Valley</td><td>Alpine</td><td>Alpine Burger</td><td>Lodge restaurant · Seasonal</td></tr>
+      <tr><td>Rojo's Tavern</td><td>South Lake Tahoe</td><td>El Dorado</td><td>American Burger</td><td>Tavern</td></tr>
+      <tr><td>Sno-Flake Drive-In</td><td>South Lake Tahoe</td><td>El Dorado</td><td>Tahoe Burger</td><td>Drive-in</td></tr>
+      <tr><td>Tahoe Bros Charbroiled Burgers</td><td>South Lake Tahoe</td><td>El Dorado</td><td>Bacon Cheddar T Bros Burger</td><td>Burger shop</td></tr>
+      <tr><td>Cold Water Brewery &amp; Grill</td><td>South Lake Tahoe</td><td>El Dorado</td><td>CW Burger</td><td>Brewpub</td></tr>
+      <tr><td>California Burger Company</td><td>South Lake Tahoe</td><td>El Dorado</td><td>The Californian</td><td>Burger restaurant</td></tr>
+      <tr><td>Cutthroat Tavern</td><td>Markleeville</td><td>Alpine</td><td>Cutthroat Tavern Burger</td><td>Tavern · Since 1862</td></tr>
+      <tr><td>Walker Burger ★ Over the crest</td><td>Walker / Coleville</td><td>Mono</td><td>Walker Burger (secret sauce)</td><td>Roadside stand · Seasonal</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<footer>
+  <p><strong>Sources &amp; verification — Nov 22, 2026.</strong> Diamondback Grill (diamondbackgrillsonora.com; 93 S Washington St, Sonora), Mel &amp; Faye's Diner, Jackson (31 Hwy 49/88; Moo Burger since 1956), 88 Giant Burgers To Go, Pine Grove (19845 CA-88), Cavana's Pub &amp; Grub, Sutter Creek (36 Main St), Buffalo Chips, Sutter Creek (76 Main St), Jamestown Frosty (18358 Main St, since 1969), Ikeda's, Auburn (13500 Lincoln Way), Bootleggers, Auburn (210 Washington St), Old Town Grill, Placerville (444 Main St), Shoestring, Placerville (1320 Broadway), South Pine Cafe, Grass Valley (102 Richardson St), Friar Tuck's / Sherwood, Nevada City (111 N Pine St), Frosty, Angels Camp (290 S Main St), Sizemore Country Store, Volcano (sizemorecountrystore.com; 16146 Main St; est. 1852), Kennedy's Pioneer Burger, Pioneer (22536 CA-88), Marlene &amp; Glen's Diner / Dead Fly Diner, Plymouth (deadflydiner.com; 18726 Hwy 49 at the roundabout; Johnny's Western Burger via Visit Amador's Amador Burger Route), Webster's Country Burger Drive-In, Clements / Lockeford area (websterscountryburgerdrivein.shop; 18737 E Hwy 88, Clements, CA 95227; <a href="tel:+12097593368" aria-label="Call (209) 759-3368">(209) 759-3368</a>; since 1967; Tue–Sun 10–8, closed Mon; Western Wrangler, shakes &amp; root beer), The Kitchen at Helwig Winery, Plymouth (helwigwinery.com/the-kitchen; 11555 Shenandoah Rd; <a href="tel:+12092455200" aria-label="Call (209) 245-5200">(209) 245-5200</a>; THE DAVE — 6 oz American Wagyu, bacon onion jam, smoked Gouda, roasted garlic mayo — via Helwig's own Kitchen page and Visit Amador's Amador Burger Route; Fri–Mon 11–4; 21+ only), Gold Leaf Bistro at Ironstone Vineyards, Murphys (ironstonevineyards.com/gold-leaf-bistro; 1894 Six Mile Rd; <a href="tel:+12097281251" aria-label="Call (209) 728-1251">(209) 728-1251</a>; hand-crafted burgers on the bistro's own page; Thu 11–3, Fri–Sat 11–4, Sun 11–3), Villa Toscano Winery Bistro, Plymouth (villatoscano.com/Bistro; 10600 Shenandoah Rd; <a href="tel:+12092453800" aria-label="Call (209) 245-3800">(209) 245-3800</a>; Shenandoah Gourmet Burger — ½ lb ground chuck, white cheddar, garlic herb aioli, BBQ sauce; lunch daily), The End of Nowhere, Amador City (14204 Main St; <a href="tel:+12092678345" aria-label="Call (209) 267-8345">(209) 267-8345</a>; EON Special Grind $16 — 6.5 oz secret blend of Angus beef, lamb, bison &amp; American Wagyu, House style with caramelized onions, Dijon aioli &amp; white American cheese; Rendic Ranch Regenerative Beef $20; Beyond Veggie $16; Spicy &amp; Mushroom Swiss styles; current special Red, White &amp; Bleu $16; all burgers over mesquite charcoal to medium-rare unless otherwise specified; Fri–Sat 12–8, Sun 12–6; verified Nov 22, 2026 from Dave's own photos of the printed menu, special card and sidewalk sign at the restaurant — superseding the June menu photo — plus Visit Amador's Amador Burger Route), Wise Villa Winery, Lincoln (wisevillawinery.com; 4200 Wise Rd; <a href="tel:+19165430323" aria-label="Call (916) 543-0323">(916) 543-0323</a>; Signature Burger — 6 oz Angus/short-rib blend, green goddess aïoli, white cheddar; burgers not served after 5 PM), Walker Burger, Coleville (walker-burger.com; 107008 US Highway 395, Coleville, CA 96107; <a href="tel:+15304952219" aria-label="Call (530) 495-2219">(530) 495-2219</a>; Walker Burger with secret sauce, famous shakes; seasonal Apr/May–Oct, 11–7, closed Tue; closed for the season as of late November), Cutthroat Tavern, Markleeville (cutthroattavern.com; 14830 CA-89, Markleeville, CA 96120; <a href="tel:+15306941862" aria-label="Call (530) 694-1862">(530) 694-1862</a> — the number in the edible Reno-Tahoe Winter 2026 feature and the tavern's own listing data; an older …1865 number lingering on stale listings was not used; Cutthroat Tavern Burger $18 and 1862 Cowboy Bacon Burger $23 via the tavern's Toast online menu; the bison-elk-boar “Beast” via reviews; open daily 11:30–8; Alpine County's oldest establishment, roots to 1862; formerly Cutthroat Brewing Company, reopened under new owners), Rojo's Tavern, South Lake Tahoe (rojos-tavern.com/menu; 3091 Harrison Ave; <a href="tel:+15305414960" aria-label="Call (530) 541-4960">(530) 541-4960</a>; American Burger $16, Alpine Burger $17; since 1975), Sno-Flake Drive-In, South Lake Tahoe (3059 Lake Tahoe Blvd; <a href="tel:+15306000824" aria-label="Call (530) 600-0824">(530) 600-0824</a>; Tahoe Burger; since 1961; $$ band from listing price levels and reviewer-reported prices — no current priced menu published), Tahoe Bros Charbroiled Burgers, South Lake Tahoe (2660 Lake Tahoe Blvd Unit 11; <a href="tel:+15306000896" aria-label="Call (530) 600-0896">(530) 600-0896</a>; Bacon Cheddar T Bros Burger $18.19 and House Burger $14.29 via its DoorDash menu; opened May 2024 by three cooks from the closed Izzy's Burger Spa), Cold Water Brewery &amp; Grill, South Lake Tahoe (tahoecoldwaterbrewery.com; 2544 Lake Tahoe Blvd; <a href="tel:+15305444677" aria-label="Call (530) 544-4677">(530) 544-4677</a>; CW Burger $21), California Burger Company, South Lake Tahoe (caburgerco.com/menu; 1001 Heavenly Village Way Suite 2B; <a href="tel:+15303148404" aria-label="Call (530) 314-8404">(530) 314-8404</a>; The Californian $27 — the guide's first $$$$), Giant Burger, Arnold (giantburgerarnold.com; 846 Highway 4, Arnold, CA 95223; <a href="tel:+12097951594" aria-label="Call (209) 795-1594">(209) 795-1594</a>; A-frame diner since 1968; Wed–Sun 11–7; $$ band from listing price levels — signature price not published online), Lake Alpine Lodge, Bear Valley (lakealpinelodge.com/amenities; 4000 Highway 4; <a href="tel:+12097536350" aria-label="Call (209) 753-6350">(209) 753-6350</a>; Alpine Burger $19 off the lodge's own 2026 menu; seasonal — kitchen's last day Sep 27, 2026, typically reopens late May; closed for the season as of late November). Also checked Nov 22, 2026 and not added as regular burger stops: Andis Wines, Plymouth (current food menu: flatbreads / charcuterie, no regular burger), Vino Noceto, Plymouth (no burger on current menu), Sobon Estate, Plymouth (tasting / picnic, no kitchen burger), Hinterhaus Distilling, Arnold (tasting room — its own listing states “No food service”; locations database only, not a burger stop), Izzy's Burger Spa, South Lake Tahoe (closed fall 2023; its cooks now run Tahoe Bros). Hours and menus change seasonally — confirm before a special trip.</p>
+  <p><strong>Location photos — Nov 22, 2026.</strong> Masthead: the burger at Rojo's Tavern, South Lake Tahoe, from the tavern's own website (rojos-tavern.com). Photos are real photos of each place (storefront / exterior), sourced from public listings and venue sites and credited under each photo: Ikeda's (Travels with Elle), Bootleggers (Family Destinations Guide), South Pine Cafe (Localoria listing), Friar Tuck's (Nevada City Chamber of Commerce), Wise Villa (Wise Villa Winery), Old Town Grill &amp; Shoestring &amp; Frosty–Angels Camp (Google listings), 88 Giant Burgers (DogTrekker / Google Places), Kennedy's Pioneer Burger (Yelp listing), Mel &amp; Faye's (Yosemite Gold Country), Sizemore (World Atlas), Cavana's &amp; Diamondback Grill (Family Destinations Guide), Dead Fly Diner (ClubExpress Plymouth photo), Helwig (Helwig Winery), Villa Toscano (Yelp listing), Webster's (Wheree listing), Ironstone (California.com), Jamestown Frosty (Menu-Pick listing), Walker Burger (Mono County Tourism), Cutthroat Tavern (Cutthroat Tavern), Rojo's Tavern (Yelp listing), Sno-Flake Drive-In (Family Destinations Guide), Cold Water Brewery &amp; Grill (Cold Water Brewery &amp; Grill), California Burger Company (lodging listing), Giant Burger — Arnold (Giant Burger), Lake Alpine Lodge (Lake Alpine Lodge). No usable real photo was found for Buffalo Chips, The End of Nowhere or Tahoe Bros Charbroiled Burgers, so those three cards carry no photo.</p>
+  <p>First pass prepared for Dave's review. Nothing here has been published to the Fiddletown Gazette yet.</p>
+</footer>
+</div>
+
+<div id="detail-view" hidden>
+  <div class="detail-wrap">
+    <button type="button" class="back-btn" id="detail-back">&larr; Back to all stops</button>
+    <figure class="detail-photofig" id="detail-photofig">
+      <button type="button" class="detail-photo-btn" id="detail-photo-btn" aria-label="View this location photo full screen"><img id="detail-img" alt=""></button>
+      <figcaption class="credit" id="detail-credit"></figcaption>
+    </figure>
+    <p class="detail-nophoto" id="detail-nophoto" hidden>No photo for this stop &mdash; the guide only runs real photos of the places themselves, and none was available for this one.</p>
+    <div class="meta detail-meta" id="detail-meta"></div>
+    <h2 class="detail-title" id="detail-title"></h2>
+    <div class="priceband detail-price" id="detail-price"></div>
+    <div class="sig detail-sig" id="detail-sig"></div>
+    <div class="specialbox" id="detail-special" hidden style="margin-top:12px"></div>
+    <p class="closed-note" id="detail-closed" hidden></p>
+    <p class="desc detail-desc" id="detail-desc"></p>
+    <p class="why detail-why" id="detail-why"></p>
+    <div class="menunotes" id="detail-menu" hidden></div>
+    <div class="tags" id="detail-tags"></div>
+    <section class="detail-info" id="detail-info" aria-label="Visit details"></section>
+    <div class="card-actions detail-actions">
+      <button type="button" class="visited-btn" id="detail-visited" aria-pressed="false">Mark as visited</button>
+      <button type="button" class="share-btn" id="detail-share" aria-label="Share this place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13"/><path d="M7 8l5-5 5 5"/><path d="M5 13v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7"/></svg><span class="share-label">Share</span></button>
+    </div>
+    <div class="detail-bottom"><button type="button" class="back-btn" id="detail-back-2">&larr; Back to all stops</button></div>
+  </div>
+</div>
+
+<div class="viewer" id="viewer" hidden role="dialog" aria-modal="true" aria-label="Location photo viewer">
+  <button type="button" class="viewer-close" id="viewer-close" aria-label="Close photo viewer">✕</button>
+  <div class="viewer-stage" id="viewer-stage">
+  <img id="viewer-img" alt="" draggable="false">
+  <p class="viewer-cap" id="viewer-cap"></p>
+  </div>
+  <p class="viewer-hint">Drag down to close</p>
+</div>
+
+<script>
+(function(){
+  var search=document.getElementById('search'), cards=[].slice.call(document.querySelectorAll('.card')), count=document.getElementById('count'), empty=document.getElementById('empty'), filter='all';
+  var total=cards.length;
+  var hideVisited=false;
+  /* Filter & search persistence — saved in this browser only (localStorage), same pattern as the visited tracker */
+  var FILTER_KEY='burgers-gold-country-filters-v1';
+  function loadFilterState(){ try{ var raw=window.localStorage.getItem(FILTER_KEY); return raw? JSON.parse(raw): null; }catch(e){ return null; } }
+  function saveFilterState(){ try{ window.localStorage.setItem(FILTER_KEY, JSON.stringify({filter:filter, search:search.value||'', hideVisited:hideVisited})); }catch(e){} }
+  function clearFilterState(){ try{ window.localStorage.removeItem(FILTER_KEY); }catch(e){} }
+  function setActiveFilterButton(){
+    document.querySelectorAll('.filters button').forEach(function(x){ x.classList.toggle('active', x.dataset.filter===filter); });
+  }
+  var hideVisitedBtn=document.getElementById('hide-visited');
+  function renderHideVisited(){ if(hideVisitedBtn) hideVisitedBtn.setAttribute('aria-pressed', hideVisited?'true':'false'); }
+  function restoreFilterState(){
+    var saved=loadFilterState(); if(!saved) return;
+    if(saved.hideVisited){ hideVisited=true; renderHideVisited(); }
+    if(typeof saved.search==='string') search.value=saved.search;
+    if(typeof saved.filter==='string' && saved.filter){
+      var known=false;
+      document.querySelectorAll('.filters button').forEach(function(x){ if(x.dataset.filter===saved.filter) known=true; });
+      if(known){ filter=saved.filter; setActiveFilterButton(); }
+    }
+  }
+  function apply(){
+    var q=(search.value||'').toLowerCase().trim(), shown=0;
+    cards.forEach(function(c){
+      var okF = filter==='all' || c.dataset.region===filter || c.dataset.type===filter;
+      if(filter==='stand') okF = c.dataset.type==='stand';
+      if(filter==='pub') okF = c.dataset.type==='pub';
+      var text=(c.textContent+' '+(c.dataset.search||'')).toLowerCase();
+      var okQ=!q||text.indexOf(q)>-1;
+      var okV=!hideVisited || !c.classList.contains('visited');
+      var show=okF&&okQ&&okV; c.classList.toggle('hidden',!show); if(show) shown++;
+    });
+    count.textContent = shown===total ? 'Showing all '+total+' stops' : 'Showing '+shown+' of '+total+' stops';
+    empty.style.display = shown? 'none':'block';
+    layoutColumns();
+  }
+  /* Two-column layout: explicit column boxes so both columns start flush at the top in every
+     filter/search/hide-visited state (CSS multicol balancing left the second column starting low).
+     Cards keep their north-to-south order; the split point is chosen to balance column heights.
+     One column on narrow screens; the crest card spans full width below the columns. */
+  var gridEl=document.getElementById('grid'), colsWrap=null, colA=null, colB=null, fullWrap=null;
+  function ensureCols(){
+    if(colsWrap) return;
+    colsWrap=document.createElement('div'); colsWrap.className='grid-cols';
+    colA=document.createElement('div'); colA.className='grid-col';
+    colB=document.createElement('div'); colB.className='grid-col';
+    colsWrap.appendChild(colA); colsWrap.appendChild(colB);
+    fullWrap=document.createElement('div'); fullWrap.className='grid-full';
+  }
+  function layoutColumns(){
+    if(!gridEl) return;
+    var visible=[], crestCards=[];
+    cards.forEach(function(c){
+      if(c.classList.contains('hidden')) return;
+      if(c.getAttribute('data-region')==='crest') crestCards.push(c); else visible.push(c);
+    });
+    if(window.innerWidth<=760){
+      if(colsWrap && colsWrap.parentNode) gridEl.removeChild(colsWrap);
+      if(fullWrap && fullWrap.parentNode) gridEl.removeChild(fullWrap);
+      cards.forEach(function(c){ gridEl.appendChild(c); });
+      return;
+    }
+    var heights=visible.map(function(c){ return c.offsetHeight||0; });
+    var totalH=0; heights.forEach(function(h){ totalH+=h; });
+    if(visible.length && totalH===0) return; /* not laid out (e.g. detail view open) — leave as-is */
+    ensureCols();
+    var best=visible.length, bestDiff=Infinity, run=0;
+    for(var i=0;i<=visible.length;i++){
+      var h1=run+(i>0? (i-1)*16:0);
+      var n2=visible.length-i;
+      var h2=(totalH-run)+(n2>0? (n2-1)*16:0);
+      var diff=Math.abs(h1-h2);
+      if(diff<bestDiff){ bestDiff=diff; best=i; }
+      if(i<visible.length) run+=heights[i];
+    }
+    visible.forEach(function(c,idx){ (idx<best? colA:colB).appendChild(c); });
+    gridEl.appendChild(colsWrap);
+    if(crestCards.length){ crestCards.forEach(function(c){ fullWrap.appendChild(c); }); fullWrap.style.display=''; }
+    else { fullWrap.style.display='none'; }
+    gridEl.appendChild(fullWrap);
+  }
+  window.addEventListener('resize', function(){ layoutColumns(); });
+  window.addEventListener('load', function(){ layoutColumns(); });
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ layoutColumns(); });
+
+  restoreFilterState(); apply();
+  document.querySelectorAll('.filters button').forEach(function(b){ b.addEventListener('click',function(){ document.querySelectorAll('.filters button').forEach(function(x){x.classList.remove('active')}); b.classList.add('active'); filter=b.dataset.filter; saveFilterState(); apply(); }); });
+  search.addEventListener('input',function(){ saveFilterState(); apply(); });
+  if(hideVisitedBtn){ hideVisitedBtn.addEventListener('click',function(){ hideVisited=!hideVisited; renderHideVisited(); saveFilterState(); apply(); }); }
+  var resetBtn=document.getElementById('reset-filters');
+  if(resetBtn){ resetBtn.addEventListener('click',function(){ filter='all'; search.value=''; hideVisited=false; renderHideVisited(); setActiveFilterButton(); clearFilterState(); apply(); }); }
+
+  /* Visited tracker — saved in this browser only (localStorage), keyed per stop */
+  var STORE_KEY='burgers-gold-country-visited-v1';
+  var visitedCountEl=document.getElementById('visited-count'), visitedFill=document.getElementById('visited-fill');
+  function slugify(s){ return (s||'').toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''); }
+  function loadVisited(){ try{ var raw=window.localStorage.getItem(STORE_KEY); return raw? JSON.parse(raw): {}; }catch(e){ return {}; } }
+  function saveVisited(obj){ try{ window.localStorage.setItem(STORE_KEY, JSON.stringify(obj)); }catch(e){} }
+  var visited=loadVisited();
+  /* Share — native share sheet via Web Share API; clipboard fallback with "Link copied".
+     Shared URL is the guide's base address only (no per-place hash/query): the Muse
+     wrapper owns the address, so links land on the list view and the place name in
+     the share title/text carries the context. */
+  var SHARE_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13"/><path d="M7 8l5-5 5 5"/><path d="M5 13v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7"/></svg>';
+  function getShareUrl(){ try{ var u=new URL(window.location.href); u.hash=''; u.searchParams.delete('place'); return u.toString(); }catch(e){ return (window.location.href||'').split('#')[0]; } }
+  function showCopied(btn){ if(!btn) return; var label=btn.querySelector('.share-label'); var orig=label? label.textContent : btn.textContent; btn.classList.add('copied'); if(label) label.textContent='Link copied'; setTimeout(function(){ btn.classList.remove('copied'); if(label) label.textContent=orig; },2000); }
+  function fallbackCopy(btn, url){ try{ var ta=document.createElement('textarea'); ta.value=url; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showCopied(btn); }catch(e){} }
+  function copyShareUrl(btn, url){ if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(function(){ showCopied(btn); }).catch(function(){ fallbackCopy(btn, url); }); } else { fallbackCopy(btn, url); } }
+  function doShare(btn, title, text){ var url=getShareUrl(); if(navigator.share){ navigator.share({title:title, text:text, url:url}).catch(function(err){ if(err && err.name!=='AbortError'){ copyShareUrl(btn, url); } }); } else { copyShareUrl(btn, url); } }
+  function updateProgress(){
+    var n=0; cards.forEach(function(c){ if(c.classList.contains('visited')) n++; });
+    if(visitedCountEl) visitedCountEl.textContent='Visited '+n+' of '+total;
+    if(visitedFill) visitedFill.style.width=(total? Math.round(n/total*100):0)+'%';
+  }
+  /* Detail routes ride in the hash (#/place/<slug>); a ?place=<slug> query is also
+     resolved on arrival, since a share-gateway redirect can drop the hash fragment. */
+  var visitedRenderers={};
+  cards.forEach(function(card){
+    var h3=card.querySelector('h3');
+    var id=slugify(h3? h3.textContent : 'stop');
+    card.dataset.id=id;
+    card.id=id;
+    var stamp=document.createElement('span'); stamp.className='visited-stamp'; stamp.textContent='✓ Visited'; card.appendChild(stamp);
+    var body=card.querySelector('.cardbody'); if(!body) return;
+    var btn=document.createElement('button'); btn.type='button'; btn.className='visited-btn';
+    function render(){
+      var on=!!visited[id];
+      card.classList.toggle('visited', on);
+      btn.setAttribute('aria-pressed', on?'true':'false');
+      btn.textContent= on? '✓ Visited — tap to undo' : 'Mark as visited';
+    }
+    btn.addEventListener('click', function(){
+      if(visited[id]){ delete visited[id]; } else { visited[id]=true; }
+      saveVisited(visited); render(); updateProgress(); apply();
+    });
+    var actions=document.createElement('div'); actions.className='card-actions';
+    actions.appendChild(btn);
+    var detailsBtn=document.createElement('button'); detailsBtn.type='button'; detailsBtn.className='details-btn'; detailsBtn.textContent='Details \u2192';
+    detailsBtn.setAttribute('aria-label','View details for '+(h3? h3.textContent : 'this stop'));
+    detailsBtn.addEventListener('click', function(){ goToDetail(id); });
+    actions.appendChild(detailsBtn);
+    var shareBtn=document.createElement('button'); shareBtn.type='button'; shareBtn.className='share-btn';
+    shareBtn.innerHTML=SHARE_ICON+'<span class="share-label">Share</span>';
+    shareBtn.setAttribute('aria-label','Share '+(h3? h3.textContent : 'this stop'));
+    (function(btnRef, nameRef){ btnRef.addEventListener('click', function(){ doShare(btnRef, nameRef+' \u2014 Burgers in the Gold Country', nameRef+' \u2014 from Burgers in the Gold Country'); }); })(shareBtn, h3? h3.textContent.trim() : 'This stop');
+    actions.appendChild(shareBtn);
+    body.appendChild(actions);
+    visitedRenderers[id]=render;
+    if(h3){
+      h3.classList.add('card-title-link'); h3.setAttribute('role','button'); h3.setAttribute('tabindex','0');
+      h3.setAttribute('aria-label','View details for '+h3.textContent);
+      h3.addEventListener('click', function(){ goToDetail(id); });
+      h3.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); goToDetail(id); } });
+    }
+    render();
+  });
+  updateProgress();
+
+  /* Full-screen location photo viewer — opens from a detail page's large photo; close on ✕, backdrop tap, Esc, or dragging the photo down */
+  var viewer=document.getElementById('viewer'), viewerImg=document.getElementById('viewer-img'), viewerCap=document.getElementById('viewer-cap'), viewerClose=document.getElementById('viewer-close'), viewerStage=document.getElementById('viewer-stage'), lastFocus=null;
+  var dragState={active:false,moved:false,startY:0,dy:0,id:null}, suppressViewerClick=false;
+  function resetViewerDrag(){
+    dragState.active=false; dragState.moved=false; dragState.dy=0;
+    if(viewerStage){ viewerStage.style.transition=''; viewerStage.style.transform=''; }
+    if(viewer) viewer.style.background='';
+  }
+  function openViewerData(d, focusEl){
+    lastFocus=focusEl||null;
+    viewerImg.src=d.src; viewerImg.alt=d.alt||'';
+    viewerCap.textContent=(d.name||'')+(d.credit? ' \u2014 '+d.credit:'');
+    resetViewerDrag();
+    viewer.hidden=false; document.body.style.overflow='hidden';
+    if(viewerClose) viewerClose.focus();
+  }
+  function closeViewer(){
+    if(!viewer || viewer.hidden) return;
+    viewer.hidden=true; viewerImg.removeAttribute('src'); document.body.style.overflow='';
+    resetViewerDrag();
+    if(lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  if(viewerClose) viewerClose.addEventListener('click', closeViewer);
+  if(viewer){
+    viewer.addEventListener('click', function(e){
+      if(suppressViewerClick){ suppressViewerClick=false; return; }
+      if(e.target===viewer) closeViewer();
+    });
+    viewer.addEventListener('pointerdown', function(e){
+      if(viewer.hidden || e.target===viewerClose) return;
+      dragState.active=true; dragState.moved=false; dragState.startY=e.clientY; dragState.dy=0; dragState.id=e.pointerId;
+      if(viewerStage) viewerStage.style.transition='none';
+    });
+    viewer.addEventListener('pointermove', function(e){
+      if(!dragState.active || e.pointerId!==dragState.id) return;
+      var dy=e.clientY-dragState.startY; if(dy<0) dy=0;
+      if(dy>6) dragState.moved=true;
+      dragState.dy=dy;
+      if(viewerStage) viewerStage.style.transform='translateY('+dy+'px)';
+      viewer.style.background='rgba(12,9,6,'+Math.max(0.5,0.95-(dy/520)).toFixed(3)+')';
+    });
+    function endViewerDrag(){
+      if(!dragState.active) return;
+      dragState.active=false;
+      if(dragState.moved) suppressViewerClick=true;
+      if(dragState.dy>110){ closeViewer(); return; }
+      if(viewerStage){ viewerStage.style.transition='transform .22s ease'; viewerStage.style.transform=''; }
+      viewer.style.background='';
+    }
+    viewer.addEventListener('pointerup', endViewerDrag);
+    viewer.addEventListener('pointercancel', endViewerDrag);
+  }
+
+  /* ---------- Per-place detail pages (hash route #/place/<slug>, one per stop) ---------- */
+  var LIST_TITLE=document.title;
+  var listView=document.getElementById('list-view'), detailView=document.getElementById('detail-view');
+  var dPhotoFig=document.getElementById('detail-photofig'), dPhotoBtn=document.getElementById('detail-photo-btn'), dImg=document.getElementById('detail-img'), dCredit=document.getElementById('detail-credit'), dNoPhoto=document.getElementById('detail-nophoto');
+  var dMeta=document.getElementById('detail-meta'), dTitle=document.getElementById('detail-title'), dPrice=document.getElementById('detail-price'), dSig=document.getElementById('detail-sig'), dClosed=document.getElementById('detail-closed'), dDesc=document.getElementById('detail-desc'), dWhy=document.getElementById('detail-why'), dTags=document.getElementById('detail-tags'), dInfo=document.getElementById('detail-info');
+  var dSpecial=document.getElementById('detail-special'), dMenu=document.getElementById('detail-menu');
+  var dVisited=document.getElementById('detail-visited');
+  var currentDetailId=null, currentPhoto=null, savedScrollY=0, sessionNav=false, coldDetail=false;
+
+  function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function isHourTag(t){
+    if(/since/i.test(t)) return false;
+    if(/(AM|PM)/.test(t)) return true;
+    if(/\d/.test(t) && /(\u2013|:|Open|Closed)/.test(t)) return true;
+    if(/(Mon|Tue|Wed|Thu|Fri|Sat|Sun)[\u2013-]/.test(t)) return true;
+    if(/^Open /.test(t)) return true;
+    if(/Closed/.test(t)) return true;
+    if(/Seasonal/.test(t)) return true;
+    return false;
+  }
+  function extractData(card){
+    var h3=card.querySelector('h3');
+    var photoBtn=card.querySelector('.photo-btn');
+    var priceEl=card.querySelector('.priceband');
+    var sigEl=card.querySelector('.sig');
+    var specialEl=card.querySelector('.specialbox');
+    var menuEl=card.querySelector('.menunotes');
+    var descEl=card.querySelector('.desc');
+    var whyEl=card.querySelector('.why');
+    var tagsEl=card.querySelector('.tags');
+    var closedEl=card.querySelector('.closed-note');
+    var metaHTML='';
+    card.querySelectorAll('.meta').forEach(function(m){ metaHTML+=m.innerHTML; });
+    var addr='', phoneHref='', phoneText='', webHref='', webText='', hours=[];
+    var details=card.querySelector('.details');
+    if(details){
+      var fullText=details.textContent||'';
+      var beforePhone=fullText.split('\u260e\ufe0f')[0]||'';
+      if(!beforePhone || beforePhone===fullText){ beforePhone=(fullText.split('\u260e')[0]||''); }
+      addr=beforePhone.replace(/^\ud83d\udccd\s*/,'').trim();
+      var tel=details.querySelector('a[href^="tel:"]');
+      if(tel){ phoneHref=tel.getAttribute('href'); phoneText=tel.textContent.trim(); }
+      details.querySelectorAll('a').forEach(function(a){
+        var href=a.getAttribute('href')||'';
+        if(href.indexOf('google.com/maps')>-1) return;
+        if(href.indexOf('tel:')===0) return;
+        if(!webHref){ webHref=href; webText=a.textContent.trim(); }
+      });
+      var rest=fullText.replace(beforePhone,'').replace(phoneText,'').replace(webText,'').replace(/Open in Maps \u2192|Maps \u2192/g,'').replace(/[\u260e\ufe0f\ud83d\udccd]/g,'').replace(/\u00b7/g,' ').replace(/\s+/g,' ').trim();
+      if(rest) hours.push(rest);
+    }
+    var tagTexts=[];
+    card.querySelectorAll('.tag').forEach(function(t){ tagTexts.push(t.textContent.trim()); });
+    tagTexts.forEach(function(t){ if(isHourTag(t)) hours.push(t); });
+    /* Map links search by business name + town, never the raw street address:
+       a street-address geocode can pin across the street or on a neighbouring
+       parcel (The End of Nowhere in Amador City landed ~50 m from its
+       storefront), while a name search lands on the business's own map pin.
+       The printed address stays as the link text; only the search changes. */
+    var cleanName=(h3? h3.textContent.trim() : '').split(' \u2014 ')[0].trim();
+    var addrBase=addr.split(' \u2014 ')[0].split(' \u2013 ')[0];
+    var addrParts=addrBase.split(',');
+    var town='';
+    for(var ai=0; ai<addrParts.length; ai++){ if(/^\s*CA(\s+\d{5}(-\d{4})?)?\s*$/.test(addrParts[ai]) && ai>0){ town=addrParts[ai-1].trim(); break; } }
+    var mapQuery= (cleanName && town)? cleanName+', '+town+', CA' : addrBase;
+    return {
+      id: card.dataset.id,
+      name: h3? h3.textContent.trim() : '',
+      metaHTML: metaHTML,
+      priceHTML: priceEl? priceEl.innerHTML : '',
+      priceLabel: priceEl? (priceEl.getAttribute('aria-label')||'') : '',
+      priceCount: (function(){ if(!priceEl) return 0; var on=priceEl.querySelector('.dollars .on'); return on? on.textContent.length : 0; })(),
+      sigHTML: sigEl? sigEl.innerHTML : '',
+      specialHTML: specialEl? specialEl.innerHTML : '',
+      menuHTML: menuEl? menuEl.innerHTML : '',
+      desc: descEl? descEl.textContent.trim() : '',
+      whyHTML: whyEl? whyEl.innerHTML : '',
+      tagsHTML: tagsEl? tagsEl.innerHTML : '',
+      closed: closedEl? closedEl.textContent.trim() : '',
+      photo: photoBtn? { src: photoBtn.getAttribute('data-full'), alt: photoBtn.getAttribute('data-alt')||'', name: photoBtn.getAttribute('data-name')||'', credit: photoBtn.getAttribute('data-credit')||'' } : null,
+      addr: addr,
+      addrQuery: addr.split(' \u2014 ')[0].split(' \u2013 ')[0],
+      mapQuery: mapQuery,
+      phoneHref: phoneHref, phoneText: phoneText,
+      webHref: webHref, webText: webText,
+      hours: hours
+    };
+  }
+  var dataById={};
+  cards.forEach(function(c){ if(c.dataset.id) dataById[c.dataset.id]=extractData(c); });
+
+  function infoRow(label, valueHTML){ return '<div class="info-row"><span class="info-label">'+label+'</span><span class="info-value">'+valueHTML+'</span></div>'; }
+  function renderDetailVisited(){
+    if(!currentDetailId || !dVisited) return;
+    var on=!!visited[currentDetailId];
+    dVisited.setAttribute('aria-pressed', on?'true':'false');
+    dVisited.textContent= on? '\u2713 Visited \u2014 tap to undo' : 'Mark as visited';
+  }
+  function populateDetail(d){
+    currentPhoto=d.photo;
+    if(d.photo){
+      dPhotoFig.hidden=false; dNoPhoto.hidden=true;
+      dImg.src=d.photo.src; dImg.alt=d.photo.alt;
+      dCredit.textContent=d.photo.credit||'';
+      dPhotoBtn.setAttribute('aria-label','View the photo of '+d.name+' full screen');
+    } else {
+      dPhotoFig.hidden=true; dNoPhoto.hidden=false;
+    }
+    dMeta.innerHTML=d.metaHTML;
+    dTitle.textContent=d.name;
+    if(d.priceHTML){ dPrice.style.display=''; dPrice.innerHTML=d.priceHTML; if(d.priceLabel) dPrice.setAttribute('aria-label', d.priceLabel); var pl=dPrice.querySelector('.pricelabel'); if(pl){ var ranges={1:'under $12',2:'$12\u201317',3:'$18\u201324',4:'$25+'}; pl.textContent=ranges[d.priceCount]||''; } }
+    else { dPrice.style.display='none'; dPrice.innerHTML=''; }
+    dSig.innerHTML=d.sigHTML;
+    if(d.specialHTML){ dSpecial.hidden=false; dSpecial.innerHTML=d.specialHTML; } else { dSpecial.hidden=true; dSpecial.innerHTML=''; }
+    if(d.closed){ dClosed.hidden=false; dClosed.textContent=d.closed; } else { dClosed.hidden=true; dClosed.textContent=''; }
+    dDesc.textContent=d.desc;
+    dWhy.innerHTML=d.whyHTML;
+    if(d.menuHTML){ dMenu.hidden=false; dMenu.innerHTML=d.menuHTML; } else { dMenu.hidden=true; dMenu.innerHTML=''; }
+    dTags.innerHTML=d.tagsHTML;
+    var rows='';
+    if(d.addr) rows+=infoRow('Address', '<a href="https://maps.apple.com/?q='+encodeURIComponent(d.mapQuery||d.addrQuery)+'" target="_blank" rel="noopener">'+esc(d.addr)+'</a><span class="info-sub">Tap to open in Apple Maps</span>');
+    if(d.phoneHref) rows+=infoRow('Phone', '<a href="'+esc(d.phoneHref)+'" aria-label="Call '+esc(d.phoneText)+'">'+esc(d.phoneText)+'</a><span class="info-sub">Tap to call</span>');
+    if(d.hours.length) rows+=infoRow('Hours', d.hours.map(function(h){ return esc(h); }).join('<br>'));
+    if(d.webHref) rows+=infoRow('Website', '<a href="'+esc(d.webHref)+'" target="_blank" rel="noopener">'+esc(d.webText||d.webHref)+'</a>');
+    dInfo.innerHTML=rows;
+    dInfo.style.display= rows? '' : 'none';
+    renderDetailVisited();
+  }
+  function showDetail(id){
+    var d=dataById[id]; if(!d) return;
+    populateDetail(d);
+    currentDetailId=id;
+    detailView.hidden=false;
+    listView.style.display='none';
+    window.scrollTo(0,0);
+    document.title=d.name+' \u2014 Burgers in the Gold Country';
+  }
+  function showList(restore){
+    var wasDetail=currentDetailId;
+    currentDetailId=null; currentPhoto=null;
+    detailView.hidden=true;
+    listView.style.display='';
+    layoutColumns();
+    document.title=LIST_TITLE;
+    if(!restore) return;
+    if(coldDetail && wasDetail){
+      coldDetail=false;
+      var t=document.getElementById(wasDetail);
+      if(t){
+        t.scrollIntoView({block:'center'});
+        t.classList.add('hash-highlight');
+        setTimeout(function(){ t.classList.remove('hash-highlight'); }, 2600);
+        return;
+      }
+    }
+    window.scrollTo(0, savedScrollY);
+  }
+  function goToDetail(id){
+    if(!dataById[id]) return;
+    if(currentDetailId!==id) savedScrollY=window.scrollY||window.pageYOffset||0;
+    sessionNav=true;
+    var target='#/place/'+id;
+    if(window.location.hash===target){ showDetail(id); }
+    else { window.location.hash=target; }
+  }
+  function goBack(){
+    if(sessionNav){ window.history.back(); }
+    else {
+      var clean=window.location.pathname;
+      try{
+        var sp=new URLSearchParams(window.location.search); sp.delete('place');
+        var rest=sp.toString(); if(rest) clean+='?'+rest;
+      }catch(e){}
+      window.history.pushState(null,'',clean);
+      showList(true);
+    }
+  }
+  function detailRoute(){
+    var h=window.location.hash||'';
+    var m=h.match(/^#\/place\/(.+)$/);
+    if(m){ var s=m[1]; try{ s=decodeURIComponent(s); }catch(e){} if(dataById[s]) return s; }
+    /* Query route — the half of a copied link that survives a share-gateway redirect
+       even when the hash fragment is dropped on the way in. */
+    try{
+      var q=new URLSearchParams(window.location.search).get('place');
+      if(q && dataById[q]) return q;
+    }catch(e){}
+    /* Served-environment route — live-tested 2026-11-22: the shared page runs inside the
+       platform's wrapper, and the wrapper does NOT forward the outer address's query or
+       hash to this page, so window.location above carries no route on a cold open from a
+       copied link (all three link forms rendered the list while the address bar kept the
+       full suffix). The one route the wrapper does expose is the outer page's own URL,
+       which the browser reports to this page as document.referrer — query string included
+       (fragments are never part of a referrer, which is why copied links carry ?place= as
+       well as the hash). Read the route from the referrer as the last fallback. */
+    try{
+      var ref=document.referrer||'';
+      if(ref){
+        var rm=ref.match(/[?&]place=([a-z0-9-]+)/i);
+        if(rm && dataById[rm[1]]) return rm[1];
+        var rh=ref.match(/place\/([a-z0-9-]+)/);
+        if(rh && dataById[rh[1]]) return rh[1];
+      }
+    }catch(e){}
+    var b=h.replace(/^#/,'');
+    if(b && dataById[b]) return b;
+    return null;
+  }
+  /* Card photos now open the place's detail page (the detail page's large photo opens the viewer) */
+  document.querySelectorAll('.photo-btn').forEach(function(b){
+    var nm=b.getAttribute('data-name')||'this stop';
+    b.setAttribute('aria-label','View details for '+nm);
+    b.addEventListener('click', function(){
+      var c=b;
+      while(c && !(c.classList && c.classList.contains('card'))) c=c.parentElement;
+      if(c && c.dataset.id) goToDetail(c.dataset.id);
+    });
+  });
+  if(dPhotoBtn) dPhotoBtn.addEventListener('click', function(){ if(currentPhoto) openViewerData(currentPhoto, dPhotoBtn); });
+  var backBtn=document.getElementById('detail-back'), backBtn2=document.getElementById('detail-back-2');
+  if(backBtn) backBtn.addEventListener('click', goBack);
+  if(backBtn2) backBtn2.addEventListener('click', goBack);
+  var guideShareBtn=document.getElementById('guide-share');
+  if(guideShareBtn) guideShareBtn.addEventListener('click', function(){ doShare(guideShareBtn, 'Burgers in the Gold Country', 'Burgers in the Gold Country \u2014 31 burger stops along Highways 49, 88, 4 and beyond'); });
+  var detailShareBtn=document.getElementById('detail-share');
+  if(detailShareBtn) detailShareBtn.addEventListener('click', function(){ var d=currentDetailId? dataById[currentDetailId] : null; var nm=d? d.name : 'Burgers in the Gold Country'; doShare(detailShareBtn, nm+' \u2014 Burgers in the Gold Country', nm+' \u2014 from Burgers in the Gold Country'); });
+  if(dVisited) dVisited.addEventListener('click', function(){
+    if(!currentDetailId) return;
+    var id=currentDetailId;
+    if(visited[id]){ delete visited[id]; } else { visited[id]=true; }
+    saveVisited(visited);
+    if(visitedRenderers[id]) visitedRenderers[id]();
+    updateProgress(); apply();
+    renderDetailVisited();
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key!=='Escape') return;
+    if(viewer && !viewer.hidden) closeViewer();
+    else if(currentDetailId) goBack();
+  });
+  window.addEventListener('hashchange', function(){
+    var r=detailRoute();
+    if(r) showDetail(r); else showList(true);
+  });
+  var initialRoute=detailRoute();
+  if(initialRoute){
+    coldDetail=true;
+    /* Arrived via the query half of a copied link (hash dropped in transit): normalize the
+       address to the canonical hash route so Back, reload, and hashchange all behave the
+       same as a hash arrival. replaceState fires no hashchange, so nothing re-enters here. */
+    var hasHashRoute=/^#\/place\//.test(window.location.hash||'');
+    var hasQueryRoute=false;
+    try{ hasQueryRoute=!!new URLSearchParams(window.location.search).get('place'); }catch(e){}
+    if(hasQueryRoute && !hasHashRoute){
+      try{ window.history.replaceState(null,'',window.location.pathname+'#/place/'+initialRoute); }catch(e){}
+    }
+    showDetail(initialRoute);
+  }
+
+  apply();
+})();
+</script>
+</body>
+</html>
