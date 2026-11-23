@@ -85,6 +85,14 @@ h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(38px,6vw,64px);l
 .slimbar .mapswitch button{min-height:30px;padding:4px 10px;font-size:13px;white-space:nowrap}
 @media(max-width:640px){.slimbar .search-wrap{flex-basis:128px}}
 @media (prefers-reduced-motion: reduce){.slimbar{transition:none}}
+.filters button .pcount{background:rgba(24,19,12,.10);border-radius:999px;padding:1px 7px;margin-left:7px;font-size:12px;font-weight:700}
+.filters button.active .pcount{background:rgba(255,255,255,.25)}
+.ag-vis{text-align:center;color:var(--gold);font-weight:700;font-size:17px}
+.visited-notice{position:fixed;left:50%;bottom:18px;transform:translate(-50%,16px);width:min(520px,calc(100% - 32px));background:var(--ink);color:var(--bg);border-radius:14px;padding:14px 16px;display:flex;gap:12px;align-items:center;box-shadow:0 14px 40px rgba(20,16,8,.35);opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s ease;z-index:90}
+.visited-notice.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.visited-notice p{margin:0;font-size:14.5px;line-height:1.45}
+.visited-notice button{flex:0 0 auto;background:var(--gold);color:#221a10;border:0;border-radius:999px;padding:8px 14px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif}
+@media (prefers-reduced-motion: reduce){.visited-notice{transition:none}}
 .grid{margin-top:18px}
 .grid>.card{margin-bottom:16px}
 .grid-cols{display:flex;gap:16px;align-items:flex-start}
@@ -881,48 +889,48 @@ footer{font-family:Inter,sans-serif;font-size:12.5px;color:var(--muted);margin-t
   <p style="color:var(--muted);margin-top:0">The same 39 stops, in database-ready form. These are the entries to add or verify in the locations database alongside this guide — including Webster's on Highway 88, Cook's Station and Ham's Station east of Pioneer, the three Highway 4 stops, the nine South Lake Tahoe stops, Cutthroat Tavern and Walker Burger over the crest, and the five winery kitchens: Helwig, Villa Toscano, The End of Nowhere, Ironstone and Wise Villa.</p>
   <div class="tablewrap">
   <table>
-    <thead><tr><th>Place</th><th>Town</th><th>County</th><th>Signature burger</th><th>Type</th></tr></thead>
+    <thead><tr><th>Place</th><th>Town</th><th>County</th><th>Signature burger</th><th>Type</th><th>Visited</th></tr></thead>
     <tbody>
-      <tr><td>Ikeda's Country Market</td><td>Auburn</td><td>Placer</td><td>Famous Big Burger</td><td>Market &amp; grill</td></tr>
-      <tr><td>Bootleggers Old Town Tavern</td><td>Auburn</td><td>Placer</td><td>Bootlegger Burger</td><td>Tavern</td></tr>
-      <tr><td>South Pine Cafe</td><td>Grass Valley</td><td>Nevada</td><td>Heisenburger</td><td>Café</td></tr>
-      <tr><td>Friar Tuck's / The Sherwood</td><td>Nevada City</td><td>Nevada</td><td>Tuck Burger</td><td>Restaurant &amp; bar</td></tr>
-      <tr><td>Old Town Grill</td><td>Placerville</td><td>El Dorado</td><td>Elk Burger</td><td>Grill</td></tr>
-      <tr><td>Shoestring</td><td>Placerville</td><td>El Dorado</td><td>Pastrami Burger</td><td>Roadside stand</td></tr>
-      <tr><td>88 Giant Burgers To Go</td><td>Pine Grove</td><td>Amador</td><td>88 Burger / 88 Slam</td><td>Roadside hut</td></tr>
-      <tr><td>Kennedy's Pioneer Burger</td><td>Pioneer</td><td>Amador</td><td>Pioneer Burger / Boujee Blue</td><td>Roadside stand</td></tr>
-      <tr><td>Cook's Station</td><td>Pioneer</td><td>Amador</td><td>Classic Cheeseburger (lunch only)</td><td>Saloon, dining &amp; store · Since 1863</td></tr>
-      <tr><td>Ham's Station</td><td>Pioneer</td><td>Amador</td><td>Ham's Burger</td><td>Restaurant, bar &amp; lodging · Since 1855</td></tr>
-      <tr><td>Mel &amp; Faye's Diner</td><td>Jackson</td><td>Amador</td><td>Moo Burger</td><td>Diner</td></tr>
-      <tr><td>Sizemore Country Store</td><td>Volcano</td><td>Amador</td><td>Double Cheeseburger</td><td>Country store &amp; restaurant</td></tr>
-      <tr><td>Acorn Ridge Casino — Old Roots Bar</td><td>Plymouth</td><td>Amador</td><td>Old Roots Cheeseburger</td><td>Bar &amp; grill</td></tr>
-      <tr><td>Buena Vista Store &amp; Saloon</td><td>Ione</td><td>Amador</td><td>Buena Vista Burger</td><td>Saloon</td></tr>
-      <tr><td>Cavana's Pub &amp; Grub</td><td>Sutter Creek</td><td>Amador</td><td>Pub Burger</td><td>Pub</td></tr>
+      <tr data-agvis="ikeda-s-california-country-market"><td>Ikeda's Country Market</td><td>Auburn</td><td>Placer</td><td>Famous Big Burger</td><td>Market &amp; grill</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="bootleggers-old-town-tavern"><td>Bootleggers Old Town Tavern</td><td>Auburn</td><td>Placer</td><td>Bootlegger Burger</td><td>Tavern</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="south-pine-cafe"><td>South Pine Cafe</td><td>Grass Valley</td><td>Nevada</td><td>Heisenburger</td><td>Café</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="friar-tuck-s-now-the-sherwood"><td>Friar Tuck's / The Sherwood</td><td>Nevada City</td><td>Nevada</td><td>Tuck Burger</td><td>Restaurant &amp; bar</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="old-town-grill"><td>Old Town Grill</td><td>Placerville</td><td>El Dorado</td><td>Elk Burger</td><td>Grill</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="shoestring"><td>Shoestring</td><td>Placerville</td><td>El Dorado</td><td>Pastrami Burger</td><td>Roadside stand</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="88-giant-burgers-to-go"><td>88 Giant Burgers To Go</td><td>Pine Grove</td><td>Amador</td><td>88 Burger / 88 Slam</td><td>Roadside hut</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="kennedy-s-pioneer-burger"><td>Kennedy's Pioneer Burger</td><td>Pioneer</td><td>Amador</td><td>Pioneer Burger / Boujee Blue</td><td>Roadside stand</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="cook-s-station"><td>Cook's Station</td><td>Pioneer</td><td>Amador</td><td>Classic Cheeseburger (lunch only)</td><td>Saloon, dining &amp; store · Since 1863</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="ham-s-station"><td>Ham's Station</td><td>Pioneer</td><td>Amador</td><td>Ham's Burger</td><td>Restaurant, bar &amp; lodging · Since 1855</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="mel-and-faye-s-diner"><td>Mel &amp; Faye's Diner</td><td>Jackson</td><td>Amador</td><td>Moo Burger</td><td>Diner</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="sizemore-country-store"><td>Sizemore Country Store</td><td>Volcano</td><td>Amador</td><td>Double Cheeseburger</td><td>Country store &amp; restaurant</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="acorn-ridge-casino-old-roots-bar"><td>Acorn Ridge Casino — Old Roots Bar</td><td>Plymouth</td><td>Amador</td><td>Old Roots Cheeseburger</td><td>Bar &amp; grill</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="buena-vista-store-and-saloon"><td>Buena Vista Store &amp; Saloon</td><td>Ione</td><td>Amador</td><td>Buena Vista Burger</td><td>Saloon</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="cavana-s-pub-and-grub"><td>Cavana's Pub &amp; Grub</td><td>Sutter Creek</td><td>Amador</td><td>Pub Burger</td><td>Pub</td><td class="ag-vis"></td></tr>
       
-      <tr><td>Marlene &amp; Glen's Diner (Dead Fly Diner)</td><td>Plymouth</td><td>Amador</td><td>Johnny's Western Burger</td><td>Diner</td></tr>
-      <tr><td>Frosty</td><td>Angels Camp</td><td>Calaveras</td><td>Pastrami Burger Combo</td><td>Burger joint</td></tr>
-      <tr><td>Diamondback Grill</td><td>Sonora</td><td>Tuolumne</td><td>Diamondback / Bison Burger</td><td>Grill &amp; wine bar</td></tr>
-      <tr><td>Jamestown Frosty</td><td>Jamestown</td><td>Tuolumne</td><td>Classic / Bacon Cheeseburger</td><td>Stand</td></tr>
-      <tr><td>Webster's Country Burger Drive-In</td><td>Lockeford / Clements</td><td>San Joaquin</td><td>Western Wrangler</td><td>Drive-in · Since 1967</td></tr>
-      <tr><td>The Kitchen at Helwig Winery</td><td>Plymouth</td><td>Amador</td><td>THE DAVE (Wagyu) / THE NANCY (veggie)</td><td>Winery kitchen</td></tr>
-      <tr><td>Gold Leaf Bistro — Ironstone Vineyards</td><td>Murphys</td><td>Calaveras</td><td>Hand-crafted Burger / Cheeseburger</td><td>Winery bistro</td></tr>
-      <tr><td>Villa Toscano Winery — The Bistro</td><td>Plymouth</td><td>Amador</td><td>Shenandoah Gourmet Burger</td><td>Winery bistro</td></tr>
-      <tr><td>The End of Nowhere</td><td>Amador City</td><td>Amador</td><td>EON Special Grind — House style</td><td>Winery kitchen</td></tr>
-      <tr><td>Wise Villa Winery</td><td>Lincoln</td><td>Placer</td><td>Signature Burger</td><td>Winery &amp; restaurant</td></tr>
-      <tr><td>Giant Burger</td><td>Arnold</td><td>Calaveras</td><td>Giant Burger / Giant Cheeseburger</td><td>A-frame diner · Since 1968</td></tr>
-      <tr><td>The Lube Room Saloon</td><td>Dorrington</td><td>Calaveras</td><td>Lube Burger</td><td>Saloon &amp; grill · Bar since 1977</td></tr>
-      <tr><td>Lake Alpine Lodge</td><td>Lake Alpine / Bear Valley</td><td>Alpine</td><td>Alpine Burger</td><td>Lodge restaurant · Seasonal</td></tr>
-      <tr><td>Rojo's Tavern</td><td>South Lake Tahoe</td><td>El Dorado</td><td>American Burger</td><td>Tavern</td></tr>
-      <tr><td>Sno-Flake Drive-In</td><td>South Lake Tahoe</td><td>El Dorado</td><td>Tahoe Burger</td><td>Drive-in</td></tr>
-      <tr><td>Tahoe Bros Charbroiled Burgers</td><td>South Lake Tahoe</td><td>El Dorado</td><td>Bacon Cheddar T Bros Burger</td><td>Burger shop</td></tr>
-      <tr><td>Cold Water Brewery &amp; Grill</td><td>South Lake Tahoe</td><td>El Dorado</td><td>CW Burger</td><td>Brewpub</td></tr>
-      <tr><td>California Burger Company</td><td>South Lake Tahoe</td><td>El Dorado</td><td>The Californian</td><td>Burger restaurant</td></tr>
-      <tr><td>Lucky Beaver, Bar &amp; Burger</td><td>Stateline, NV</td><td>Douglas</td><td>Signature Burger (50-day dry-aged)</td><td>Sports bar · Open 24 hours</td></tr>
-      <tr><td>Burger Lounge</td><td>South Lake Tahoe</td><td>El Dorado</td><td>Heavenly Burger</td><td>Burger stand · Since 2012</td></tr>
-      <tr><td>Bert's Café</td><td>South Lake Tahoe</td><td>El Dorado</td><td>Mountain Burger</td><td>Café &amp; diner · Since 2002</td></tr>
-      <tr><td>Flight Deck Grill &amp; Golf Club</td><td>South Lake Tahoe</td><td>El Dorado</td><td>FlightDeckBurg</td><td>Grill &amp; golf simulators · At the airport</td></tr>
-      <tr><td>Cutthroat Tavern</td><td>Markleeville</td><td>Alpine</td><td>Cutthroat Tavern Burger</td><td>Tavern · Since 1862</td></tr>
-      <tr><td>Walker Burger ★ Over the crest</td><td>Walker / Coleville</td><td>Mono</td><td>Walker Burger (secret sauce)</td><td>Roadside stand · Seasonal</td></tr>
+      <tr data-agvis="marlene-and-glen-s-diner-the-dead-fly-diner"><td>Marlene &amp; Glen's Diner (Dead Fly Diner)</td><td>Plymouth</td><td>Amador</td><td>Johnny's Western Burger</td><td>Diner</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="frosty-angels-camp"><td>Frosty</td><td>Angels Camp</td><td>Calaveras</td><td>Pastrami Burger Combo</td><td>Burger joint</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="diamondback-grill"><td>Diamondback Grill</td><td>Sonora</td><td>Tuolumne</td><td>Diamondback / Bison Burger</td><td>Grill &amp; wine bar</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="jamestown-frosty"><td>Jamestown Frosty</td><td>Jamestown</td><td>Tuolumne</td><td>Classic / Bacon Cheeseburger</td><td>Stand</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="webster-s-country-burger-drive-in"><td>Webster's Country Burger Drive-In</td><td>Lockeford / Clements</td><td>San Joaquin</td><td>Western Wrangler</td><td>Drive-in · Since 1967</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="the-kitchen-at-helwig-winery"><td>The Kitchen at Helwig Winery</td><td>Plymouth</td><td>Amador</td><td>THE DAVE (Wagyu) / THE NANCY (veggie)</td><td>Winery kitchen</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="gold-leaf-bistro-ironstone-vineyards"><td>Gold Leaf Bistro — Ironstone Vineyards</td><td>Murphys</td><td>Calaveras</td><td>Hand-crafted Burger / Cheeseburger</td><td>Winery bistro</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="villa-toscano-winery-the-bistro"><td>Villa Toscano Winery — The Bistro</td><td>Plymouth</td><td>Amador</td><td>Shenandoah Gourmet Burger</td><td>Winery bistro</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="the-end-of-nowhere"><td>The End of Nowhere</td><td>Amador City</td><td>Amador</td><td>EON Special Grind — House style</td><td>Winery kitchen</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="wise-villa-winery-and-restaurant"><td>Wise Villa Winery</td><td>Lincoln</td><td>Placer</td><td>Signature Burger</td><td>Winery &amp; restaurant</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="giant-burger-arnold"><td>Giant Burger</td><td>Arnold</td><td>Calaveras</td><td>Giant Burger / Giant Cheeseburger</td><td>A-frame diner · Since 1968</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="the-lube-room-saloon"><td>The Lube Room Saloon</td><td>Dorrington</td><td>Calaveras</td><td>Lube Burger</td><td>Saloon &amp; grill · Bar since 1977</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="lake-alpine-lodge"><td>Lake Alpine Lodge</td><td>Lake Alpine / Bear Valley</td><td>Alpine</td><td>Alpine Burger</td><td>Lodge restaurant · Seasonal</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="rojo-s-tavern"><td>Rojo's Tavern</td><td>South Lake Tahoe</td><td>El Dorado</td><td>American Burger</td><td>Tavern</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="sno-flake-drive-in"><td>Sno-Flake Drive-In</td><td>South Lake Tahoe</td><td>El Dorado</td><td>Tahoe Burger</td><td>Drive-in</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="tahoe-bros-charbroiled-burgers"><td>Tahoe Bros Charbroiled Burgers</td><td>South Lake Tahoe</td><td>El Dorado</td><td>Bacon Cheddar T Bros Burger</td><td>Burger shop</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="cold-water-brewery-and-grill"><td>Cold Water Brewery &amp; Grill</td><td>South Lake Tahoe</td><td>El Dorado</td><td>CW Burger</td><td>Brewpub</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="california-burger-company"><td>California Burger Company</td><td>South Lake Tahoe</td><td>El Dorado</td><td>The Californian</td><td>Burger restaurant</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="lucky-beaver-bar-and-burger"><td>Lucky Beaver, Bar &amp; Burger</td><td>Stateline, NV</td><td>Douglas</td><td>Signature Burger (50-day dry-aged)</td><td>Sports bar · Open 24 hours</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="burger-lounge"><td>Burger Lounge</td><td>South Lake Tahoe</td><td>El Dorado</td><td>Heavenly Burger</td><td>Burger stand · Since 2012</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="bert-s-caf"><td>Bert's Café</td><td>South Lake Tahoe</td><td>El Dorado</td><td>Mountain Burger</td><td>Café &amp; diner · Since 2002</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="flight-deck-grill-and-golf-club"><td>Flight Deck Grill &amp; Golf Club</td><td>South Lake Tahoe</td><td>El Dorado</td><td>FlightDeckBurg</td><td>Grill &amp; golf simulators · At the airport</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="cutthroat-tavern"><td>Cutthroat Tavern</td><td>Markleeville</td><td>Alpine</td><td>Cutthroat Tavern Burger</td><td>Tavern · Since 1862</td><td class="ag-vis"></td></tr>
+      <tr data-agvis="walker-burger"><td>Walker Burger ★ Over the crest</td><td>Walker / Coleville</td><td>Mono</td><td>Walker Burger (secret sauce)</td><td>Roadside stand · Seasonal</td><td class="ag-vis"></td></tr>
     </tbody>
   </table>
   </div>
@@ -1575,6 +1583,71 @@ footer{font-family:Inter,sans-serif;font-size:12.5px;color:var(--muted);margin-t
   window.addEventListener('scroll', onScroll, {passive:true});
   window.addEventListener('resize', onScroll);
   onScroll();
+})();
+</script>
+<script>
+/* Enhancements (Nov 23, 2026): pill counts, At-a-glance visited column,
+   and a one-time notice that visited picks live on this device only. */
+(function(){
+  function cardId(c){ var h=c.querySelector('h3'); return slugify(h? h.textContent : 'stop'); }
+  function updatePillCounts(){
+    var q=(search.value||'').toLowerCase().trim();
+    var tally={all:0};
+    cards.forEach(function(c){
+      var text=(c.textContent+' '+(c.dataset.search||'')).toLowerCase();
+      if(q && text.indexOf(q)===-1) return;
+      if(hideVisited && visited[cardId(c)]) return;
+      tally.all++;
+      tally[c.dataset.region]=(tally[c.dataset.region]||0)+1;
+      tally[c.dataset.type]=(tally[c.dataset.type]||0)+1;
+    });
+    document.querySelectorAll('.filters').forEach(function(f){
+      f.querySelectorAll('button').forEach(function(b){
+        var key=b.getAttribute('data-filter'); if(!key) return;
+        var n = key==='all'? tally.all : (tally[key]||0);
+        var span=b.querySelector('.pcount');
+        if(!span){ span=document.createElement('span'); span.className='pcount'; span.setAttribute('aria-hidden','true'); b.appendChild(span); }
+        span.textContent=n;
+        b.style.display = (n===0 && !b.classList.contains('active'))? 'none':'';
+      });
+    });
+  }
+  if(typeof apply==='function'){
+    var origApply=apply;
+    apply=function(){ origApply(); updatePillCounts(); };
+  }
+  updatePillCounts();
+
+  function renderAgVisited(){
+    document.querySelectorAll('tr[data-agvis]').forEach(function(tr){
+      var on=!!visited[tr.getAttribute('data-agvis')];
+      var td=tr.querySelector('.ag-vis');
+      if(td){ td.textContent=on?'\u2713':''; td.setAttribute('aria-label', on?'Visited':'Not visited'); }
+    });
+  }
+  renderAgVisited();
+
+  var NOTICE_KEY='burgers-gold-country-visited-notice-v1';
+  function maybeShowVisitedNotice(){
+    try{ if(window.localStorage.getItem(NOTICE_KEY)) return; window.localStorage.setItem(NOTICE_KEY,'1'); }catch(e){ return; }
+    var n=document.createElement('div');
+    n.className='visited-notice'; n.setAttribute('role','status');
+    var p=document.createElement('p');
+    p.innerHTML='<strong>Saved on this device only.</strong> Your visited checkmarks live in this browser, on this machine \u2014 they won\u2019t follow you to another phone or computer.';
+    var b=document.createElement('button'); b.type='button'; b.textContent='Got it';
+    var t=setTimeout(dismiss, 10000);
+    function dismiss(){ clearTimeout(t); n.classList.remove('show'); setTimeout(function(){ if(n.parentNode) n.remove(); }, 350); }
+    b.addEventListener('click', dismiss);
+    n.appendChild(p); n.appendChild(b); document.body.appendChild(n);
+    setTimeout(function(){ n.classList.add('show'); }, 30);
+  }
+  document.addEventListener('click', function(e){
+    var b=(e.target && e.target.closest)? e.target.closest('.visited-btn') : null;
+    if(!b) return;
+    var wasOn=b.getAttribute('aria-pressed')==='true';
+    setTimeout(renderAgVisited, 0);
+    if(!wasOn) maybeShowVisitedNotice();
+  }, true);
 })();
 </script>
 </body>
