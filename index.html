@@ -54,7 +54,7 @@ h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(38px,6vw,64px);l
 .stat span{font-family:Inter,sans-serif;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .section h2{font-family:"Playfair Display",serif;font-size:26px;margin:0 0 8px}
 .controls{position:sticky;top:0;z-index:20;background:var(--bg);padding:14px 0 10px;border-bottom:1px solid var(--line)}
-@media (max-width:640px){ .controls{position:static} }
+
 .search-wrap{position:relative}
 .search{width:100%;padding:12px 48px 12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:16px;min-height:44px}
 .search::-webkit-search-cancel-button,.search::-webkit-search-decoration{-webkit-appearance:none;appearance:none;display:none}
@@ -69,6 +69,22 @@ h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(38px,6vw,64px);l
 .mapswitch-label{font-weight:600}
 .mapswitch button{min-height:38px;padding:8px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-weight:600;cursor:pointer}
 .mapswitch button.active{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+/* Slim sticky banner: once the full controls scroll up and stick, they collapse
+   into one short row so the stops get the screen. Same controls, same wiring. */
+.controls{transition:padding .18s ease}
+.controls.compact{display:flex;align-items:center;gap:8px;flex-wrap:nowrap;overflow-x:auto;padding:6px 0;scrollbar-width:none}
+.controls.compact::-webkit-scrollbar{display:none}
+.controls.compact .search-wrap{flex:0 0 168px}
+.controls.compact .search{min-height:34px;padding:6px 34px 6px 10px;font-size:14px;border-radius:999px}
+.controls.compact .search-clear{width:26px;height:26px;min-width:26px;min-height:26px;right:5px}
+.controls.compact .filters{flex-wrap:nowrap;margin-top:0;flex:0 0 auto}
+.controls.compact .filters button{min-height:30px;padding:4px 10px;font-size:13px;white-space:nowrap}
+.controls.compact .hidevisited{margin-top:0;min-height:30px;padding:4px 10px;font-size:13px;white-space:nowrap;flex:0 0 auto}
+.controls.compact .mapswitch{flex-wrap:nowrap;margin-top:0;flex:0 0 auto}
+.controls.compact .mapswitch-label{display:none}
+.controls.compact .mapswitch button{min-height:30px;padding:4px 10px;font-size:13px;white-space:nowrap}
+.controls.compact .count,.controls.compact .filter-note,.controls.compact .price-legend{display:none}
+@media(max-width:640px){.controls.compact .search-wrap{flex-basis:128px}}
 .grid{margin-top:18px}
 .grid>.card{margin-bottom:16px}
 .grid-cols{display:flex;gap:16px;align-items:flex-start}
@@ -242,6 +258,7 @@ footer{font-family:Inter,sans-serif;font-size:12.5px;color:var(--muted);margin-t
   </div>
 </header>
 
+<div id="controls-sentinel" aria-hidden="true" style="height:1px"></div>
 <div class="controls" id="top">
   <div class="search-wrap"><input class="search" id="search" type="search" placeholder="Search by town, place, or burger — e.g. bison, Moo Burger, elk…" aria-label="Search burger stops"><button type="button" class="search-clear" id="search-clear" aria-label="Clear search" title="Clear search" hidden>&#10005;</button></div>
   <div class="filters" role="group" aria-label="Filter by region">
@@ -1476,6 +1493,13 @@ footer{font-family:Inter,sans-serif;font-size:12.5px;color:var(--muted);margin-t
   var dv = document.getElementById('detail-view');
   if(dv && window.MutationObserver){ new MutationObserver(function(){ setTimeout(sync, 0); }).observe(dv, {attributes:true, subtree:true, childList:true}); }
   setTimeout(sync, 0);
+})();
+</script>
+<script>
+(function(){
+  var bar=document.querySelector('.controls'), s=document.getElementById('controls-sentinel');
+  if(!bar||!s||!('IntersectionObserver' in window))return;
+  new IntersectionObserver(function(e){bar.classList.toggle('compact',!e[0].isIntersecting);},{rootMargin:'-1px 0px 0px 0px'}).observe(s);
 })();
 </script>
 </body>
