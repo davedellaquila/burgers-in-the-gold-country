@@ -1603,16 +1603,24 @@ footer{font-family:Inter,sans-serif;font-size:12.5px;color:var(--muted);margin-t
 </script>
 <script>
 /* Enhancements (Nov 23, 2026): pill counts, At-a-glance visited column,
-   and a one-time notice that visited picks live on this device only. */
+   and a one-time notice that visited picks live on this device only.
+   Self-contained: reads state from the DOM and localStorage only. */
 (function(){
-  function cardId(c){ var h=c.querySelector('h3'); return slugify(h? h.textContent : 'stop'); }
+  var STORE_KEY='burgers-gold-country-visited-v1';
+  function slugifyLocal(s){ return (s||'').toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''); }
+  function readVisited(){ try{ var raw=window.localStorage.getItem(STORE_KEY); return raw? JSON.parse(raw) : {}; }catch(e){ return {}; } }
+  function cardId(c){ var h=c.querySelector('h3'); return slugifyLocal(h? h.textContent : 'stop'); }
+  function hideVisitedOn(){ var b=document.getElementById('hide-visited'); return !!(b && b.getAttribute('aria-pressed')==='true'); }
+
   function updatePillCounts(){
-    var q=(search.value||'').toLowerCase().trim();
+    var searchEl=document.getElementById('search');
+    var q=((searchEl && searchEl.value)||'').toLowerCase().trim();
+    var visited=readVisited(), hv=hideVisitedOn();
     var tally={all:0};
-    cards.forEach(function(c){
+    document.querySelectorAll('.card').forEach(function(c){
       var text=(c.textContent+' '+(c.dataset.search||'')).toLowerCase();
       if(q && text.indexOf(q)===-1) return;
-      if(hideVisited && visited[cardId(c)]) return;
+      if(hv && visited[cardId(c)]) return;
       tally.all++;
       tally[c.dataset.region]=(tally[c.dataset.region]||0)+1;
       tally[c.dataset.type]=(tally[c.dataset.type]||0)+1;
@@ -1628,20 +1636,15 @@ footer{font-family:Inter,sans-serif;font-size:12.5px;color:var(--muted);margin-t
       });
     });
   }
-  if(typeof apply==='function'){
-    var origApply=apply;
-    apply=function(){ origApply(); updatePillCounts(); };
-  }
-  updatePillCounts();
 
   function renderAgVisited(){
+    var visited=readVisited();
     document.querySelectorAll('tr[data-agvis]').forEach(function(tr){
       var on=!!visited[tr.getAttribute('data-agvis')];
       var td=tr.querySelector('.ag-vis');
       if(td){ td.textContent=on?'\u2713':''; td.setAttribute('aria-label', on?'Visited':'Not visited'); }
     });
   }
-  renderAgVisited();
 
   var NOTICE_KEY='burgers-gold-country-visited-notice-v1';
   function maybeShowVisitedNotice(){
@@ -1657,13 +1660,25 @@ footer{font-family:Inter,sans-serif;font-size:12.5px;color:var(--muted);margin-t
     n.appendChild(p); n.appendChild(b); document.body.appendChild(n);
     setTimeout(function(){ n.classList.add('show'); }, 30);
   }
+
   document.addEventListener('click', function(e){
-    var b=(e.target && e.target.closest)? e.target.closest('.visited-btn') : null;
-    if(!b) return;
-    var wasOn=b.getAttribute('aria-pressed')==='true';
-    setTimeout(renderAgVisited, 0);
-    if(!wasOn) maybeShowVisitedNotice();
+    var t=e.target;
+    if(!t || !t.closest) return;
+    var vb=t.closest('.visited-btn');
+    if(vb){
+      var wasOn=vb.getAttribute('aria-pressed')==='true';
+      setTimeout(function(){ renderAgVisited(); updatePillCounts(); }, 0);
+      if(!wasOn) maybeShowVisitedNotice();
+    } else if(t.closest('.filters button') || t.closest('#hide-visited') || t.closest('.search-clear')){
+      setTimeout(updatePillCounts, 0);
+    }
   }, true);
+  document.addEventListener('input', function(e){
+    if(e.target && e.target.classList && e.target.classList.contains('search')) setTimeout(updatePillCounts, 0);
+  }, true);
+
+  updatePillCounts();
+  renderAgVisited();
 })();
 </script>
 </body>
