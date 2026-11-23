@@ -53,7 +53,7 @@ h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(38px,6vw,64px);l
 .stat b{font-family:"Playfair Display",serif;font-size:28px;display:block;line-height:1}
 .stat span{font-family:Inter,sans-serif;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .section h2{font-family:"Playfair Display",serif;font-size:26px;margin:0 0 8px}
-.controls{position:sticky;top:0;z-index:20;background:var(--bg);padding:14px 0 10px;border-bottom:1px solid var(--line)}
+.controls{position:static;background:var(--bg);padding:14px 0 10px;border-bottom:1px solid var(--line)}
 
 .search-wrap{position:relative}
 .search{width:100%;padding:12px 48px 12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:16px;min-height:44px}
@@ -69,30 +69,22 @@ h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(38px,6vw,64px);l
 .mapswitch-label{font-weight:600}
 .mapswitch button{min-height:38px;padding:8px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-weight:600;cursor:pointer}
 .mapswitch button.active{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-/* Slim sticky banner: once the full controls scroll up and stick, they collapse
-   into one short row so the stops get the screen. Same controls, same wiring. */
-.controls{transition:padding .25s ease}
-.controls.compact{display:flex;align-items:center;gap:8px;flex-wrap:nowrap;overflow-x:auto;padding:6px 0;scrollbar-width:none}
-.controls.compact::-webkit-scrollbar{display:none}
-.controls.compact .search-wrap{flex:0 0 168px}
-.controls.compact .search{min-height:34px;padding:6px 34px 6px 10px;font-size:14px;border-radius:999px}
-.controls.compact .search-clear{width:26px;height:26px;min-width:26px;min-height:26px;right:5px}
-.controls.compact .filters{flex-wrap:nowrap;margin-top:0;flex:0 0 auto}
-.controls.compact .filters button{min-height:30px;padding:4px 10px;font-size:13px;white-space:nowrap}
-.controls.compact .hidevisited{margin-top:0;min-height:30px;padding:4px 10px;font-size:13px;white-space:nowrap;flex:0 0 auto}
-.controls.compact .mapswitch{flex-wrap:nowrap;margin-top:0;flex:0 0 auto}
-.controls.compact .mapswitch-label{display:none}
-.controls.compact .mapswitch button{min-height:30px;padding:4px 10px;font-size:13px;white-space:nowrap}
-.controls.compact .count,.controls.compact .filter-note,.controls.compact .price-legend{flex:0 0 0;min-width:0;max-height:0;opacity:0;margin-top:0;padding:0;visibility:hidden;white-space:nowrap;transition:opacity .18s ease,max-height .25s ease,margin .25s ease,flex-basis .25s ease,visibility 0s linear .25s}
-@media(max-width:640px){.controls.compact .search-wrap{flex-basis:128px}}
-/* Animate the collapse into the slim banner (and back) */
-.search{transition:min-height .25s ease,padding .25s ease,font-size .25s ease}
-.search-wrap{transition:flex-basis .25s ease}
-.filters button,.hidevisited,.mapswitch button{transition:min-height .25s ease,padding .25s ease,font-size .25s ease,background-color .15s ease,color .15s ease}
-.count,.filter-note,.price-legend{max-height:60px;overflow:hidden;transition:opacity .18s ease,max-height .25s ease,margin .25s ease,flex-basis .25s ease,visibility 0s}
-@keyframes controlsSettle{from{transform:translateY(-6px);opacity:.35}to{transform:translateY(0);opacity:1}}
-.controls.compact{animation:controlsSettle .22s ease}
-@media (prefers-reduced-motion: reduce){.controls,.search,.search-wrap,.filters button,.hidevisited,.mapswitch button,.count,.filter-note,.price-legend{transition:none}.controls.compact{animation:none}}
+/* Slim filter bar: a separate fixed bar that fades in once the full controls
+   have scrolled away — the switch is a crossfade, never a layout animation. */
+.slimbar{position:fixed;top:10px;left:50%;width:min(1120px,calc(100% - 20px));transform:translate(-50%,-10px);opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s cubic-bezier(.22,.61,.36,1);z-index:60;display:flex;align-items:center;gap:8px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:6px 8px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 30px rgba(20,16,8,.20)}
+.slimbar::-webkit-scrollbar{display:none}
+.slimbar.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.slimbar .search-wrap{flex:0 0 168px}
+.slimbar .search{min-height:34px;padding:6px 34px 6px 10px;font-size:14px;border-radius:999px}
+.slimbar .search-clear{width:26px;height:26px;min-width:26px;min-height:26px;right:5px}
+.slimbar .filters{flex-wrap:nowrap;margin-top:0;flex:0 0 auto}
+.slimbar .filters button{min-height:30px;padding:4px 10px;font-size:13px;white-space:nowrap}
+.slimbar .hidevisited{margin-top:0;min-height:30px;padding:4px 10px;font-size:13px;white-space:nowrap;flex:0 0 auto}
+.slimbar .mapswitch{flex-wrap:nowrap;margin-top:0;flex:0 0 auto}
+.slimbar .mapswitch-label{display:none}
+.slimbar .mapswitch button{min-height:30px;padding:4px 10px;font-size:13px;white-space:nowrap}
+@media(max-width:640px){.slimbar .search-wrap{flex-basis:128px}}
+@media (prefers-reduced-motion: reduce){.slimbar{transition:none}}
 .grid{margin-top:18px}
 .grid>.card{margin-bottom:16px}
 .grid-cols{display:flex;gap:16px;align-items:flex-start}
@@ -266,7 +258,7 @@ footer{font-family:Inter,sans-serif;font-size:12.5px;color:var(--muted);margin-t
   </div>
 </header>
 
-<div id="controls-sentinel" aria-hidden="true" style="height:1px"></div>
+<div class="slimbar" id="slimbar" role="group" aria-label="Filters, compact"></div>
 <div class="controls" id="top">
   <div class="search-wrap"><input class="search" id="search" type="search" placeholder="Search by town, place, or burger — e.g. bison, Moo Burger, elk…" aria-label="Search burger stops"><button type="button" class="search-clear" id="search-clear" aria-label="Clear search" title="Clear search" hidden>&#10005;</button></div>
   <div class="filters" role="group" aria-label="Filter by region">
@@ -1534,9 +1526,55 @@ footer{font-family:Inter,sans-serif;font-size:12.5px;color:var(--muted);margin-t
 </script>
 <script>
 (function(){
-  var bar=document.querySelector('.controls'), s=document.getElementById('controls-sentinel');
-  if(!bar||!s||!('IntersectionObserver' in window))return;
-  new IntersectionObserver(function(e){bar.classList.toggle('compact',!e[0].isIntersecting);},{rootMargin:'-1px 0px 0px 0px'}).observe(s);
+  var bar=document.querySelector('.controls'), slim=document.getElementById('slimbar');
+  if(!bar||!slim) return;
+  function stripIds(node){ node.removeAttribute('id'); node.querySelectorAll('[id]').forEach(function(n){ n.removeAttribute('id'); }); }
+  var searchWrap=bar.querySelector('.search-wrap'), filters=bar.querySelector('.filters'),
+      hideBtn=bar.querySelector('.hidevisited'), mapSwitch=bar.querySelector('.mapswitch');
+  var clones={};
+  [['searchWrap',searchWrap],['filters',filters],['hideBtn',hideBtn],['mapSwitch',mapSwitch]].forEach(function(pair){
+    if(!pair[1]) return;
+    var c=pair[1].cloneNode(true); stripIds(c); slim.appendChild(c); clones[pair[0]]=c;
+  });
+  var realSearch=bar.querySelector('.search'), slimSearch=slim.querySelector('.search');
+  function syncSlim(){
+    if(slimSearch && realSearch && document.activeElement!==slimSearch) slimSearch.value=realSearch.value;
+    if(clones.filters && filters){
+      var rf=filters.querySelectorAll('button'), sf=clones.filters.querySelectorAll('button');
+      rf.forEach(function(b,i){ if(sf[i]) sf[i].classList.toggle('active', b.classList.contains('active')); });
+    }
+    if(clones.hideBtn && hideBtn) clones.hideBtn.setAttribute('aria-pressed', hideBtn.getAttribute('aria-pressed')||'false');
+    if(clones.mapSwitch && mapSwitch){
+      var rm=mapSwitch.querySelectorAll('button'), sm=clones.mapSwitch.querySelectorAll('button');
+      rm.forEach(function(b,i){ if(sm[i]) sm[i].classList.toggle('active', b.classList.contains('active')); });
+    }
+  }
+  if(clones.filters && filters){
+    clones.filters.querySelectorAll('button').forEach(function(b,i){
+      b.addEventListener('click', function(){ var real=filters.querySelectorAll('button')[i]; if(real){ real.click(); setTimeout(syncSlim,0); } });
+    });
+  }
+  if(clones.hideBtn && hideBtn) clones.hideBtn.addEventListener('click', function(){ hideBtn.click(); setTimeout(syncSlim,0); });
+  if(clones.mapSwitch && mapSwitch){
+    clones.mapSwitch.querySelectorAll('button').forEach(function(b,i){
+      b.addEventListener('click', function(){ var real=mapSwitch.querySelectorAll('button')[i]; if(real){ real.click(); setTimeout(syncSlim,0); } });
+    });
+  }
+  if(slimSearch && realSearch){
+    slimSearch.addEventListener('input', function(){ realSearch.value=slimSearch.value; realSearch.dispatchEvent(new Event('input',{bubbles:true})); });
+    slimSearch.addEventListener('keydown', function(e){ if(e.key==='Escape'&&slimSearch.value){ e.preventDefault(); slimSearch.value=''; realSearch.value=''; realSearch.dispatchEvent(new Event('input',{bubbles:true})); } });
+  }
+  var slimClear=slim.querySelector('.search-clear'), realClear=bar.querySelector('.search-clear');
+  if(slimClear && realClear) slimClear.addEventListener('click', function(){ realClear.click(); setTimeout(syncSlim,0); });
+  var shown=false;
+  function onScroll(){
+    var r=bar.getBoundingClientRect();
+    if(!shown && r.bottom < -16){ shown=true; slim.classList.add('on'); syncSlim(); }
+    else if(shown && r.bottom > 40){ shown=false; slim.classList.remove('on'); }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  onScroll();
 })();
 </script>
 </body>
