@@ -71,10 +71,12 @@ h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(38px,6vw,64px);l
 .mapswitch button.active{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 /* Slim filter bar: a separate fixed bar that fades in once the full controls
    have scrolled away — the switch is a crossfade, never a layout animation. */
-.slimbar{position:fixed;top:10px;left:50%;width:min(1120px,calc(100% - 20px));transform:translate(-50%,-10px);opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s cubic-bezier(.22,.61,.36,1);z-index:60;display:flex;align-items:center;gap:8px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:6px 8px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 30px rgba(20,16,8,.20)}
-.slimbar::-webkit-scrollbar{display:none}
+.slimbar{position:fixed;top:10px;left:50%;width:min(1120px,calc(100% - 20px));transform:translate(-50%,-10px);opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s cubic-bezier(.22,.61,.36,1);z-index:60;display:flex;flex-direction:column;gap:6px;padding:8px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 30px rgba(20,16,8,.20)}
 .slimbar.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
-.slimbar .search-wrap{flex:0 0 168px}
+.slim-row{display:flex;align-items:center;gap:8px}
+.slim-scroll{flex:1 1 auto;min-width:0;overflow-x:auto;scrollbar-width:none;display:flex;align-items:center}
+.slim-scroll::-webkit-scrollbar{display:none}
+.slimbar .search-wrap{flex:1 1 auto}
 .slimbar .search{min-height:34px;padding:6px 34px 6px 10px;font-size:14px;border-radius:999px}
 .slimbar .search-clear{width:26px;height:26px;min-width:26px;min-height:26px;right:5px}
 .slimbar .filters{flex-wrap:nowrap;margin-top:0;flex:0 0 auto}
@@ -83,7 +85,6 @@ h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(38px,6vw,64px);l
 .slimbar .mapswitch{flex-wrap:nowrap;margin-top:0;flex:0 0 auto}
 .slimbar .mapswitch-label{display:none}
 .slimbar .mapswitch button{min-height:30px;padding:4px 10px;font-size:13px;white-space:nowrap}
-@media(max-width:640px){.slimbar .search-wrap{flex-basis:128px}}
 @media (prefers-reduced-motion: reduce){.slimbar{transition:none}}
 .filters button .pcount{background:rgba(24,19,12,.10);border-radius:999px;padding:1px 7px;margin-left:7px;font-size:12px;font-weight:700}
 .filters button.active .pcount{background:rgba(255,255,255,.25)}
@@ -1542,8 +1543,23 @@ footer{font-family:Inter,sans-serif;font-size:12.5px;color:var(--muted);margin-t
   var clones={};
   [['searchWrap',searchWrap],['filters',filters],['hideBtn',hideBtn],['mapSwitch',mapSwitch]].forEach(function(pair){
     if(!pair[1]) return;
-    var c=pair[1].cloneNode(true); stripIds(c); slim.appendChild(c); clones[pair[0]]=c;
+    var c=pair[1].cloneNode(true); stripIds(c); clones[pair[0]]=c;
   });
+  var row1=document.createElement('div'); row1.className='slim-row';
+  var row2=document.createElement('div'); row2.className='slim-row';
+  var scroll=document.createElement('div'); scroll.className='slim-scroll';
+  if(clones.searchWrap) row1.appendChild(clones.searchWrap);
+  if(clones.hideBtn){ clones.hideBtn.textContent='Hide visited'; row1.appendChild(clones.hideBtn); }
+  if(clones.filters) scroll.appendChild(clones.filters);
+  row2.appendChild(scroll);
+  if(clones.mapSwitch){
+    clones.mapSwitch.querySelectorAll('button').forEach(function(b){
+      var p=b.getAttribute('data-mappref');
+      if(p==='google') b.textContent='Google'; else if(p==='apple') b.textContent='Apple'; else if(p==='osm') b.textContent='OSM';
+    });
+    row2.appendChild(clones.mapSwitch);
+  }
+  slim.appendChild(row1); slim.appendChild(row2);
   var realSearch=bar.querySelector('.search'), slimSearch=slim.querySelector('.search');
   function syncSlim(){
     if(slimSearch && realSearch && document.activeElement!==slimSearch) slimSearch.value=realSearch.value;
