@@ -1673,7 +1673,7 @@ footer{font-family:Inter,sans-serif;font-size:12.5px;color:var(--muted);margin-t
     slimSearch.addEventListener('keydown', function(e){ if(e.key==='Escape'&&slimSearch.value){ e.preventDefault(); slimSearch.value=''; realSearch.value=''; realSearch.dispatchEvent(new Event('input',{bubbles:true})); syncSlim(); } });
   }
   var slimClear=slim.querySelector('.search-clear'), realClear=bar.querySelector('.search-clear');
-  if(slimClear && realClear) slimClear.addEventListener('click', function(){ if(slimSearch) slimSearch.value=''; realClear.click(); setTimeout(syncSlim,0); if(slimSearch) slimSearch.focus(); });
+  if(slimClear && realClear) slimClear.addEventListener('click', function(){ if(slimSearch) slimSearch.value=''; if(realSearch){ realSearch.value=''; realSearch.dispatchEvent(new Event('input',{bubbles:true})); } syncSlim(); if(slimSearch) slimSearch.focus(); });
   var shown=false;
   function onScroll(){
     var r=bar.getBoundingClientRect();
