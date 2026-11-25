@@ -71,7 +71,7 @@ h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(38px,6vw,64px);l
 .mapswitch button.active{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 /* Slim filter bar: a separate fixed bar that fades in once the full controls
    have scrolled away — the switch is a crossfade, never a layout animation. */
-.slimbar{position:fixed;top:10px;left:50%;width:min(1120px,calc(100% - 20px));transform:translate(-50%,-10px);opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s cubic-bezier(.22,.61,.36,1);z-index:60;display:flex;flex-direction:column;gap:6px;padding:8px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 30px rgba(20,16,8,.20)}
+.slimbar{position:fixed;top:10px;left:50%;width:min(1120px,calc(100% - 20px));transform:translate(-50%,-6px);opacity:0;pointer-events:none;transition:opacity .2s cubic-bezier(.22,.61,.36,1),transform .2s cubic-bezier(.22,.61,.36,1);z-index:60;display:flex;flex-direction:column;gap:6px;padding:8px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 30px rgba(20,16,8,.20)}
 .slimbar.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
 .slim-row{display:flex;align-items:center;gap:8px}
 .slim-scroll{flex:1 1 auto;min-width:0;overflow-x:auto;scrollbar-width:none;display:flex;align-items:center}
